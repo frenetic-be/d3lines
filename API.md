@@ -22,7 +22,7 @@ Without specifying any option, you will get an empty plot with default axes:
 d3lines.plot(svg);
 ```
 
-<div style="text-align:center"><img src="/images/API/plot/no_options.png" width="600" align="center"></div>
+<p align="center"><img src="/images/API/plot/no_options.png" width="600" align="center"></p>
 
 ### Options
 
