@@ -8,7 +8,7 @@ d3lines is a module with the following methods:
 
 ## <a name="plot"></a>d3lines.plot(svg[, options])
 
-Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection.
+Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection object.
 
 For example, if you have an `svg` tag with the ID "main-svg":
 
@@ -22,7 +22,7 @@ Without specifying any option, you will get an empty plot with default axes:
 d3lines.plot(svg);
 ```
 
-<img src="/images/API/plot/no_options.png" width="600" align="center">
+<div style="text-align:center"><img src="/images/API/plot/no_options.png" width="600" align="center"></div>
 
 ### Options
 
