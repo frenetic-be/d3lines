@@ -51,6 +51,53 @@ We split the options into the following categories:
 
 #### <a name="plot_options_category_data"></a>Data options
 
+**`data`** - the data that you want to display. `d3lines.plot` accepts several data types:
+
+1. An array of dictionaries
+
+Example:
+
+```javascript
+var data = [{In: 67.3, Out: 56.5},
+            {In: 73.1, Out: 59.1},
+            {In: 71.9, Out: 58.7},
+            {In: 74.3, Out: 53.3},
+            {In: 77.7, Out: 49.2}];
+
+var options = {
+    data: data,
+};
+
+d3lines.plot(svg, options);
+```
+
+<p align="center"><img src="/images/API/plot/option_data_1.png" width="600" align="center"></p>
+
+This is the basic supported data type. It is the data type coming out of the [D3 csv, tsv and dsv](https://github.com/d3/d3-3.x-api-reference/blob/master/CSV.md) parsers.
+
+For example, the data above can be obtained by parsing the following `example.csv` file:
+
+```
+In,Out
+67.3,56.5
+73.1,59.1
+71.9,58.7
+74.3,53.3
+77.7,49.2
+```
+
+The example above then becomes:
+
+```javascript
+d3.csv("example.csv", function(error, data) {
+    var options = {
+        data: data,
+    };
+    d3lines.plot(svg, options);
+});
+
+```
+
 #### <a name="plot_options_category_lines"></a>Line options
 
 #### <a name="plot_options_category_geometry"></a>Geometry options
