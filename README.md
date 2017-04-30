@@ -8,7 +8,7 @@ It is designed for simplicity.
 
 ## Links
 
-- Docs/API
+- [Docs/API](API.md)
 - Examples
 - Live demo
 
