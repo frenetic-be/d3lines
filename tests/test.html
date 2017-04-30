@@ -1,33 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="../d3lines.js"></script>
     <style>
-        body, div {
+        svg {
             font-family: 'Open Sans', Palatino;
             font-weight: 300;
-        }
-
-        li {
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h2>Example of data combination</h2>
-    <ol>
-        <li>
-            Combining the plots:
-            <div class="main" id="main"><svg id="svg1"></svg></div>
-        </li>
-        <li>
-            Combining the data:
-            <div class="main" id="main2"><svg id="svg2"></svg></div>
-        </li>
-    </ol>
+    <svg id="main-svg"></svg>
 </body>
 
 <script>
@@ -73,129 +58,44 @@
       });
     };
 
+var data = [{x: 0, y: 0},
+            {x: 0.262, y: 0.259},
+            {x: 0.524, y: 0.5},
+            {x: 0.785, y: 0.707},
+            {x: 1.047, y: 0.866},
+            {x: 1.309, y: 0.966},
+            {x: 1.571, y: 1},
+            {x: 1.833, y: 0.966},
+            {x: 2.094, y: 0.866},
+            {x: 2.356, y: 0.707},
+            {x: 2.618, y: 0.5},
+            {x: 2.88, y: 0.259},
+            {x: 3.142, y: 0},
+            {x: 3.403, y: -0.259},
+            {x: 3.665, y: -0.5},
+            {x: 3.927, y: -0.707},
+            {x: 4.189, y: -0.866},
+            {x: 4.451, y: -0.966},
+            {x: 4.712, y: -1},
+            {x: 4.974, y: -0.966},
+            {x: 5.236, y: -0.866},
+            {x: 5.498, y: -0.707},
+            {x: 5.76, y: -0.5},
+            {x: 6.021, y: -0.259},
+            {x: 6.283, y: -0}];
 
-    svg = d3.select("svg#svg1")
+// Select the svg tag where you want the plot to appear
+var svg = d3.select("#main-svg");
 
-    fileName = "TempHum_20170413.txt";
+var options = {
+    // Specify what data you are plotting
+    data: data,
+    // Specify which of the two data `keys` ("x" or "y" in this case but it could be anything) will appear on the x-axis
+    xkey: "x",
+};
 
-    d3.csv(fileName, function(error, data) {
-
-
-        data.forEach(function(d, i) {
-            d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
-        });
-
-
-        options = {
-            data: data,
-            xkey: "Time",
-            xscale_type: 'time',
-            plot_type: "scatter",
-            line_yaxis: ["left", "right"],
-            line_color: ["blue", "red"],
-            marker: ["o", "s"],
-            marker_fill: 'none',
-            marker_size: 3,
-            legend_labels: ["Humidity", "Temperature"],
-            interactive: false,
-        }
-
-        plt = d3lines.plot(svg, options);
-        x0 = data[0].Time;
-        x1 = data[data.length-1].Time;
-
-        fileName = "TempHum_20170414.txt";
-        d3.csv(fileName, function(error, data) {
-
-            data.forEach(function(d, i) {
-                d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
-            });
-
-            options.data = data;
-            options.line_color = ["#ddf", "#fdd"];
-            options.legend_labels = [];
-
-
-            plt = d3lines.plot(svg, options, plt);
-
-            fileName = "TempHum_20170412.txt";
-            d3.csv(fileName, function(error, data) {
-
-                data.forEach(function(d, i) {
-                    d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
-                });
-
-                options.data = data;
-                options.interactive = true;
-
-                plt = d3lines.plot(svg, options, plt);
-
-                d3lines.vline(svg, x0, plt.scale.x, plt.scale.y)
-                    .style("stroke", "#777")
-                    .style("stroke-width", 0.5);
-                d3lines.vline(svg, x1, plt.scale.x, plt.scale.y)
-                    .style("stroke", "#777")
-                    .style("stroke-width", 0.5);
-
-                plt.svg.legend.group.moveToFront();
-
-            });
-
-        });
-
-    });
-
-    svg2 = d3.select("svg#svg2")
-    fileName = "TempHum_20170413.txt";
-    d3.csv(fileName, function(error, data0) {
-
-        data0.forEach(function(d, i) {
-            d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
-        });
-
-        x0 = data0[0].Time;
-        x1 = data0[data0.length-1].Time;
-
-        fileName = "TempHum_20170414.txt";
-        d3.csv(fileName, function(error, data2) {
-
-            data2.forEach(function(d, i) {
-                d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
-            });
-
-            fileName = "TempHum_20170412.txt";
-            d3.csv(fileName, function(error, data3) {
-
-                data3.forEach(function(d, i) {
-                    d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
-                });
-
-                options2 = {
-                    data: data3.concat(data0).concat(data2),
-                    xkey: "Time",
-                    xscale_type: 'time',
-                    plot_type: "scatter",
-                    line_yaxis: ["left", "right"],
-                    line_color: ["blue", "red"],
-                    marker: ["o", "s"],
-                    marker_fill: 'none',
-                    marker_size: 3,
-                    legend_labels: ["Humidity", "Temperature"],
-                }
-                plt2 = d3lines.plot(svg2, options2);
-
-                d3lines.vline(svg2, x0, plt2.scale.x, plt2.scale.y)
-                    .style("stroke", "#777")
-                    .style("stroke-width", 0.5);
-                d3lines.vline(svg2, x1, plt2.scale.x, plt2.scale.y)
-                    .style("stroke", "#777")
-                    .style("stroke-width", 0.5);
-
-                plt2.svg.legend.group.moveToFront();
-
-            });
-        });
-    });
+// Make the plot
+d3lines.plot(svg, options);
 
 
 </script>
