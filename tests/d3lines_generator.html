@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3-time.v1.min.js"></script>
+    <script src="../d3lines.js"></script>
+    <script src="prettify.js"></script>
+    <link rel="stylesheet" href="prettify.css">
+
+    <style>
+
+        body {
+            font-family: 'Open Sans', sans-serif, Palatino;
+            font-size: 1em;
+            font-weight: 300;
+        }
+
+        div {
+/*
+            border: 1px solid red;
+ */
+        }
+
+        .main {
+            padding: 0.6em 0;
+        }
+
+        .options-container {
+            text-align: left;
+            width: 400px;
+            float: left;
+        }
+
+        .right-container {
+            float: left;
+            text-align: center;
+        }
+
+
+        .option-nocheckbox{
+
+        }
+
+        .option, .option-start, .option-end, .option-comment {
+            font-size: 0.8em;
+            clear: both;
+        }
+
+        .active, .option-start, .option-end {
+            color: steelblue;
+        }
+
+        .option-start {
+            height: 1.5em;
+        }
+
+        .details {
+            position: relative;
+            height: 1.5em;
+            padding-top: 0.2em;
+            margin-left: 1.6em;
+            color: #999;
+            font-size: 1em;
+            clear: both;
+        }
+
+        .summary {
+            font-size: 0.9em;
+        }
+
+        .disclosure {
+            width: 0;
+            height: 0;
+            border-top: 0.4em solid grey;
+            border-bottom: none;
+            border-left: 0.4em solid transparent;
+            border-right: 0.4em solid transparent;
+            float: left;
+            margin-top: 0.4em;
+            margin-right: 0.25em;
+        }
+
+        div.disclosure.details-close {
+            border-top: 0.4em solid transparent;
+            border-bottom: 0.4em solid transparent;
+            border-left: 0.4em solid grey;
+            border-right: none;
+            margin-left: 0.25em;
+            margin-right: 0.375em;
+            margin-top: 0.3em;
+        }
+
+        .option-end {
+            height: 1.5em;
+            padding-top: 0.5em;
+        }
+
+        .inactive-option {
+            color: lightgrey;
+/*             text-decoration: line-through; */
+        }
+
+        .hidden-option, .hidden-suboption, .y2hidden, div.option.details-close {
+            display: none;
+        }
+
+        input:disabled {
+            color: lightgrey;
+        }
+
+        .checkbox {
+            margin-left: 2.5em;
+        }
+
+        .checkbox, .option-text {
+            float: left;
+        }
+
+        .option-text {
+            padding-left: 0.6em;
+        }
+
+        .tooltip {
+            display: none;
+            background-color: steelblue;
+            color: white;
+            padding: 0.5em;
+            position: absolute;
+            border-radius: 5px;
+            font-size: 0.8em;
+        }
+
+        .tooltip::after {
+            content: " ";
+            position: absolute;
+            top: 50%;
+            right: 100%; /* To the left of the tooltip */
+            margin-top: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent steelblue transparent transparent;
+        }
+
+        .code-container {
+            clear: both;
+            width: 80%;
+            margin: 2em auto;
+            text-align: left;
+        }
+
+    .demo-navigation {
+        background-color: steelblue;
+        color: white;
+        padding: 0.6em 0;
+    }
+    .demo-navigation ul {
+        list-style-type: none;
+        margin: 0px;
+        padding: 0px;
+        text-align: center;
+    }
+    .demo-navigation li{
+        display: inline-block;
+        padding: 2px;
+        width: 150px;
+    }
+
+    .demo-navigation li:hover{
+        background-color: white;
+        color: steelblue;
+    }
+
+    .error-status {
+        text-align: center;
+        width: 100%;
+        margin: 0 auto;
+        color: red;
+        font-size: 1.3em;
+    }
+
+    </style>
+
+	<title>D3LINES Generator</title>
+</head>
+<body>
+
+<div class="demo-navigation">
+    <ul>
+        <li><a data-id="5">Basic plot</a></li>
+        <li><a data-id="6">Multiple lines</a></li>
+        <li><a data-id="0">Double Y-axes</a></li>
+        <li><a data-id="1">Incomplete dataset</a></li>
+        <li><a data-id="2">Axes formatting</a></li>
+        <li><a data-id="3">Log scale</a></li>
+        <li><a data-id="7">Group-by plot</a></li>
+
+    </ul>
+</div>
+
+<div class="main">
+
+    <div class="options-container">
+        <form name="options" class="options">
+            <div class="option-start">
+                <div class="option-text">var options = {</div>
+            </div>
+
+<!-- DATA -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// DATA</div>
+    <!-- data -->
+                <div class="option active" id="data">
+                    <input type="checkbox" class="checkbox" checked>
+                    <div class="option-text has-tooltip" alt="An array containing the data that you want to plot.">    data: data,</div>
+                </div>
+    <!-- xkey -->
+                <div class="option active" id="xkey">
+                    <input type="checkbox" class="checkbox" checked>
+                    <div class="option-text has-tooltip" alt="The name of the field in `data` for the x-axis."><span>    xkey: "</span><span><select class="select keys"></select></span><span>",</span></div>
+                </div>
+            </div>
+
+<!-- LINES -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// LINES</div>
+    <!-- plot_type -->
+                <div class="option active" id="plot_type">
+                    <input type="checkbox" class="checkbox" name="plot_type">
+                    <div class="option-text has-tooltip" alt="The plot type (line or scatter)"><span>    plot_type: "</span><span><select class="select"><option selected>line</option><option>scatter</option></select></span><span>",</span></div>
+                </div>
+    <!-- line_yaxis -->
+                <div class="option active" id="line_yaxis">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A y-axis or array of y-axes for the lines (`left` or `right`)."><span>    line_yaxis: </span><span><input class="input-field line" type="text" data-default="[&quot;left&quot;, &quot;right&quot;]"></span><span>,</span></div>
+                </div>
+    <!-- line_color -->
+                <div class="option active" id="line_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A color or an array of colors for the lines"><span>    line_color: </span><span><input class="input-field line" type="text" data-default="[&quot;blue&quot;, &quot;red&quot;]"></span><span>,</span></div>
+                </div>
+    <!-- line_width -->
+                <div class="option active" id="line_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A width or an array of widths for the lines"><span>    line_width: </span><span><input class="input-field line" type="number" data-default="1" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- line_style -->
+                <div class="option active" id="line_style">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A style or an array of styles for the lines"><span>    line_style: </span><span><input class="input-field line" type="text" data-default="[&quot;--&quot;, &quot;:&quot;]"></span><span>,</span></div>
+                </div>
+    <!-- line_fill -->
+                <div class="option active" id="line_fill">
+                    <input type="checkbox" class="checkbox" name="line_fill">
+                    <div class="option-text has-tooltip" alt="A fill color or an array of fill colors for the lines"><span>    line_fill: </span><span><input class="input-field line" type="text" data-default="&quot;none&quot;"></span><span>,</span></div>
+                </div>
+    <!-- line_fill_opacity -->
+                <div class="option active line_fill" id="line_fill_opacity">
+                    <input type="checkbox" class="checkbox" checked>
+                    <div class="option-text has-tooltip" alt="A fill opacity or an array of fill opacities for the lines"><span>    line_fill_opacity: </span><span><input class="input-field line" type="text" data-default="0.2"></span><span>,</span></div>
+                </div>
+    <!-- marker -->
+                <div class="option active" id="marker">
+                    <input type="checkbox" class="checkbox" name="marker">
+                    <div class="option-text has-tooltip" alt="A marker or an array of markers for the lines"><span>    marker: </span><span><input class="input-field line" type="text" data-default="&quot;none&quot;"></span><span>,</span></div>
+                </div>
+    <!-- marker_fill -->
+                <div class="option active marker" id="marker_fill">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A  fill color or an array of fill colors for the line markers"><span>    marker_fill: </span><span><input class="input-field line" type="text" data-default="&quot;white&quot;"></span><span>,</span></div>
+                </div>
+    <!-- marker_fill_opacity -->
+                <div class="option active marker" id="marker_fill_opacity">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A fill opacity or an array of fill opacities for the line markers"><span>    marker_fill_opacity: </span><span><input class="input-field" type="number" data-default="0.5" min="0.00" max="1.00"></span><span>,</span></div>
+                </div>
+    <!-- marker_stroke_width -->
+                <div class="option active marker" id="marker_stroke_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A stroke width or an array of stroke widths for the line markers"><span>    marker_stroke_width: </span><span><input class="input-field" type="number" data-default="1" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- marker_size -->
+                <div class="option active marker" id="marker_size">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="A size or an array of sizes for the line markers"><span>    marker_size: </span><span><input class="input-field" type="number" data-default="5" min="0" max="40.0"></span><span>,</span></div>
+                </div>
+
+            </div>
+
+<!-- GEOMETRY -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// GEOMETRY</div>
+    <!-- width -->
+                <div class="option active" id="width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="The width of the svg element containing the plot (in this case, limited between 500 and 1200)."><span>    width: </span><span><input class="input-field" type="number" min="500" max="1200" data-default="900"></span><span>,</span></div>
+                </div>
+    <!-- height -->
+                <div class="option active" id="height">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="The height of the svg element containing the plot (in this case, limited between 250 and 600)."><span>    height: </span><span><input class="input-field" type="number" min="250" max="600" data-default="450"></span><span>,</span></div>
+                </div>
+    <!-- margins -->
+                <div class="option active" id="margins">
+                    <input type="checkbox" class="checkbox" name="margin">
+                    <div class="option-text has-tooltip" alt="The margins around the plot (here limited between 0 and 100)">
+                        <span>    margins: {<br></span>
+                        <div class="suboption has-tooltip margin" alt="Top margin" id="margin_top"><input type="checkbox" class="subcheckbox"><span>&nbsp;top: </span><span><input class="input-field" type="number" data-default="50" min="0" max="1000"></span><span>,<br></span></div>
+                        <div class="suboption has-tooltip margin" alt="Left margin" id="margin_left"><input type="checkbox" class="subcheckbox"><span>&nbsp;left: </span><span><input class="input-field" type="number" data-default="50" min="0" max="1000"></span><span>,<br></span></div>
+                        <div class="suboption has-tooltip margin" alt="Bottom margin" id="margin_bottom"><input type="checkbox" class="subcheckbox"><span>&nbsp;bottom: </span><span><input class="input-field" type="number" data-default="50" min="0" max="1000"></span><span>,<br></span></div>
+                        <div class="suboption has-tooltip margin" alt="Right margin" id="margin_right"><input type="checkbox" class="subcheckbox"><span>&nbsp;right: </span><span><input class="input-field" type="number" data-default="50" min="0" max="1000"></span><span>,<br></span></div>
+                        <span>},</span>
+                    </div>
+                </div>
+
+            </div>
+
+<!-- AXES -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// ALL AXES</div>
+    <!-- box -->
+                <div class="option active" id="box">
+                    <input type="checkbox" class="checkbox" name="box">
+                    <div class="option-text has-tooltip" alt="Set to true if you want a box around your plot."><span>    box: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,</span></div>
+                </div>
+    <!-- axes_color -->
+                <div class="option active" id="axes_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line color for the axes."><span>    axes_color: "</span><span><input class="input-field color" type="text" data-default="red"></span><span>",</span></div>
+                </div>
+    <!-- axes_width -->
+                <div class="option active" id="axes_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line width for the axes."><span>    axes_width: </span><span><input class="input-field" type="number" data-default="1.5" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- axes_linestyle -->
+                <div class="option active" id="axes_linestyle">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line style for the axes."><span>    axes_linestyle: "</span><span><select class="select"><option>solid</option><option selected>dotted</option><option>dashed</option><option>dash-dot</option></select></span><span>",</span></div>
+                </div>
+    <!-- axes_fill -->
+                <div class="option active box" id="axes_fill">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Fill color for the axes."><span>    axes_fill: "</span><span><input class="input-field color" type="text" data-default="lightgrey"></span><span>",</span></div>
+                </div>
+    <!-- axes_fill_opacity -->
+                <div class="option active box" id="axes_fill_opacity">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Fill opacity for the axes."><span>    axes_fill_opacity: </span><span><input class="input-field" type="number" data-default="1.0" min="0.00" max="1.00"></span><span>,</span></div>
+                </div>
+    <!-- axes_font_size -->
+                <div class="option active" id="axes_font_size">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Font size for the axes."><span>    axes_font_size: "</span><span><input class="input-field" type="text" data-default="0.875em"></span><span>",</span></div>
+                </div>
+    <!-- axes_font_color -->
+                <div class="option active" id="axes_font_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Font color for the axes."><span>    axes_font_color: "</span><span><input class="input-field color" type="text" data-default="blue"></span><span>",</span></div>
+                </div>
+    <!-- axes_font_family -->
+                <div class="option active" id="axes_font_family">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Font family for the axes."><span>    axes_font_family: "</span><span><input class="input-field" type="text" data-default="'Open Sans', sans-serif, Palatino"></span><span>",</span></div>
+                </div>
+
+
+            </div>
+
+<!-- X-AXIS -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// X-AXIS</div>
+
+    <!-- xscale_type -->
+                <div class="option active" id="xscale_type">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="The type of scale for the x-axis (time, linear or log scale)."><span>    xscale_type: "</span><span><select class="select"><option>time</option><option>linear</option><option>log</option></select></span><span>",</span></div>
+                </div>
+    <!-- xlim -->
+                <div class="option active" id="xlim">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Limits for the x-axis:<br>if `xlim` is a float (or int), the limits are the data limits multiplied/divided by this factor (relative to the data);<br>if `xlim` is a two-element array, the limits are the two elements (absolute limits)."><span>    xlim: </span><span><input class="input-field axislimits" type="text" data-default="1.0001"></span><span>,</span></div>
+                </div>
+    <!-- xticks -->
+                <div class="option active" id="xticks">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Number of ticks for the x-axis. Set it to 0 to remove all ticks."><span>    xticks: </span><span><input class="input-field" type="number" data-default="5" min="0" max="20"></span><span>,</span></div>
+                </div>
+    <!-- xtick_format -->
+                <div class="option active" id="xtick_format">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Format of ticks for the x-axis."><span>    xtick_format: <br>function(d){return </span><span><input class="input-field function" type="text" data-default="d"></span><span>;},</span></div>
+                </div>
+    <!-- xgrid -->
+                <div class="option active" id="xgrid">
+                    <input type="checkbox" class="checkbox" name="xgrid">
+                    <div class="option-text has-tooltip" alt="Set to true if you want a grid along the x-axis."><span>    xgrid: </span><span><select class="select boolean"><option>true</option><option selected>false</option></select></span><span>,</span></div>
+                </div>
+    <!-- xgrid_color -->
+                <div class="option active xgrid" id="xgrid_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line color of the x-axis grid."><span>    xgrid_color: "</span><span><input class="input-field color" type="text" data-default="red"></span><span>",</span></div>
+                </div>
+    <!-- xgrid_width -->
+                <div class="option active xgrid" id="xgrid_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line width for the x-axis grid."><span>    xgrid_width: </span><span><input class="input-field" type="number" data-default="1.5" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- xgrid_linestyle -->
+                <div class="option active xgrid" id="xgrid_linestyle">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line style for the x-axis grid."><span>    xgrid_linestyle: "</span><span><select class="select"><option selected>solid</option><option>dotted</option><option>dashed</option><option>dash-dot</option></select></span><span>",</span></div>
+                </div>
+    <!-- xlabel -->
+                <div class="option active" id="xlabel">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Label for the x-axis."><span>    xlabel: "</span><span><input class="input-field" type="text" data-default=""></span><span>",</span></div>
+                </div>
+    <!-- xlabel_offset -->
+                <div class="option active" id="xlabel_offset">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Offset for the x-axis label (Use a positive offset to move away from the axis)."><span>    xlabel_offset: </span><span><input class="input-field" type="number" data-default="0" min="-50" max="50"></span><span>,</span></div>
+                </div>
+
+            </div>
+
+<!-- Y-AXIS -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// Y-AXIS</div>
+
+    <!-- yscale_type -->
+                <div class="option active" id="yscale_type">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="The type of scale for the y-axis (time, linear or log scale)."><span>    yscale_type: "</span><span><select class="select"><option>time</option><option>linear</option><option selected>log</option></select></span><span>",</span></div>
+                </div>
+    <!-- ylim -->
+                <div class="option active" id="ylim">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Limits for the y-axis:<br>if `ylim` is a float (or int), the limits are the data limits multiplied/divided by this factor (relative to the data);<br>if `ylim` is a two-element array, the limits are the two elements (absolute limits)."><span>    ylim: </span><span><input class="input-field axislimits" type="text" data-default="1.0"></span><span>,</span></div>
+                </div>
+    <!-- yticks -->
+                <div class="option active" id="yticks">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Number of ticks for the y-axis. Set it to 0 to remove all ticks."><span>    yticks: </span><span><input class="input-field" type="number" data-default="3" min="0" max="20"></span><span>,</span></div>
+                </div>
+    <!-- ytick_format -->
+                <div class="option active" id="ytick_format">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Format of ticks for the y-axis."><span>    ytick_format: <br>function(d){return </span><span><input class="input-field function" type="text" data-default="d"></span><span>;},</span></div>
+                </div>
+    <!-- ygrid -->
+                <div class="option active" id="ygrid">
+                    <input type="checkbox" class="checkbox" name="ygrid">
+                    <div class="option-text has-tooltip" alt="Set to true if you want a grid along the y-axis."><span>    ygrid: </span><span><select class="select boolean"><option>true</option><option selected>false</option></select></span><span>,</span></div>
+                </div>
+    <!-- ygrid_color -->
+                <div class="option active ygrid" id="ygrid_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line color of the y-axis grid."><span>    ygrid_color: "</span><span><input class="input-field color" type="text" data-default="red"></span><span>",</span></div>
+                </div>
+    <!-- ygrid_width -->
+                <div class="option active ygrid" id="ygrid_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line width for the y-axis grid."><span>    ygrid_width: </span><span><input class="input-field" type="number" data-default="1.5" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- ygrid_linestyle -->
+                <div class="option active ygrid" id="ygrid_linestyle">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line style for the y-axis grid."><span>    ygrid_linestyle: "</span><span><select class="select"><option selected>solid</option><option>dotted</option><option>dashed</option><option>dash-dot</option></select></span><span>",</span></div>
+                </div>
+    <!-- ylabel -->
+                <div class="option active" id="ylabel">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Label for the y-axis."><span>    ylabel: "</span><span><input class="input-field" type="text" data-default=""></span><span>",</span></div>
+                </div>
+    <!-- ylabel_offset -->
+                <div class="option active" id="ylabel_offset">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Offset for the y-axis label (Use a positive offset to move away from the axis)."><span>    ylabel_offset: </span><span><input class="input-field" type="number" data-default="0" min="-50" max="50"></span><span>,</span></div>
+                </div>
+
+            </div>
+
+<!-- Y2-AXIS -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// Y2-AXIS (right axis)</div>
+
+
+    <!-- y2scale_type -->
+                <div class="option active" id="y2scale_type">
+                    <input type="checkbox" class="checkbox" name="y2scale">
+                    <div class="option-text has-tooltip" alt="The type of scale for the y-axis on the right (time, linear or log scale)."><span>    y2scale_type: "</span><span><select class="select"><option>time</option><option selected>linear</option><option>log</option></select></span><span>",</span></div>
+                </div>
+    <!-- y2lim -->
+                <div class="option active y2scale" id="y2lim">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Limits for the y2-axis (right axis):<br>if `y2lim` is a float (or int), the limits are the data limits multiplied/divided by this factor (relative to the data);<br>if `y2lim` is a two-element array, the limits are the two elements (absolute limits).<br>This only works if there is a right axis."><span>    y2lim: </span><span><input class="input-field axislimits" type="text" data-default="[0,100]"></span><span>,</span></div>
+                </div>
+    <!-- y2ticks -->
+                <div class="option active y2scale" id="y2ticks">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Number of ticks for the y2-axis (right axis). Set it to 0 to remove all ticks.<br>This only works if there is a right axis."><span>    y2ticks: </span><span><input class="input-field" type="number" data-default="0" min="0" max="20"></span><span>,</span></div>
+                </div>
+    <!-- y2tick_format -->
+                <div class="option active" id="y2tick_format">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Format of ticks for the y2-axis."><span>    y2tick_format: <br>function(d){return </span><span><input class="input-field function" type="text" data-default="d"></span><span>;},</span></div>
+                </div>
+    <!-- y2grid -->
+                <div class="option active y2scale" id="y2grid">
+                    <input type="checkbox" class="checkbox" name="y2grid">
+                    <div class="option-text has-tooltip" alt="Set to true if you want a grid along the y2-axis. This only works if there is a right axis."><span>    y2grid: </span><span><select class="select boolean"><option>true</option><option selected>false</option></select></span><span>,</span></div>
+                </div>
+    <!-- y2grid_color -->
+                <div class="option active y2scale y2grid" id="y2grid_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line color of the y2-axis grid. This only works if there is a right axis."><span>    y2grid_color: "</span><span><input class="input-field color" type="text" data-default="red"></span><span>",</span></div>
+                </div>
+    <!-- y2grid_width -->
+                <div class="option active y2scale y2grid" id="y2grid_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line width for the y2-axis grid. This only works if there is a right axis."><span>    y2grid_width: </span><span><input class="input-field" type="number" data-default="1.5" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- y2grid_linestyle -->
+                <div class="option active y2scale y2grid" id="y2grid_linestyle">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Line style for the y2-axis grid. This only works if there is a right axis."><span>    y2grid_linestyle: "</span><span><select class="select"><option selected>solid</option><option>dotted</option><option>dashed</option><option>dash-dot</option></select></span><span>",</span></div>
+                </div>
+    <!-- y2label -->
+                <div class="option active y2scale" id="y2label">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Label for the y2-axis."><span>    y2label: "</span><span><input class="input-field" type="text" data-default=""></span><span>",</span></div>
+                </div>
+    <!-- y2label_offset -->
+                <div class="option active y2scale" id="y2label_offset">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Offset for the y2-axis label (Use a positive offset to move away from the axis)."><span>    y2label_offset: </span><span><input class="input-field" type="number" data-default="0" min="-50" max="50"></span><span>,</span></div>
+                </div>
+
+            </div>
+
+<!-- LEGEND -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// LEGEND</div>
+
+    <!-- legend -->
+                <div class="option active" id="legend">
+                    <input type="checkbox" class="checkbox" name="legend">
+                    <div class="option-text has-tooltip" alt="Set to true if you want a legend."><span>    legend: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,</span></div>
+                </div>
+    <!-- legend_font_size -->
+                <div class="option active legend" id="legend_font_size">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Font size for the legend."><span>    legend_font_size: "</span><span><input class="input-field" type="text" data-default="0.875em"></span><span>",</span></div>
+                </div>
+    <!-- legend_font_color -->
+                <div class="option active legend" id="legend_font_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Font color for the legend."><span>    legend_font_color: "</span><span><input class="input-field color" type="text" data-default="blue"></span><span>",</span></div>
+                </div>
+    <!-- legend_font_family -->
+                <div class="option active legend" id="legend_font_family">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Font family for the legend."><span>    legend_font_family: "</span><span><input class="input-field" type="text" data-default="'Open Sans', sans-serif, Palatino"></span><span>",</span></div>
+                </div>
+    <!-- legend_border_color -->
+                <div class="option active legend" id="legend_border_color">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Border color for the legend."><span>    legend_border_color: "</span><span><input class="input-field color" type="text" data-default="red"></span><span>",</span></div>
+                </div>
+    <!-- legend_border_width -->
+                <div class="option active legend" id="legend_border_width">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Border width for legend."><span>    legend_border_width: </span><span><input class="input-field" type="number" data-default="1.5" min="0" max="10.0"></span><span>,</span></div>
+                </div>
+    <!-- legend_border_style -->
+                <div class="option active legend" id="legend_border_style">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Border style for legend."><span>    legend_border_style: "</span><span><select class="select"><option selected>solid</option><option>dotted</option><option>dashed</option><option>dash-dot</option></select></span><span>",</span></div>
+                </div>
+    <!-- legend_fill -->
+                <div class="option active legend" id="legend_fill">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Fill color for the legend."><span>    legend_fill: "</span><span><input class="input-field color" type="text" data-default="white"></span><span>",</span></div>
+                </div>
+    <!-- legend_fill_opacity -->
+                <div class="option active legend" id="legend_fill_opacity">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Fill opacity for the legend."><span>    legend_fill_opacity: </span><span><input class="input-field" type="number" data-default="1.00" min="0.00" max="1.00"></span><span>,</span></div>
+                </div>
+    <!-- legend_position -->
+                <div class="option active legend" id="legend_position">
+                    <input type="checkbox" class="checkbox">
+                    <div class="option-text has-tooltip" alt="Legend position (ex: 'top left', 'bottom', 'bottom right', [100, 200])."><span>    legend_position: "</span><span><input class="input-field" type="text" data-default="top left"></span><span>",</span></div>
+                </div>
+    <!-- legend_labels -->
+                <div class="option active legend" id="legend_labels">
+                    <input type="checkbox" class="checkbox" name="legend_labels">
+                    <div class="option-text has-tooltip" alt="A label or array of lables for the legend"><span>    legend_labels: </span><span><input class="input-field line" type="text" data-default="&quot;Some label&quot;"></span><span>,</span></div>
+                </div>
+            </div>
+
+<!-- INTERACTIVITY -->
+            <div class="details">
+                <div class="summary"><div class="disclosure details-close"></div>// INTERACTIVITY</div>
+
+    <!-- interactive -->
+                <div class="option active" id="interactive">
+                    <input type="checkbox" class="checkbox" name="interactive">
+                    <div class="option-text has-tooltip" alt="Set to true if you want an interactive plot."><span>    interactive: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,</span></div>
+                </div>
+    <!-- interactive_options -->
+                <div class="option active interactive" id="interactive_options">
+                    <input type="checkbox" class="checkbox" name="interactive_options">
+                    <div class="option-text has-tooltip" alt="Options for interactive plots">
+                        <span>    interactive_options: {<br></span>
+        <!-- snap_axis -->
+                        <div class="suboption has-tooltip interactive_options" alt="Snap axis (x, y or both)."><input type="checkbox" class="subcheckbox" name="interactive_line"><span>&nbsp;snap_axis: "</span><span><select class="select"><option selected>x</option><option>y</option><option>both</option></select></span><span>",<br></span></div>
+        <!-- line -->
+                        <div class="suboption has-tooltip interactive_options" alt="Set to true if you want a scanning line when the mouse hovers over the plot."><input type="checkbox" class="subcheckbox" name="interactive_line"><span>&nbsp;line: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,<br></span></div>
+        <!-- linecolor -->
+                        <div class="suboption has-tooltip interactive_options interactive_line" alt="Color of the scanning line"><input type="checkbox" class="subcheckbox"><span>&nbsp;linecolor: "</span><span><input class="input-field color" type="text" data-default="red"></span><span>",<br></span></div>
+        <!-- linewidth -->
+                        <div class="suboption has-tooltip interactive_options interactive_line" alt="Width of the scanning line"><input type="checkbox" class="subcheckbox"><span>&nbsp;linewidth: </span><span><input class="input-field" type="number" data-default="1.0" min="0" max="10.0"></span><span>,<br></span></div>
+        <!-- linestyle -->
+                        <div class="suboption has-tooltip interactive_options interactive_line" alt="Style of the scanning line"><input type="checkbox" class="subcheckbox"><span>&nbsp;linestyle: "</span><span><select class="select"><option selected>solid</option><option>dotted</option><option>dashed</option><option>dash-dot</option></select></span><span>",<br></span></div>
+        <!-- dots -->
+                        <div class="suboption has-tooltip interactive_options" alt="Set to true if you want dots on the data lines corresponding to the location of your mouse."><input type="checkbox" class="subcheckbox" name="interactive_dots"><span>&nbsp;dots: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,<br></span></div>
+        <!-- dot_radius -->
+                        <div class="suboption has-tooltip interactive_options interactive_dots" alt="Radius of the dots"><input type="checkbox" class="subcheckbox"><span>&nbsp;dot_radius: </span><span><input class="input-field" type="number" data-default="5.0" min="0" max="20.0"></span><span>,<br></span></div>
+        <!-- textbox -->
+                        <div class="suboption has-tooltip interactive_options" alt="Set to true if you want a textbox with the data corresponding to the location of your mouse."><input type="checkbox" class="subcheckbox" name="interactive_textbox"><span>&nbsp;textbox: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,<br></span></div>
+        <!-- box_color -->
+                        <div class="suboption has-tooltip interactive_options interactive_textbox" alt="Color of the interactive box"><input type="checkbox" class="subcheckbox"><span>&nbsp;box_color: "</span><span><input class="input-field color" type="text" data-default="#ffb4b4"></span><span>",<br></span></div>
+        <!-- box_padding -->
+                        <div class="suboption has-tooltip interactive_options interactive_textbox" alt="Padding for the interactive box"><input type="checkbox" class="subcheckbox"><span>&nbsp;box_padding: </span><span><input class="input-field" type="number" data-default="10" min="0" max="50"></span><span>,<br></span></div>
+        <!-- box_opacity -->
+                        <div class="suboption has-tooltip interactive_options interactive_textbox" alt="Opacity of the interactive box"><input type="checkbox" class="subcheckbox"><span>&nbsp;box_opacity: </span><span><input class="input-field" type="number" data-default="0.9" min="0.000" max="1.000"></span><span>,<br></span></div>
+        <!-- font_color -->
+                        <div class="suboption has-tooltip interactive_options interactive_textbox" alt="Color of the interactive box text"><input type="checkbox" class="subcheckbox"><span>&nbsp;font_color: "</span><span><input class="input-field color" type="text" data-default="black"></span><span>",<br></span></div>
+        <!-- font_size -->
+                        <div class="suboption has-tooltip interactive_options interactive_textbox" alt="Font size for the interactive box text"><input type="checkbox" class="subcheckbox"><span>&nbsp;font_size: </span><span><input class="input-field" type="text" data-default="1em"></span><span>,<br></span></div>
+        <!-- font_family -->
+                        <div class="suboption has-tooltip interactive_options interactive_textbox" alt="Font familty for the interactive box text"><input type="checkbox" class="subcheckbox"><span>&nbsp;font_family: "</span><span><input class="input-field" type="text" data-default=""></span><span>",<br></span></div>
+        <!-- zoom -->
+                        <div class="suboption has-tooltip interactive_options" alt="Set to true if you want zoom/panning capability."><input type="checkbox" class="subcheckbox" name="interactive_zoom"><span>&nbsp;zoom: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,<br></span></div>
+                        <span>},</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="option-end">
+                <div class="option-text">};</div>
+            </div>
+        </form>
+    </div>
+
+    <div class="right-container">
+        <div class="error-status"></div>
+        <div class="svg-container">
+            <svg id="svg-main"></svg>
+        </div>
+        <div class="code-container">
+            <pre class="prettyprint">
+            </pre>
+        </div>
+    </div>
+
+</div>
+
+<div id="dvImportSegments" class="fileupload ">
+    <fieldset>
+        <legend>Upload your CSV File</legend>
+            <input type="file" name="File Upload" id="txtFileUpload" accept=".csv" />
+   </fieldset>
+</div>
+
+<div class="tooltip">Tooltip</div>
+
+</body>
+
+<script>
+
+var plt;
+var DATA;
+var dataID;
+var SVG = d3.select("svg");
+var DEFAULT_OPTIONS = {
+    xgrid: false,
+    ygrid: false,
+    y2grid: false,
+    legend: true,
+    box: true,
+    interactive: true,
+    interactive_line: true,
+    interactive_dots: true,
+    interactive_textbox: true,
+    interactive_zoom: true,
+}
+
+var plotTypes = {
+    linePlot: "line",
+    groupByPlot: "groupByPlot",
+}
+
+function resetSVG(){
+    SVG.remove();
+    $('.svg-container').html('<svg id="svg-main"></svg>')
+    SVG = d3.select("svg");
+}
+
+function plotData(options) {
+//         console.log(options);
+    resetSVG();
+//     try {
+        $('.error-status').css("padding-top", "0");
+        $('.error-status').text("");
+        $('.svg-container').show();
+        if (plotType === plotTypes.groupByPlot){
+            plt = d3lines.groupByPlot(SVG, DATA, "Sepal Width", "Species", options);
+        } else {
+            plt = d3lines.plot(SVG, options);
+        }
+//     } catch(err) {
+//         $('.error-status').css("padding-top", "1.2em");
+//         $('.error-status').text(err.toString());
+//         $('.svg-container').hide();
+//     }
+}
+
+// Reset all options
+function resetAllOptions(){
+    $("input.checkbox").each(function(){
+        var self = $(this);
+        var id = self.parent().attr('id');
+        var checked = ["data", "xkey"];
+        if (checked.indexOf(id) == -1){
+            self.prop('checked', false);
+        } else {
+            self.prop('checked', true);
+        }
+        enableOption(self);
+    });
+    $("input.subcheckbox").each(function(){
+        var self = $(this);
+        var id = self.attr('id');
+        var checked = [];
+        if (checked.indexOf(id) == -1){
+            self.prop('checked', false);
+        } else {
+            self.prop('checked', true);
+        }
+        enableOption(self, true);
+    });
+}
+
+// Activate option
+function activateOption(id, value){
+    $('#'+id).children('input').prop("checked", true);
+    if (value !== undefined){
+        if ($('#'+id).find('.input-field').length === 1){
+            $('#'+id).find('.input-field').val(value);
+        } else if ($('#'+id).find('.select').length === 1){
+            $('#'+id).find('.select option:contains("'+value+'")').prop("selected", true)
+        }
+    }
+}
+
+// Enable/Disable options
+function enableOption(checkbox, suboption) {
+    var selector, boolSelect;
+    suboption = suboption !== undefined && suboption
+    if (suboption){
+        selector = ''
+        boolSelect = $("option:selected", checkbox.siblings('span').children('select.boolean'))
+    } else {
+        selector = '.option-text'
+        boolSelect = $("option:selected", checkbox.siblings('.option-text').children('span').children('select.boolean'))
+    }
+    var chName = checkbox.attr("name")
+    chName = chName === undefined ? "" : chName
+    var nameArrays = ["xgrid", "ygrid", "y2grid", "margin", "xlabel",
+                      "ylabel", "y2label", "box", "legend", "marker",
+                      "interactive", "interactive_options"];
+    var subNameArrays = ["interactive_line", "interactive_dots", "interactive_textbox"];
+    if (checkbox.is(':checked')) {
+        if (nameArrays.indexOf(chName) != -1){
+            if (boolSelect.length === 0){
+                $("div."+chName).removeClass('hidden-option');
+            } else if (boolSelect.text() === "true"){
+                $("div."+chName).removeClass('hidden-option');
+            } else if (boolSelect.text() === "false"){
+                $("div."+chName).addClass('hidden-option');
+            }
+        } else if (subNameArrays.indexOf(chName) != -1){
+            if (boolSelect.length === 0){
+                $("div."+chName).removeClass('hidden-suboption');
+            } else if (boolSelect.text() === "true"){
+                $("div."+chName).removeClass('hidden-suboption');
+            } else if (boolSelect.text() === "false"){
+                $("div."+chName).addClass('hidden-suboption');
+            }
+        } else if (chName === "y2scale"){
+            $("div."+chName).removeClass('y2hidden');
+        }
+        if (suboption) {
+            // Enable select for suboptions
+            checkbox.siblings('.inactive-option').children('.select').prop("disabled", false);
+            // Enable input for sub-options
+            checkbox.siblings('.inactive-option').children('.input-field').prop("disabled", false);
+        } else {
+            // Enable select for options
+            checkbox.siblings('.inactive-option').children('span').children('.select').prop("disabled", false);
+            // Enable input for options
+            checkbox.siblings('.inactive-option').children('span').children('.input-field').prop("disabled", false);
+        }
+        checkbox.siblings(selector).removeClass("inactive-option");
+        checkbox.siblings(selector).children().removeClass("inactive-option");
+        if (!suboption){
+            checkbox.siblings().find('.subcheckbox').prop("disabled", false);
+        }
+    } else {
+        if (nameArrays.indexOf(chName) != -1){
+            if (boolSelect.length === 0){
+                $("div."+chName).addClass('hidden-option');
+            } else if (DEFAULT_OPTIONS[chName]){
+                $("div."+chName).removeClass('hidden-option');
+            } else {
+                $("div."+chName).addClass('hidden-option');
+            }
+        } else if (subNameArrays.indexOf(chName) != -1){
+            if (boolSelect.length === 0){
+                $("div."+chName).addClass('hidden-suboption');
+            } else if (DEFAULT_OPTIONS[chName]){
+                $("div."+chName).removeClass('hidden-suboption');
+            } else {
+                $("div."+chName).addClass('hidden-suboption');
+            }
+        } else if (chName === "y2scale"){
+            $("div."+chName).addClass('y2hidden');
+        }
+        checkbox.siblings(selector).addClass("inactive-option");
+        checkbox.siblings(selector).children().addClass("inactive-option");
+        if (suboption) {
+            // Disable select for suboptions
+            checkbox.siblings('.inactive-option').children('.select').prop("disabled", true);
+            // Disable input for sub-options
+            checkbox.siblings('.inactive-option').children('.input-field').prop("disabled", true);
+        } else {
+            // Disable select for options
+            checkbox.siblings('.inactive-option').children('span').children('.select').prop("disabled", true);
+            // Disable input for options
+            checkbox.siblings('.inactive-option').children('span').children('.input-field').prop("disabled", true);
+        }
+        if (!suboption){
+            checkbox.siblings().find('.subcheckbox').prop("disabled", true);
+        }
+    }
+}
+
+function loadData(dataid){
+    var fileName = "";
+    dataID = dataid;
+    plotType = plotTypes.linePlot;
+
+    switch (dataID) {
+        case 0:
+            fileName = "TempHum_20170413.txt";
+            break;
+        case 1:
+            fileName = "WDIFoodImports.csv";
+            break;
+        case 2:
+        case 4:
+        case 5:
+            fileName = "WDIMortality.csv";
+            break;
+        case 3:
+            fileName = "CoalConsumption.csv";
+            break;
+        case 6:
+            fileName = "multilines.csv";
+            break;
+        case 7:
+            fileName = "iris.csv";
+            plotType = plotTypes.groupByPlot;
+            break;
+        default:
+            break;
+    }
+
+    resetAllOptions();
+
+    d3.csv(fileName, function(error, data) {
+
+        switch (dataID) {
+            case 0:
+                data.forEach(function(d, i) {
+                    d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+                });
+                break;
+            case 1:
+            case 2:
+            case 4:
+//                 data.forEach(function(d, i) {
+//                     d.Year = d3.time.format("%Y").parse(d.Year);
+//                 });
+                break;
+            case 3:
+                data = new d3lines.Data(data)
+                            .transpose('Year')
+//                             .filterColumns(function(c){return c.startsWith("Chi")})
+                            .sample(7)
+//                             .selectColumns(['Year', 'Canada', 'Brazil', 'Mexico'])
+//                             .ignoreColumns(['Brazil)'])
+                            .data
+                break;
+            case 5:
+                var npts = 100;
+                var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
+                var y = Array.apply(null, Array(npts)).map(function (_, i) {return Math.sin(x[i]);});
+                data = {x: x, y: y};
+                break;
+            case 6:
+                data.forEach(function(d, i) {
+                    d.Date = d3.time.format("%Y%m%d").parse(d.date);
+                    d["Sample A"] = d["New York"]/d.Austin;
+                    d["Sample B"] = d["San Francisco"]/d["New York"];
+                    d["Sample C"] = d["Austin"]/d["San Francisco"];
+                    delete d.date;
+                    delete d.Austin;
+                    delete d["New York"];
+                    delete d["San Francisco"];
+                });
+                break;
+            case 7:
+                data = new d3lines.Data(data)
+                    .ignoreColumns(["Petal Width", "Petal Length"])
+                    .data
+                break;
+            default:
+                break;
+        }
+
+        if (dataID != 5){
+            var csvkeys = Object.keys(data[0]);
+        } else {
+            var csvkeys = ["x", "y"];
+        }
+
+        $('select.keys').find('option').remove()
+        csvkeys.forEach(function(key, index) {
+            $('select.keys').append($("<option></option>").text(key));
+        });
+
+        DATA = data;
+
+        switch (dataID) {
+            case 0: // Double-Y Axes
+                activateOption('xscale_type', 'time');
+                activateOption('line_yaxis', '["right", "left"]');
+                activateOption('line_width', 0);
+                activateOption('marker', '["o", "^"]');
+                activateOption('marker_size', 3);
+                activateOption('ylabel', 'Temperature');
+                activateOption('ytick_format', 'd+" °C"');
+                activateOption('y2scale_type', 'linear');
+                activateOption('y2label', 'Humidity');
+                activateOption('y2tick_format', 'd+"%"');
+                $('#marker_size').removeClass('hidden-option');
+                $('#y2label').removeClass('y2hidden');
+                $('#y2tick_format').removeClass('y2hidden');
+
+                break;
+            case 1: // Incomplete Datasets
+                activateOption('legend_position', 'top right');
+                activateOption('marker', '["o", "^", "+", "s"]');
+                activateOption('marker_size', 5);
+                activateOption('marker_fill', '"color"');
+                activateOption('marker_fill_opacity', 0.2);
+                activateOption('line_width', 1);
+                $('#marker_size').removeClass('hidden-option');
+                $('#marker_fill').removeClass('hidden-option');
+                $('#marker_fill_opacity').removeClass('hidden-option');
+
+                break;
+            case 2: // Axes formatting
+                activateOption('legend_position', 'top right');
+                activateOption('ylabel', 'Some big number (x 10^6)');
+//                 activateOption('margins');
+//                 activateOption('margin_left', 70);
+                activateOption('ytick_format', 'd/1e6');
+                activateOption('xtick_format', '""+d');
+                activateOption('line_fill_opacity', 0.1);
+                activateOption('line_fill', '"color"');
+                activateOption('xlim', "[1960, 2015]");
+                activateOption('axes_color', 'lightsteelblue');
+                activateOption('axes_font_color', 'steelblue');
+                activateOption('box', 'false');
+                activateOption('axes_width', 0.5);
+                break;
+            case 3: // Log scale
+                activateOption('legend_position', '[90, 150]');
+                activateOption('ygrid', 'true');
+                activateOption('yscale_type', 'log');
+
+                break;
+            case 4:
+                $('#data').children('.checkbox').prop("checked", false);
+                $('#xkey').children('.checkbox').prop("checked", false);
+                break;
+            case 5: // Basic plot
+                break;
+            case 6: // Multiple lines
+                activateOption('xscale_type', 'time');
+                activateOption('axes_font_size', '0.875em');
+                activateOption('line_color', '["steelblue","orange","limegreen"]');
+                activateOption('ylabel', 'Some normalized data');
+
+                break;
+            case 7: // groupByPlot
+                activateOption('plot_type', "scatter");
+                activateOption('ylabel', 'Sepal Length');
+                activateOption('legend_labels', '["I. Setosa", "I. Versicolor", "I. Virginica"]');
+                $('#marker_fill').removeClass('hidden-option');
+                break;
+            default:
+                break;
+        }
+
+        updateOptions();
+
+        $("input.checkbox").each(function(){
+            enableOption($(this));
+        });
+
+        $("input.subcheckbox").each(function(){
+            enableOption($(this), true);
+        });
+
+        $('.details').each(function(){
+            var self = $(this);
+            var optionDivs = self.children('.option')
+            var nbcb = 0;
+            var cb = optionDivs.children('.checkbox:checked')
+            if (cb.length == 0) {
+                optionDivs.addClass('details-close');
+                self.find('.summary .disclosure').addClass('details-close');
+            } else {
+                optionDivs.removeClass('details-close');
+                self.find('.summary .disclosure').removeClass('details-close');
+            }
+        });
+
+    });
+}
+
+function loadDataArray(data){
+
+    resetAllOptions();
+
+        var csvkeys = Object.keys(data[0])
+
+        $('select.keys').find('option').remove()
+        csvkeys.forEach(function(key, index) {
+            $('select.keys').append($("<option></option>").text(key));
+        });
+
+        DATA = data;
+
+        updateOptions();
+
+        $("input.checkbox").each(function(){
+            enableOption($(this));
+        });
+
+        $("input.subcheckbox").each(function(){
+            enableOption($(this), true);
+        });
+
+        $('.details').each(function(){
+            var self = $(this);
+            var optionDivs = self.children('.option')
+            var nbcb = 0;
+            var cb = optionDivs.children('.checkbox:checked')
+            if (cb.length == 0) {
+                optionDivs.addClass('details-close');
+                self.find('.summary .disclosure').addClass('details-close');
+            } else {
+                optionDivs.removeClass('details-close');
+                self.find('.summary .disclosure').removeClass('details-close');
+            }
+        });
+
+}
+
+function validateField(field){
+    var defaultValue = field.data("default");
+    var min = field.attr("min");
+    var max = field.attr("max");
+    var val = field.val();
+    if (field.attr("type") === "number") {
+        min = parseFloat(min);
+        max = parseFloat(max);
+        val = parseFloat(val);
+    } else if (field.hasClass("axislimits")){
+        if (!d3lines.isNumeric(val)) {
+            try {
+                val = JSON.parse(val)
+                if (!d3lines.isArray(val) || val.length > 2) {
+                    val = defaultValue;
+                    field.val(val);
+                }
+            } catch(err) {
+                val = defaultValue;
+                field.val(val);
+            }
+        }
+    }
+    if (min !== undefined && max !== undefined){
+        if (min > val || val > max) {
+            val = defaultValue;
+            field.val(defaultValue);
+        }
+    } else if (min === undefined && max !== undefined){
+        if (val > max) {
+            val = defaultValue;
+            field.val(defaultValue);
+        }
+    } else if (max === undefined && min !== undefined){
+        if (val < min) {
+            val = defaultValue;
+            field.val(defaultValue);
+        }
+    }
+    return val
+}
+
+function processSpans(object, key, options){
+    var line = "";
+    object.find('span').each(function(index){
+        var span = $(this);
+        if (span.find('.select').length == 1){
+            var selected = $("option:selected", this);
+            if (span.find('.select').hasClass('boolean')) {
+                options[key] = selected.text() === "true";
+            } else {
+                options[key] = selected.text();
+            }
+            line += selected.text();
+        } else if (span.find('.input-field.function').length === 1) {
+            var val = validateField(span.find('.input-field.function'));
+            line += val;
+            options[key] = Function("d", "return "+val+";")
+        } else if (span.find('.input-field.line').length === 1) {
+            var val = validateField(span.find('.input-field.line'));
+            line += val;
+            try {
+                options[key] = JSON.parse(val);
+            } catch(err) {
+                options[key] = val;
+            }
+        } else if (span.find('.input-field').length === 1){
+            var val = validateField(span.find('.input-field'));
+            if (d3lines.isArray(val)) {
+                line += '['+val.toString()+']';
+            } else {
+                line += val;
+            }
+            options[key] = val;
+        } else {
+            line += span.text();
+        }
+    });
+    return line;
+}
+
+function updateOptions(plot){
+    var code = [];
+    var options = {};
+    $('div.option-start').each(function(index){
+        code.push($(this).children('.option-text').text());
+    });
+    $('div.option').each(function(index){
+        var optionDiv = $(this);
+        if (optionDiv.children('.checkbox').is(':checked')
+            && !optionDiv.hasClass('hidden-option')
+            && !optionDiv.hasClass('y2hidden')) {
+
+            var allText = optionDiv.children('.option-text').text();
+            var key = allText.split(":")[0].trim();
+            var value = allText.split(":")[1].trim().slice(0,-1);
+            if (key == "margins") {
+                var margins = {};
+                var line = '    margins: {';
+                optionDiv.find('.suboption').each(function(index){
+                    var suboptionDiv = $(this);
+                    var subkey = suboptionDiv.text().split(":")[0].trim();
+                    if (suboptionDiv.children('.subcheckbox').is(':checked')
+                        && !suboptionDiv.hasClass('hidden-suboption')) {
+                        line += '\n       '+processSpans(suboptionDiv, subkey, margins);
+                    }
+                });
+                if (line[line.length-1] !== '{') line += '\n    '
+                line += '},'
+                code.push(line);
+                options.margins = margins
+            } else if (key == "interactive_options") {
+                var interactive_options = {};
+                var line = '    interactive_options: {';
+                optionDiv.find('.suboption').each(function(index){
+                    var suboptionDiv = $(this);
+                    var subkey = suboptionDiv.text().split(":")[0].trim();
+                    if (suboptionDiv.children('.subcheckbox').is(':checked')
+                        && !suboptionDiv.hasClass('hidden-suboption')) {
+                        line += '\n       '+processSpans(suboptionDiv, subkey, interactive_options);
+                    }
+                });
+                if (line[line.length-1] !== '{') line += '\n    '
+                line += '},'
+                code.push(line);
+                options.interactive_options = interactive_options
+            } else if (optionDiv.find('span').length == 0){
+                if (plotType !== plotTypes.groupByPlot || (key !== "data" && key !== "xkey")) {
+                    code.push(allText);
+                }
+                if (key == "data"){
+                    options[key] = DATA;
+                } else {
+                    if (value.startsWith('"') && value.endWith('"')) {
+                        options[key] = value.slice(1,-1);
+                    }
+                }
+            } else {
+                var line = processSpans(optionDiv, key, options);
+                if (plotType !== plotTypes.groupByPlot || (key !== "data" && key !== "xkey")) {
+                    code.push(line);
+                }
+            }
+        }
+    });
+    $('div.option-end').each(function(index){
+        code.push($(this).children('.option-text').text());
+    });
+
+    var precode = 'var svg = d3.select("#visualisation");\n\n';
+    if (plotType === plotTypes.groupByPlot){
+        var postcode = '\n\nplt = d3lines.groupByPlot(svg, data, "Sepal Width", "Species", options);';
+    } else {
+        var postcode = '\n\nd3lines.plot(svg, options);';
+    }
+    $('pre.prettyprint').html(precode+code.join('\n')+postcode)
+        .removeClass("prettyprinted");
+
+    prettyPrint();
+    if (plot === undefined || plot === true) {
+        plotData(options);
+    }
+
+}
+
+$(document).ready(function(){
+
+    // Submit when hitting `Return`
+    $(window).keydown(function(event){
+        if(event.keyCode == 13) {
+            updateOptions();
+            return false;
+        }
+    });
+
+    // Update all fields to their default value
+    $('input').each(function(){
+        $(this).val($(this).attr("data-default"));
+    });
+
+    prettyPrint();
+
+    dataID = 2;
+    loadData(dataID);
+
+    // An option was enabled/disabled
+    $("input.checkbox").click(function(){
+        enableOption($(this));
+        updateOptions();
+    });
+
+    // A sub option was enabled/disabled
+    $("input.subcheckbox").click(function(){
+        enableOption($(this), true);
+        updateOptions();
+    });
+
+    // An option has changed
+    $('.select').on('change', function (e) {
+        if ($(this).parents('.suboption').length > 0) {
+            enableOption($(this).parents('.suboption').children('.subcheckbox'), true);
+        } else {
+            enableOption($(this).parents('.option').children('.checkbox'));
+        }
+        updateOptions();
+    });
+
+    // An option has changed
+    $('.input-field').on('change', function (e) {
+        updateOptions();
+    });
+
+    // Close all details that have the details-close class
+//     $('.details-close').each(function(){
+//         $(this).parents('.details').children('.option').addClass('details-close')
+//     })
+
+    // Open/close details when clicking on summary line
+    $('.summary').click(function(){
+        var optionDivs = $(this).parent().children('.option');
+        if (optionDivs.length === 0) {
+            $(this).children('.disclosure').addClass('details-close');
+            return;
+        }
+        if (!optionDivs.first().hasClass('details-close')) {
+            optionDivs.addClass('details-close');
+            $(this).children('.disclosure').addClass('details-close');
+        } else {
+            optionDivs.removeClass('details-close');
+            $(this).children('.disclosure').removeClass('details-close');
+        }
+    });
+
+    // Display custom tooltip when hovering over an option
+    $('.has-tooltip').hover(function(){
+        var self = $(this);
+        var text = self.attr('alt');
+        if (typeof(text) !== "undefined") {
+            var tooltip = $('.tooltip');
+            tooltip.html(text);
+            var ttHeight = tooltip.outerHeight()
+            tooltip.css("left", (self.offset().left+self.width()+20)+"px");
+            tooltip.css("top", (self.offset().top+self.height()/2-ttHeight/2)+"px");
+            tooltip.show()
+        }
+    }, function(){
+        var tooltip = $('.tooltip');
+        tooltip.hide();
+    });
+
+    $('.demo-navigation ul li a').click(function(){
+        loadData(parseInt($(this).attr("data-id")));
+    });
+
+        // The event listener for the file upload
+    document.getElementById('txtFileUpload').addEventListener('change', fileUpload, false);
+
+    // Method that checks that the browser supports the HTML5 File API
+    function browserSupportFileUpload() {
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+            return true;
+        }
+        return false;
+    }
+
+    // Method that reads and processes the selected file
+    function fileUpload(evt) {
+    if (!browserSupportFileUpload()) {
+        alert('The File APIs are not fully supported in this browser!');
+        } else {
+            var data = null;
+            var file = evt.target.files[0];
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function(event) {
+                var csvData = event.target.result;
+                if (file.name === "multilines.tsv"){
+                    data = d3.tsv.parse(csvData);
+                        data.forEach(function(d, i){
+                            d.date = d3.time.format("%Y%m%d").parse(d.date);
+                        });
+                } else {
+                    data = d3.csv.parse(csvData);
+                    if (file.name === "stocks.csv"){
+                        data.forEach(function(d, i){
+                            d.date = d3.time.format("%b %Y").parse(d.date);
+                        });
+                        var groups = d3.nest()
+                            .key(function(d){return d.symbol;})
+                            .entries(data)
+                        data = groups[0].values;
+                        data = new d3lines.Data(data)
+                            .ignoreColumns(["symbol"])
+                            .data
+                    }
+                }
+
+                if (data && data.length > 0) {
+                    loadDataArray(data);
+                    // alert('Imported -' + data.length + '- rows successfully!');
+                } else {
+                    alert('No data to import!');
+                }
+            };
+            reader.onerror = function() {
+                alert('Unable to read ' + file.fileName);
+            };
+        }
+    }
+
+});
+
+</script>
+
+</html>

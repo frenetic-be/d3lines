@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="../d3lines.js"></script>
+    <style>
+        body, div {
+            font-family: 'Open Sans', Palatino;
+            font-weight: 300;
+        }
+
+        li {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>Example of data combination</h2>
+    <ol>
+        <li>
+            Combining the plots:
+            <div class="main" id="main"><svg id="svg1"></svg></div>
+        </li>
+        <li>
+            Combining the data:
+            <div class="main" id="main2"><svg id="svg2"></svg></div>
+        </li>
+    </ol>
+</body>
+
+<script>
+    isArray = d3lines.isArray;
+    function multiplePlotLayout(parentID, layout){
+        for (jrow in layout){
+            var div = document.createElement("div");
+            var rowID = parentID+"_div_r"+jrow;
+            div.setAttribute("id", rowID);
+            div.setAttribute("class", "d3lines-layout-row");
+//             div.style.clear = "both";
+            document.getElementById(parentID).appendChild(div);
+            var row = layout[jrow];
+            if (isArray(row))
+                {for (jcol in row){
+                    var div = document.createElement("div");
+                    var colID = rowID+"c"+jcol;
+                    div.setAttribute("id", colID);
+                    div.setAttribute("class", "d3lines-layout-column");
+//                     div.style.float = "left";
+                    document.getElementById(rowID).appendChild(div);
+                    if (isArray(row[jcol])){
+                        multiplePlotLayout(colID, layout);
+                    } else {
+                        var svg = document.createElement("svg");
+                        svg.setAttribute("id", parentID+"_svg_r"+jrow+"c"+jcol);
+                        svg.setAttribute("class", "d3lines-layout-svg");
+                        document.getElementById(colID).appendChild(svg);
+                    }
+                }
+            }
+        }
+    }
+
+    function clearContent(elementID)
+    {
+        document.getElementById(elementID).innerHTML = "";
+    }
+
+    d3.selection.prototype.moveToFront = function() {
+      return this.each(function(){
+        this.parentNode.appendChild(this);
+      });
+    };
+
+
+    svg = d3.select("svg#svg1")
+
+    fileName = "TempHum_20170413.txt";
+
+    d3.csv(fileName, function(error, data) {
+
+
+        data.forEach(function(d, i) {
+            d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+        });
+
+
+        options = {
+            data: data,
+            xkey: "Time",
+            xscale_type: 'time',
+            plot_type: "scatter",
+            line_yaxis: ["left", "right"],
+            line_color: ["blue", "red"],
+            marker: ["o", "s"],
+            marker_fill: 'none',
+            marker_size: 3,
+            legend_labels: ["Humidity", "Temperature"],
+            interactive: false,
+        }
+
+        plt = d3lines.plot(svg, options);
+        x0 = data[0].Time;
+        x1 = data[data.length-1].Time;
+
+        fileName = "TempHum_20170414.txt";
+        d3.csv(fileName, function(error, data) {
+
+            data.forEach(function(d, i) {
+                d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+            });
+
+            options.data = data;
+            options.line_color = ["#ddf", "#fdd"];
+            options.legend_labels = [];
+
+
+            plt = d3lines.plot(svg, options, plt);
+
+            fileName = "TempHum_20170412.txt";
+            d3.csv(fileName, function(error, data) {
+
+                data.forEach(function(d, i) {
+                    d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+                });
+
+                options.data = data;
+                options.interactive = true;
+
+                plt = d3lines.plot(svg, options, plt);
+
+                d3lines.vline(svg, x0, plt.scale.x, plt.scale.y)
+                    .style("stroke", "#777")
+                    .style("stroke-width", 0.5);
+                d3lines.vline(svg, x1, plt.scale.x, plt.scale.y)
+                    .style("stroke", "#777")
+                    .style("stroke-width", 0.5);
+
+                plt.svg.legend.group.moveToFront();
+
+            });
+
+        });
+
+    });
+
+    svg2 = d3.select("svg#svg2")
+    fileName = "TempHum_20170413.txt";
+    d3.csv(fileName, function(error, data0) {
+
+        data0.forEach(function(d, i) {
+            d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+        });
+
+        x0 = data0[0].Time;
+        x1 = data0[data0.length-1].Time;
+
+        fileName = "TempHum_20170414.txt";
+        d3.csv(fileName, function(error, data2) {
+
+            data2.forEach(function(d, i) {
+                d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+            });
+
+            fileName = "TempHum_20170412.txt";
+            d3.csv(fileName, function(error, data3) {
+
+                data3.forEach(function(d, i) {
+                    d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
+                });
+
+                options2 = {
+                    data: data3.concat(data0).concat(data2),
+                    xkey: "Time",
+                    xscale_type: 'time',
+                    plot_type: "scatter",
+                    line_yaxis: ["left", "right"],
+                    line_color: ["blue", "red"],
+                    marker: ["o", "s"],
+                    marker_fill: 'none',
+                    marker_size: 3,
+                    legend_labels: ["Humidity", "Temperature"],
+                }
+                plt2 = d3lines.plot(svg2, options2);
+
+                d3lines.vline(svg2, x0, plt2.scale.x, plt2.scale.y)
+                    .style("stroke", "#777")
+                    .style("stroke-width", 0.5);
+                d3lines.vline(svg2, x1, plt2.scale.x, plt2.scale.y)
+                    .style("stroke", "#777")
+                    .style("stroke-width", 0.5);
+
+                plt2.svg.legend.group.moveToFront();
+
+            });
+        });
+    });
+
+
+</script>
+
+</html>
