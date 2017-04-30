@@ -100,4 +100,4 @@ d3lines.plot(svg, options);
 
 That's it!! It's that simple. You have a beautiful plot on your webpage, the rest is just tweaking a few options to make it look exactly the way you like it.
 
-<img src="/images/basic_sine.png" width="200">
+<img src="/images/basic_sine.png" width="600">
