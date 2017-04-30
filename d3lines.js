@@ -2376,8 +2376,6 @@ var d3lines = (function () {
             this.redraw()
         },
 
-        linegen: lineGen,
-
     };
 
 })();

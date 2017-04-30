@@ -6,6 +6,12 @@ But sometimes, what you need to display can be very simple, like a line chart. T
 **d3lines** is a simple wrapper around **D3** that allows you to create a beautiful line chart with *just a few lines of codes*.
 It is designed for simplicity.
 
+## Links
+
+- Docs/API
+- Examples
+- Live demo
+
 ## Installing
 
 Because **d3lines** uses **D3.v3**, you need to include the following two scripts:
@@ -100,4 +106,4 @@ d3lines.plot(svg, options);
 
 That's it!! It's that simple. You have a beautiful plot on your webpage, the rest is just tweaking a few options to make it look exactly the way you like it.
 
-<img src="/images/basic_sine.png" width="600">
+<img src="/images/basic_sine.png" width="600" align="center">
