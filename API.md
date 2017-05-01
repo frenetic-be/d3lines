@@ -515,10 +515,33 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
-<!-- MARKER -->
+<!-- MARKER_STROKE_WIDTH -->
 <a name="plot_option_marker_stroke_width"></a>**`marker_stroke_width`** - a width/thickness or an array of widths for the marker edges.
+By default, `marker_stroke_width = 1.0`.
+Note that this option only affects the lines that have markers.
 
+If `marker_stroke_width` is a float, all markers will have the same stroke width. Use an array (of floats) to specify different marker stroke widths for different lines.
+If the array length is less than the number of lines, the marker stroke widths will be repeated.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+        marker_fill: "color",
+        marker_fill_opacity: 0.2,
+        marker_stroke_width: 0.5,
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_marker_stroke_width.png" width="600"></p>
+
+----
+
+<!-- LINE_STYLE -->
 <a name="plot_option_marker_size"></a>**`marker_size`** - a size or an array of sizes for the markers.
 
 
