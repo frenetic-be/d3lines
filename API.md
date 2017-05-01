@@ -71,7 +71,7 @@ We split the options into the following categories:
 #### <a name="plot_options_category_data"></a>Data options
 
 <!-- DATA -->
-<a name="plot_option_data">#</a>**`data`** - the data that you want to display.
+<a name="plot_option_data"></a> **`data`** - the data that you want to display.
 
 `d3lines.plot` accepts several data types:
 
@@ -263,7 +263,7 @@ d3.csv("example2.csv", function(error, data) {
 <p align="center"><img src="/images/API/plot/option_line_color_1.png" width="600"></p>
 
 If `line_color` is an array (of strings), the first line will have the first color, the second line the second color, ...
-If the array length is less than the number of lines, the color will be repeated.
+If the array length is less than the number of lines, the colors will be repeated.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -279,7 +279,23 @@ d3.csv("example2.csv", function(error, data) {
 <p align="center"><img src="/images/API/plot/option_line_color_2.png" width="600"></p>
 
 <a name="plot_option_line_width"></a>**`line_width`** - a width/thickness or an array of widths for the lines.
+By default, `line_width = 1.5`.
 
+If `line_width` is a float, all lines will have the same width. If `line_width` is an array (of floats), the first line will have the first width, the second line the second width, ...
+If the array length is less than the number of lines, the widths will be repeated.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_width: [1, 3.5, 1],
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_width.png" width="600"></p>
 
 <a name="plot_option_line_style"></a>**`line_style`** - a style (solid, dotted, ...) or an array of styles for the lines.
 
