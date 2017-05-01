@@ -6,6 +6,7 @@
     <script src="../d3lines.js"></script>
     <style>
         svg {
+            padding: 5px;
             font-family: 'Open Sans', Palatino;
             font-weight: 300;
             border: 1px solid red;
@@ -61,18 +62,13 @@
 
 var svg = d3.select("#main-svg");
 
-//d3.csv("http://frenetic.be/d3lines/d3lines_files/data_samples/example.csv", function(error, data) {
-var data = [[67.3, 56.5],
-            [73.1, 59.1],
-            [71.9, 58.7],
-            [74.3, 53.3],
-            [77.7, 49.2]];
-
+d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
+        xkey: "Day"
     };
     d3lines.plot(svg, options);
-// });
+});
 
 </script>
 

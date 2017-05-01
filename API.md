@@ -92,7 +92,7 @@ var options = {
 d3lines.plot(svg, options);
 ```
 
-<p align="center"><img src="/images/API/plot/option_data_1.png" width="600" align="center"></p>
+<p align="center"><img src="/images/API/plot/option_data_1.png" width="600"></p>
 
 This is the basic supported data type. It is the data type coming out of the [D3 csv, tsv and dsv](https://github.com/d3/d3-3.x-api-reference/blob/master/CSV.md) parsers.
 
@@ -116,7 +116,6 @@ d3.csv("example.csv", function(error, data) {
     };
     d3lines.plot(svg, options);
 });
-
 ```
 
 2. A dictionary of arrays
@@ -148,7 +147,32 @@ var data = [[67.3, 56.5],
 
 See [d3lines.Data](#Data) for details.
 
-<a name="plot_option_xkey"></a>**`xkey`** - the name of the data field for the x-axis.
+<a name="plot_option_xkey"></a>**`xkey`** - the name of the data field for the x-axis. `xkey` should be the name of an existing key/field in your data (or existing column in your `.csv` file).
+
+Suppose that you have the following `example2.csv`:
+
+```
+Day,In,Out
+3,67.3,56.5
+7,73.1,59.1
+13,71.9,58.7
+21,74.3,53.3
+39,77.7,49.2
+```
+
+In this case, there will be three possible `xkey` values (`"Day"`, `"In"` or `"Out"`). For example:
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day"
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_xkey.png" width="600"></p>
 
 #### <a name="plot_options_category_lines"></a>Line options
 
