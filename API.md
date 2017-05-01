@@ -70,6 +70,7 @@ We split the options into the following categories:
 
 #### <a name="plot_options_category_data"></a>Data options
 
+<!-- DATA -->
 <a name="plot_option_data"></a>**`data`** - the data that you want to display.
 
 `d3lines.plot` accepts several data types:
@@ -147,6 +148,7 @@ var data = [[67.3, 56.5],
 
 See [d3lines.Data](#Data) for details.
 
+<!-- XKEY -->
 <a name="plot_option_xkey"></a>**`xkey`** - the name of the data field for the x-axis. `xkey` should be the name of an existing key/field in your data (or existing column in your `.csv` file).
 
 Suppose that you have the following `example2.csv`:
@@ -203,7 +205,7 @@ Day,Sample A,Sample B,Sample C
 99,49.736711926,50.5512701401,117.028862561
 ```
 
-In this case, there will be three possible `xkey` values (`"Day"`, `"In"` or `"Out"`). For example:
+In this case, there are four columns and four possible `xkey` values (`"Day"`, `"Sample A"`, `"Sample B"` or `"Sample C"`). For example:
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -219,8 +221,39 @@ d3.csv("example2.csv", function(error, data) {
 
 #### <a name="plot_options_category_lines"></a>Line options
 
-<a name="plot_option_line_color"></a>**`line_color`** - a color or an array of colors for the lines.
+<!-- LINE_COLOR -->
+<a name="plot_option_line_color"></a>**`line_color`** - a color or an array of colors for the lines. The colors are the ones supported by D3 and can be any CSS color representation (rgb, hex, named color, ...).
 
+If `line_color` is a string, all lines will have the same color. For example:
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_color: "blue",
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_color_1.png" width="600"></p>
+
+If `line_color` is an array (of strings), the first line will have the first color, the second line the second color, ...
+If the array length is less than the number of lines, the color will be repeated.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_color: ["steelblue", "#f77", "rgb(250, 120, 240)"],
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_color_2.png" width="600"></p>
 
 <a name="plot_option_line_width"></a>**`line_width`** - a width/thickness or an array of widths for the lines.
 

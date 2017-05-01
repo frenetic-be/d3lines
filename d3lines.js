@@ -11,7 +11,7 @@ var d3lines = (function () {
 
         DEFAULT_PLOT_TYPE = "line",
 
-        DEFAULT_WIDTH = 1000,
+        DEFAULT_WIDTH = 800,
         DEFAULT_HEIGHT = 500,
         DEFAULT_MARGINS = {
             top: 15,
