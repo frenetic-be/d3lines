@@ -224,7 +224,6 @@ Day,Sample A,Sample B,Sample C
 97,10.4488214849,14.1375429697,7.63726835332
 98,11.7286960169,14.4860340892,7.59136934731
 99,12.9190593149,15.0618799918,7.41576150465
-
 ```
 
 In this case, there are four columns and four possible `xkey` values (`"Day"`, `"Sample A"`, `"Sample B"` or `"Sample C"`). For example:
@@ -244,7 +243,9 @@ d3.csv("example2.csv", function(error, data) {
 #### <a name="plot_options_category_lines"></a>Line options
 
 <!-- LINE_COLOR -->
-<a name="plot_option_line_color"></a>**`line_color`** - a color or an array of colors for the lines. The colors are the ones supported by D3 and can be any CSS color representation (rgb, hex, named color, ...).
+<a name="plot_option_line_color"></a>**`line_color`** - a color or an array of colors for the lines. 
+The colors are the ones supported by D3 and can be any CSS color representation (rgb, hex, named color, ...).
+Default value: `['blue', 'red', 'limegreen', 'magenta', 'cyan', 'black', 'orange']`.
 
 If `line_color` is a string, all lines will have the same color. For example:
 

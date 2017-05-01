@@ -21,7 +21,7 @@ var d3lines = (function () {
         },
 
         DEFAULT_LINE_YAXIS = 'left',
-        DEFAULT_LINE_COLOR = ['#00F', '#F00', 'limegreen', '#F0F', '#0FF', '#000', 'orange'],
+        DEFAULT_LINE_COLOR = ['blue', 'red', 'limegreen', 'magenta', 'cyan', 'black', 'orange'],
         DEFAULT_LINE_WIDTH = 1.5,
         DEFAULT_LINE_WIDTH_SCATTER = 0.,
         DEFAULT_LINE_STYLE = '-',
