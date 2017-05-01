@@ -393,8 +393,30 @@ d3.csv("example2.csv", function(error, data) {
 ----
 
 <!-- LINE_FILL_OPACITY -->
+<a name="plot_option_line_fill_opacity"></a>**`line_fill_opacity`** - a fill opacity or an array of fill opacities for the areas under the lines. Opacities should be floats between 0.0 (transparent) and 1.0 (opaque).
+By default, `line_fill_opacity = 1.0`.
+Note that `line_fill_opacity` only affects the lines that have a `line_fill` different than "none".
 
-<a name="plot_option_line_fill_opacity"></a>**`line_fill_opacity`** - a fill opacity or an array of fill opacities for the areas under the lines.
+If `line_fill_opacity` is a float, all lines will have the same fill opacity. If `line_fill_opacity` is an array (of floats), the first line will have the first fill opacity, the second line the second fill opacity, ...
+If the array length is less than the number of lines, the fill opacities will be repeated.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_fill: "color",
+        line_fill_opacity: 0.1,
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_fill_opacity.png" width="600"></p>
+
+----
+
+<!-- LINE_STYLE -->
 
 
 <a name="plot_option_marker"></a>**`marker`** - a marker/symbol or an array of markers for the lines.
