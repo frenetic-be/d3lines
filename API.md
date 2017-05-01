@@ -71,7 +71,7 @@ We split the options into the following categories:
 #### <a name="plot_options_category_data"></a>Data options
 
 <!-- DATA -->
-<a name="plot_option_data">**`data`**</a> - the data that you want to display.
+<a name="plot_option_data">#</a>**`data`** - the data that you want to display.
 
 `d3lines.plot` accepts several data types:
 
