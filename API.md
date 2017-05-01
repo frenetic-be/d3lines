@@ -313,7 +313,7 @@ By default, `line_style = "-"` (solid).
 If `line_style` is a string, all lines will have the same style. Use an array (of strings) to specify different styles for different lines.
 If the array length is less than the number of lines, the styles will be repeated.
 
-The possible styles are:
+Possible styles are:
 - "-" or "solid"
 - ":" or "dotted"
 - "--" or "dashed"
@@ -416,18 +416,106 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
-<!-- LINE_STYLE -->
-
-
+<!-- MARKER -->
 <a name="plot_option_marker"></a>**`marker`** - a marker/symbol or an array of markers for the lines.
+By default, `marker = ""` (no marker).
 
+If `marker` is a string, all lines will have the same marker. Use an array (of strings) to specify different markers for different lines.
+If the array length is less than the number of lines, the markers will be repeated.
 
+Possible values are:
+- "" (no marker)
+- "o" or "circle"
+- "s" or "square"
+- "d" or "diamond"
+- "+" or "cross"
+- "^" or "triangle-up"
+- "v" or "triangle-down"
+
+For example,
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_marker.png" width="600"></p>
+
+----
+
+<!-- MARKER_FILL -->
 <a name="plot_option_marker_fill"></a>**`marker_fill`** - a fill color or an array of fill colors for the markers.
+By default, `marker_fill = "white"`.
+Note that this option will only affect the lines that have makers.
 
+If `marker_fill` is a string, all markers will have the same fill color. Use an array (of strings) to specify different marker fill colors for different lines.
+If the array length is less than the number of lines, the marker fill colors will be repeated.
 
-<a name="plot_option_marker_fill_opacity"></a>**`marker_fill_opacity`** - a fill opacity or an array of fill opacities for the markers.
+See [**`line_color`**](#plot_option_line_color) for color options.
 
+For example,
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+        marker_fill: ["limegreen", "none", "yellow"],
+    };
+    d3lines.plot(svg, options);
+});
+```
 
+<p align="center"><img src="/images/API/plot/option_marker_fill.png" width="600"></p>
+
+You can set `marker_fill` to "color" to have all marker fill colors equal to the line colors.
+
+Example:
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+        marker_fill: "color",
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+----
+
+<!-- MARKER_FILL_OPACITY -->
+<a name="plot_option_marker_fill_opacity"></a>**`marker_fill_opacity`** - a fill opacity or an array of fill opacities for the markers. Opacities should be floats between 0.0 (transparent) and 1.0 (opaque).
+By default, `marker_fill_opacity = 1.0`.
+Note that this option only affects the lines that have markers and a `marker_fill` different than "none".
+
+If `marker_fill_opacity` is a float, all lines will have the same marker fill opacity. Use an array (of floats) to specify different marker fill opacities for different lines.
+If the array length is less than the number of lines, the marker fill opacities will be repeated.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+        marker_fill: "color",
+        marker_fill_opacity: 0.2,
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_marker_fill_opacity.png" width="600"></p>
+
+----
+
+<!-- MARKER -->
 <a name="plot_option_marker_stroke_width"></a>**`marker_stroke_width`** - a width/thickness or an array of widths for the marker edges.
 
 
