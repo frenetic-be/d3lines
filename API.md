@@ -348,11 +348,51 @@ d3.csv("example2.csv", function(error, data) {
 ```
 
 <p align="center"><img src="/images/API/plot/option_line_style_2.png" width="600"></p>
+
 ----
 
 <!-- LINE_FILL -->
 <a name="plot_option_line_fill"></a>**`line_fill`** - a fill color or an array of fill colors for the areas under the lines.
+By default, `line_fill = "none"` (no fill color).
 
+If `line_fill` is a string, all lines will have the same fill color. If `line_fill` is an array (of strings), the first line will have the first fill color, the second line the second fill color, ...
+If the array length is less than the number of lines, the fill colors will be repeated.
+
+Note that the fill color might hide some of the data. In that case, you can play with [**`line_fill_opacity`**](#plot_option_line_fill_opacity) to change the transparency of the areas under the lines.
+
+See [**`line_color`**](#plot_option_line_color) for color options.
+
+For example,
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_fill: ["lightgrey", "none", "none"],
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_fill.png" width="600"></p>
+
+You can set `line_fill` to "color" to have all fill colors equal to the line colors.
+
+Example:
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_fill: "color",
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+----
+
+<!-- LINE_FILL_OPACITY -->
 
 <a name="plot_option_line_fill_opacity"></a>**`line_fill_opacity`** - a fill opacity or an array of fill opacities for the areas under the lines.
 
