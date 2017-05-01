@@ -288,7 +288,7 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_line_width"></a>**`line_width`** - a width/thickness or an array of widths for the lines.
 By default, `line_width = 1.5`.
 
-If `line_width` is a float, all lines will have the same width. If `line_width` is an array (of floats), the first line will have the first width, the second line the second width, ...
+If `line_width` is a float, all lines will have the same width. Use an array (of floats) to specify different widths for different lines.
 If the array length is less than the number of lines, the widths will be repeated.
 
 ```javascript
@@ -310,7 +310,7 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_line_style"></a>**`line_style`** - a style (solid, dotted, ...) or an array of styles for the lines.
 By default, `line_style = "-"` (solid).
 
-If `line_style` is a string, all lines will have the same style. If `line_style` is an array (of strings), the first line will have the first style, the second line the second style, ...
+If `line_style` is a string, all lines will have the same style. Use an array (of strings) to specify different styles for different lines.
 If the array length is less than the number of lines, the styles will be repeated.
 
 The possible styles are:
@@ -355,7 +355,7 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_line_fill"></a>**`line_fill`** - a fill color or an array of fill colors for the areas under the lines.
 By default, `line_fill = "none"` (no fill color).
 
-If `line_fill` is a string, all lines will have the same fill color. If `line_fill` is an array (of strings), the first line will have the first fill color, the second line the second fill color, ...
+If `line_fill` is a string, all lines will have the same fill color. Use an array (of strings) to specify different fill colors for different lines.
 If the array length is less than the number of lines, the fill colors will be repeated.
 
 Note that the fill color might hide some of the data. In that case, you can play with [**`line_fill_opacity`**](#plot_option_line_fill_opacity) to change the transparency of the areas under the lines.
@@ -397,7 +397,7 @@ d3.csv("example2.csv", function(error, data) {
 By default, `line_fill_opacity = 1.0`.
 Note that `line_fill_opacity` only affects the lines that have a `line_fill` different than "none".
 
-If `line_fill_opacity` is a float, all lines will have the same fill opacity. If `line_fill_opacity` is an array (of floats), the first line will have the first fill opacity, the second line the second fill opacity, ...
+If `line_fill_opacity` is a float, all lines will have the same fill opacity. Use an array (of floats) to specify different fill opacities for different lines.
 If the array length is less than the number of lines, the fill opacities will be repeated.
 
 ```javascript
