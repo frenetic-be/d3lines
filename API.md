@@ -148,6 +148,8 @@ var data = [[67.3, 56.5],
 
 See [d3lines.Data](#Data) for details.
 
+<hr>
+
 <!-- XKEY -->
 <a name="plot_option_xkey"></a>**`xkey`** - the name of the data field for the x-axis. `xkey` should be the name of an existing key/field in your data (or existing column in your `.csv` file).
 
@@ -278,6 +280,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <p align="center"><img src="/images/API/plot/option_line_color_2.png" width="600"></p>
 
+<hr>
+
 <a name="plot_option_line_width"></a>**`line_width`** - a width/thickness or an array of widths for the lines.
 By default, `line_width = 1.5`.
 
@@ -296,6 +300,8 @@ d3.csv("example2.csv", function(error, data) {
 ```
 
 <p align="center"><img src="/images/API/plot/option_line_width.png" width="600"></p>
+
+<hr>
 
 <a name="plot_option_line_style"></a>**`line_style`** - a style (solid, dotted, ...) or an array of styles for the lines.
 
