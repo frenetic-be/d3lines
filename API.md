@@ -308,8 +308,49 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- LINE_STYLE -->
 <a name="plot_option_line_style"></a>**`line_style`** - a style (solid, dotted, ...) or an array of styles for the lines.
+By default, `line_style = "-"` (solid).
 
+If `line_style` is a string, all lines will have the same style. If `line_style` is an array (of strings), the first line will have the first style, the second line the second style, ...
+If the array length is less than the number of lines, the styles will be repeated.
 
+The possible styles are:
+- "-" or "solid"
+- ":" or "dotted"
+- "--" or "dashed"
+- "-." or "dash-dot"
+
+For example,
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_style: ['dash-dot', ':', '--'],
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_style_1.png" width="600"></p>
+
+It is also possible to use custom styles by providing a dash array string, that is a string representing the dashes and the spaces between the dashes. For example, the `dotted` style has a dash array of "1 1" (1-px dash and 1-px space), the `dashed` style has a dash array of "3 3" and the `dash-dot` style has a dash array of "5 2 1 2".
+
+Example:
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_style: "3 5 3 5 3 5 10 5 10 5 10 5",
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_style_2.png" width="600"></p>
+----
+
+<!-- LINE_FILL -->
 <a name="plot_option_line_fill"></a>**`line_fill`** - a fill color or an array of fill colors for the areas under the lines.
 
 
