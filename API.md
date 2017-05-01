@@ -71,7 +71,7 @@ We split the options into the following categories:
 #### <a name="plot_options_category_data"></a>Data options
 
 <!-- DATA -->
-<a name="plot_option_data"></a>**`data`** - the data that you want to display.
+<a name="plot_option_data">**`data`**</a> - the data that you want to display.
 
 `d3lines.plot` accepts several data types:
 
@@ -245,7 +245,7 @@ d3.csv("example2.csv", function(error, data) {
 <!-- LINE_COLOR -->
 <a name="plot_option_line_color"></a>**`line_color`** - a color or an array of colors for the lines. 
 The colors are the ones supported by D3 and can be any CSS color representation (rgb, hex, named color, ...).
-Default value: `['blue', 'red', 'limegreen', 'magenta', 'cyan', 'black', 'orange']`.
+By default, `line_color = ['blue', 'red', 'limegreen', 'magenta', 'cyan', 'black', 'orange']`.
 
 If `line_color` is a string, all lines will have the same color. For example:
 
