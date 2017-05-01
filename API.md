@@ -125,7 +125,7 @@ Example:
 
 ```js
 var data = {In: [67.3, 73.1, 71.9, 74.3, 77.7],
-			Out: [56.5, 59.1, 58.7, 53.3, 49.2]};
+Out: [56.5, 59.1, 58.7, 53.3, 49.2]};
 ```
 
 `d3lines.plot` will attempt to transform this data into the standard array of dictionaries.
