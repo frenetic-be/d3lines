@@ -65,8 +65,7 @@ var svg = d3.select("#main-svg");
 d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
-        xkey: "Day",
-        line_color: ["steelblue", "#f77", "rgb(250, 120, 240)"],
+        xkey: "Day"
     };
     d3lines.plot(svg, options);
 });
