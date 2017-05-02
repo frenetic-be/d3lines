@@ -1,9 +1,3 @@
-#### <a name="plot_options_category_data"></a>Data options
-
-These options will allow you to define the data that you want to plot.
-
-----
-
 <em>
 
 **Table of contents for [``d3lines.plot``](d3lines_plot.md)**
@@ -94,6 +88,12 @@ These options will allow you to define the data that you want to plot.
         * [**`zoom`**](d3lines_plot_interactive.md#plot_option_interactive_zoom) - set to true (default) if you want zooming to be enabled.
         
 </em>  
+
+----
+
+#### <a name="plot_options_category_data"></a>Data options
+
+These options will allow you to define the data that you want to plot.
 
 ----
 
