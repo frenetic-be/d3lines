@@ -62,11 +62,16 @@
 
 var svg = d3.select("#main-svg");
 
-d3.csv("example2.csv", function(error, data) {
+d3.csv("example_time.csv", function(error, data) {
+    data.forEach(function(d){
+        d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time)
+    });
+
     var options = {
         data: data,
-        xkey: "Day",
-        axes_font_family: "'Times New Roman', Georgia, Serif"
+        xkey: "Time",
+        xscale_type: "time",
+        xticks: 5,
     };
     d3lines.plot(svg, options);
 });
