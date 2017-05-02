@@ -518,7 +518,7 @@ d3.csv("example2.csv", function(error, data) {
 <!-- MARKER_STROKE_WIDTH -->
 <a name="plot_option_marker_stroke_width"></a>**`marker_stroke_width`** - a width/thickness or an array of widths for the marker edges.
 By default, `marker_stroke_width = 1.0`.
-Note that this option only affects the lines that have markers.
+Note that this option only affects lines that have markers.
 
 If `marker_stroke_width` is a float, all markers will have the same stroke width. Use an array (of floats) to specify different marker stroke widths for different lines.
 If the array length is less than the number of lines, the marker stroke widths will be repeated.
@@ -541,12 +541,51 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
-<!-- LINE_STYLE -->
+<!-- MARKER_SIZE -->
 <a name="plot_option_marker_size"></a>**`marker_size`** - a size or an array of sizes for the markers.
+By default, `marker_size = 8`.
+Note that this option only affects lines that have markers.
 
+If `marker_size` is a float, all markers will have the same size. Use an array (of floats) to specify different marker sizes for different lines.
+If the array length is less than the number of lines, the marker sizes will be repeated.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+        marker_size: [3, 12, 5.5],
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_marker_size.png" width="600"></p>
+
+----
+
+<!-- line_yaxis -->
 <a name="plot_option_line_yaxis"></a>**`line_yaxis`** - specifies the y-axis (left or right) for the lines.
+By default, `line_yaxis = "left"`. This option allows to have two sets of y-axes.
 
+If `line_yaxis` is a string ("left" or "right", all line will have the same y-axis. Use an array (of strings) to specify different y-axes for different lines.
+If the array length is less than the number of lines, the y-axes will be repeated.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_yaxis: ["left", "left", "right"]
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_line_yaxis.png" width="600"></p>
+
+----
 
 <a name="plot_option_plot_type"></a>**`plot_type`** - Line or scatter plot.
 
