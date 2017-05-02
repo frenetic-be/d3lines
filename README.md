@@ -8,7 +8,7 @@ It is designed for simplicity.
 
 ## Links
 
-- [Docs/API](API.md)
+- [Docs/API](API/d3lines.md)
 - Examples
 - Live demo
 
