@@ -100,9 +100,9 @@ var d3lines = (function () {
             snap_axis: "x",
 
             line: true,
-            linestyle: "-",
-            linewidth: 1,
-            linecolor: "#777",
+            line_style: "-",
+            line_width: 1,
+            line_color: "#777",
 
             dots: true,
             dot_radius: 5,
@@ -1856,17 +1856,17 @@ var d3lines = (function () {
                 // LINE FOR MOUSEOVER
                 if (getValue(INTERACTIVE_OPTIONS, "line", false)) {
                     var MOUSETIP_VLINE = vline(plt.svg.interactive.group, minX, XSCALE, YSCALE);
-                    MOUSETIP_VLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.linestyle))
-                                    .attr("stroke", INTERACTIVE_OPTIONS.linecolor)
-                                    .attr("stroke-width", INTERACTIVE_OPTIONS.linewidth)
+                    MOUSETIP_VLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.line_style))
+                                    .attr("stroke", INTERACTIVE_OPTIONS.line_color)
+                                    .attr("stroke-width", INTERACTIVE_OPTIONS.line_width)
                                     .attr("class", "d3lines-interactive-vline")
                                     .attr("clip-path", "url(#clipPath)")
                                     .style("display", "none");
                     plt.svg.interactive.vline = MOUSETIP_VLINE;
                     var MOUSETIP_HLINE = hline(plt.svg.interactive.group, minY, XSCALE, YSCALE);
-                    MOUSETIP_HLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.linestyle))
-                                    .attr("stroke", INTERACTIVE_OPTIONS.linecolor)
-                                    .attr("stroke-width", INTERACTIVE_OPTIONS.linewidth)
+                    MOUSETIP_HLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.line_style))
+                                    .attr("stroke", INTERACTIVE_OPTIONS.line_color)
+                                    .attr("stroke-width", INTERACTIVE_OPTIONS.line_width)
                                     .attr("class", "d3lines-interactive-hline")
                                     .attr("clip-path", "url(#clipPath)")
                                     .style("display", "none");
