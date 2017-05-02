@@ -66,10 +66,7 @@ d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
         xkey: "Day",
-        marker: ["o", "s", "v"],
-        marker_fill: "color",
-        marker_fill_opacity: 0.2,
-        marker_stroke_width: 0.5,
+        line_yaxis: ["left", "left", "right"]
     };
     d3lines.plot(svg, options);
 });
