@@ -62,16 +62,23 @@
 
 var svg = d3.select("#main-svg");
 
-d3.csv("example_time.csv", function(error, data) {
-    data.forEach(function(d){
-        d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time)
-    });
-
+d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
-        xkey: "Time",
-        xscale_type: "time",
-        xticks: 5,
+        xkey: "Day",
+        line_yaxis: ["left", "left", "right"],
+        xlabel: "Hours",
+        xtick_format: function(data, index){
+            return data*24;
+        },
+        yticks: 3,
+        ytick_format: function(data, index){
+            return ["Very low", "Low", "High", "Very high"][index];
+        },
+        y2tick_format: function(data, index){
+            return data+" %";
+        },
+        margins: {left: 80},
     };
     d3lines.plot(svg, options);
 });
