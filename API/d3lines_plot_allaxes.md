@@ -14,7 +14,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_box.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_box.png" width="600" height="375"></p>
 
 ----
 
@@ -23,7 +23,7 @@ d3.csv("example2.csv", function(error, data) {
 By default, `axes_color = "#777"`.
 Note that this option will set the color of the axes only. To change the color of the axes's text, see [**`axes_font_color`**]("#plot_option_axes_font_color").
 
-See [**`line_color`**](#plot_option_line_color) for color options.
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -36,7 +36,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_color.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_color.png" width="600" height="375"></p>
 
 ----
 
@@ -54,14 +54,14 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_width.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_width.png" width="600" height="375"></p>
 
 ----
 
 <!-- axes_linestyle -->
 <a name="plot_option_axes_linestyle"></a>**`axes_linestyle`** - line style for the axes. By default, `axes_linestyle = "-"` (solid).
 
-See [**`line_style`**](#plot_option_line_style) for style options.
+See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -74,7 +74,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_linestyle.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_linestyle.png" width="600" height="375"></p>
 
 ----
 
@@ -82,7 +82,7 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_axes_fill"></a>**`axes_fill`** - background color of the plotting area. By default, `axes_fill = "none"` (transparent).
 Note that it only works when `box` is true.
 
-See [**`line_color`**](#plot_option_line_color) for color options.
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -95,7 +95,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_fill.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_fill.png" width="600" height="375"></p>
 
 ----
 
@@ -115,7 +115,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_fill_opacity.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
@@ -132,14 +132,14 @@ d3.csv("example2.csv", function(error, data) {
     d3lines.plot(svg, options);
 });
 ```
-<p align="center"><img src="/images/API/plot/option_axes_font_size.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_font_size.png" width="600" height="375"></p>
 
 ----
 
 <!-- axes_font_color -->
 <a name="plot_option_axes_font_color"></a>**`axes_font_color`** - font color for the axes.
 
-See [**`line_color`**](#plot_option_line_color) for color options.
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -152,7 +152,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_font_color.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_font_color.png" width="600" height="375"></p>
 
 ----
 
@@ -170,4 +170,4 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_font_family.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_axes_font_family.png" width="600" height="375"></p>

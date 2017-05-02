@@ -23,7 +23,7 @@ var options = {
 d3lines.plot(svg, options);
 ```
 
-<p align="center"><img src="/images/API/plot/option_data_1.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_data_1.png" width="600" height="375"></p>
 
 This is the basic supported data type. It is the data type coming out of the [D3 csv, tsv and dsv](https://github.com/d3/d3-3.x-api-reference/blob/master/CSV.md) parsers.
 
@@ -76,7 +76,7 @@ var data = [[67.3, 56.5],
 
 4. An instance of `d3lines.Data`
 
-See [d3lines.Data](#Data) for details.
+See [d3lines.Data](d3lines_Data.md#Data) for details.
 
 ----
 
@@ -170,4 +170,4 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xkey.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xkey.png" width="600" height="375"></p>

@@ -18,7 +18,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_color_1.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_color_1.png" width="600" height="375"></p>
 
 If `line_color` is an array (of strings), the first line will have the first color, the second line the second color, ...
 If the array length is less than the number of lines, the colors will be repeated.
@@ -34,7 +34,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_color_2.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_color_2.png" width="600" height="375"></p>
 
 ----
 
@@ -56,7 +56,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_width.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_width.png" width="600" height="375"></p>
 
 ----
 
@@ -85,7 +85,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_style_1.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_style_1.png" width="600" height="375"></p>
 
 It is also possible to use custom styles by providing a dash array string, that is a string representing the dashes and the spaces between the dashes. For example, the `dotted` style has a dash array of "1 1" (1-px dash and 1-px space), the `dashed` style has a dash array of "3 3" and the `dash-dot` style has a dash array of "5 2 1 2".
 
@@ -100,7 +100,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_style_2.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_style_2.png" width="600" height="375"></p>
 
 ----
 
@@ -127,7 +127,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_fill.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_fill.png" width="600" height="375"></p>
 
 You can set `line_fill` to "color" to have all fill colors equal to the line colors.
 
@@ -164,7 +164,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_fill_opacity.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
@@ -196,7 +196,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_marker.png" width="600" height="375"></p>
 
 ----
 
@@ -223,7 +223,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_fill.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_marker_fill.png" width="600" height="375"></p>
 
 You can set `marker_fill` to "color" to have all marker fill colors equal to the line colors.
 
@@ -262,7 +262,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_fill_opacity.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_marker_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
@@ -288,7 +288,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_stroke_width.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_marker_stroke_width.png" width="600" height="375"></p>
 
 ----
 
@@ -312,7 +312,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_size.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_marker_size.png" width="600" height="375"></p>
 
 ----
 
@@ -334,7 +334,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_yaxis.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_line_yaxis.png" width="600" height="375"></p>
 
 ----
 
@@ -352,7 +352,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_plot_type.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_plot_type.png" width="600" height="375"></p>
 
 `plot_type` is simply a wrapper for a few different options, in such a way that the above code is equivalent to:
 

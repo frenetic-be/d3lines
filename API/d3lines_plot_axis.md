@@ -18,7 +18,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xscale_type_1.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xscale_type_1.png" width="600" height="375"></p>
 
 - "time": this scale is used when the data values are `Date` objects.
 
@@ -55,7 +55,7 @@ d3.csv("example_time.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xscale_type_2.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xscale_type_2.png" width="600" height="375"></p>
 
 ----
 
@@ -76,7 +76,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xlabel.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xlabel.png" width="600" height="375"></p>
 
 ----
 
@@ -96,7 +96,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xlabel_offset.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xlabel_offset.png" width="600" height="375"></p>
 
 ----
 
@@ -121,7 +121,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xlim.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xlim.png" width="600" height="375"></p>
 
 ----
 
@@ -140,7 +140,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xticks.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xticks.png" width="600" height="375"></p>
 
 ----
 
@@ -170,7 +170,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xtick_format.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xtick_format.png" width="600" height="375"></p>
 
 ----
 
@@ -188,7 +188,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xgrid.png" width="600" height="375"></p>
 
 ----
 
@@ -196,7 +196,7 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_xgrid_color"></a>**`xgrid_color`**, **`ygrid_color`**, **`y2grid_color`** - line color for the grid.
 The corresponding grid must be set to true for these options to have any effect. The default color is "#777".
 
-See [**`line_color`**](#plot_option_line_color) for color options.
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -210,7 +210,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid_color.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xgrid_color.png" width="600" height="375"></p>
 
 ----
 
@@ -230,7 +230,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid_width.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xgrid_width.png" width="600" height="375"></p>
 
 ----
 
@@ -238,7 +238,7 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_xgrid_linestyle"></a>**`xgrid_linestyle`**, **`ygrid_linestyle`**, **`y2grid_linestyle`** - line style for the grid.
 The corresponding grid must be set to true for these options to have any effect.
 
-See [**`line_style`**](#plot_option_line_style) for style options. The default style is "dotted".
+See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options. The default style is "dotted".
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -252,4 +252,4 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid_linestyle.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_xgrid_linestyle.png" width="600" height="375"></p>
