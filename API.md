@@ -335,7 +335,6 @@ d3.csv("example2.csv", function(error, data) {
 
 It is also possible to use custom styles by providing a dash array string, that is a string representing the dashes and the spaces between the dashes. For example, the `dotted` style has a dash array of "1 1" (1-px dash and 1-px space), the `dashed` style has a dash array of "3 3" and the `dash-dot` style has a dash array of "5 2 1 2".
 
-Example:
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -378,7 +377,6 @@ d3.csv("example2.csv", function(error, data) {
 
 You can set `line_fill` to "color" to have all fill colors equal to the line colors.
 
-Example:
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -475,7 +473,6 @@ d3.csv("example2.csv", function(error, data) {
 
 You can set `marker_fill` to "color" to have all marker fill colors equal to the line colors.
 
-Example:
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -587,7 +584,37 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
-<a name="plot_option_plot_type"></a>**`plot_type`** - Line or scatter plot.
+<!-- plot_type -->
+<a name="plot_option_plot_type"></a>**`plot_type`** - Specifies the type of plot (line or scatter plot). By default, `plot_type = "line"`.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        plot_type: "scatter"
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="/images/API/plot/option_plot_type.png" width="600"></p>
+
+`plot_type` is simply a wrapper for a few different options, in such a way that the above code is equivalent to:
+
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        line_width: 0,
+        marker: ["o", "s", "v", "d", "^", "+"],
+        marker_fill: ["#ddf", "#fdd", "#ded", "#fdf", "#dff", "#ddd", "#fed"],
+        marker_fill_opacity: 1.0
+    };
+    d3lines.plot(svg, options);
+});
+
+----
 
 #### <a name="plot_options_category_geometry"></a>Geometry options
 
