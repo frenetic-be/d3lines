@@ -23,7 +23,7 @@ Without specifying any option, you will get an empty plot with default axes:
 d3lines.plot(svg);
 ```
 
-<p align="center"><img src="/images/API/plot/no_options.png" width="600" align="center"></p>
+<p align="center"><img src="/images/API/plot/no_options.png" width="600" height="375" align="center"></p>
 
 ### Options
 
@@ -121,7 +121,7 @@ var options = {
 d3lines.plot(svg, options);
 ```
 
-<p align="center"><img src="/images/API/plot/option_data_1.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_data_1.png" width="600" height="375"></p>
 
 This is the basic supported data type. It is the data type coming out of the [D3 csv, tsv and dsv](https://github.com/d3/d3-3.x-api-reference/blob/master/CSV.md) parsers.
 
@@ -268,7 +268,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xkey.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xkey.png" width="600" height="375"></p>
 
 ----
 
@@ -292,7 +292,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_color_1.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_color_1.png" width="600" height="375"></p>
 
 If `line_color` is an array (of strings), the first line will have the first color, the second line the second color, ...
 If the array length is less than the number of lines, the colors will be repeated.
@@ -308,7 +308,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_color_2.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_color_2.png" width="600" height="375"></p>
 
 ----
 
@@ -330,7 +330,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_width.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_width.png" width="600" height="375"></p>
 
 ----
 
@@ -359,7 +359,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_style_1.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_style_1.png" width="600" height="375"></p>
 
 It is also possible to use custom styles by providing a dash array string, that is a string representing the dashes and the spaces between the dashes. For example, the `dotted` style has a dash array of "1 1" (1-px dash and 1-px space), the `dashed` style has a dash array of "3 3" and the `dash-dot` style has a dash array of "5 2 1 2".
 
@@ -374,7 +374,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_style_2.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_style_2.png" width="600" height="375"></p>
 
 ----
 
@@ -401,7 +401,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_fill.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_fill.png" width="600" height="375"></p>
 
 You can set `line_fill` to "color" to have all fill colors equal to the line colors.
 
@@ -438,7 +438,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_fill_opacity.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
@@ -470,7 +470,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_marker.png" width="600" height="375"></p>
 
 ----
 
@@ -497,7 +497,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_fill.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_marker_fill.png" width="600" height="375"></p>
 
 You can set `marker_fill` to "color" to have all marker fill colors equal to the line colors.
 
@@ -536,7 +536,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_fill_opacity.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_marker_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
@@ -562,7 +562,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_stroke_width.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_marker_stroke_width.png" width="600" height="375"></p>
 
 ----
 
@@ -586,7 +586,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_marker_size.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_marker_size.png" width="600" height="375"></p>
 
 ----
 
@@ -608,7 +608,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_line_yaxis.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_line_yaxis.png" width="600" height="375"></p>
 
 ----
 
@@ -626,7 +626,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_plot_type.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_plot_type.png" width="600" height="375"></p>
 
 `plot_type` is simply a wrapper for a few different options, in such a way that the above code is equivalent to:
 
@@ -724,7 +724,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_box.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_box.png" width="600" height="375"></p>
 
 ----
 
@@ -746,7 +746,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_color.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_color.png" width="600" height="375"></p>
 
 ----
 
@@ -764,7 +764,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_width.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_width.png" width="600" height="375"></p>
 
 ----
 
@@ -784,7 +784,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_linestyle.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_linestyle.png" width="600" height="375"></p>
 
 ----
 
@@ -805,7 +805,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_fill.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_fill.png" width="600" height="375"></p>
 
 ----
 
@@ -825,7 +825,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_fill_opacity.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
@@ -842,7 +842,7 @@ d3.csv("example2.csv", function(error, data) {
     d3lines.plot(svg, options);
 });
 ```
-<p align="center"><img src="/images/API/plot/option_axes_font_size.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_font_size.png" width="600" height="375"></p>
 
 ----
 
@@ -862,7 +862,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_font_color.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_font_color.png" width="600" height="375"></p>
 
 ----
 
@@ -880,7 +880,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_axes_font_family.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_axes_font_family.png" width="600" height="375"></p>
 
 ----
 
@@ -904,7 +904,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xscale_type_1.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xscale_type_1.png" width="600" height="375"></p>
 
 - "time": this scale is used when the data values are `Date` objects.
 
@@ -941,7 +941,7 @@ d3.csv("example_time.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xscale_type_2.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xscale_type_2.png" width="600" height="375"></p>
 
 ----
 
@@ -962,7 +962,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xlabel.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xlabel.png" width="600" height="375"></p>
 
 ----
 
@@ -982,7 +982,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xlabel_offset.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xlabel_offset.png" width="600" height="375"></p>
 
 ----
 
@@ -1007,7 +1007,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xlim.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xlim.png" width="600" height="375"></p>
 
 ----
 
@@ -1026,7 +1026,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xticks.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xticks.png" width="600" height="375"></p>
 
 ----
 
@@ -1056,7 +1056,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xtick_format.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xtick_format.png" width="600" height="375"></p>
 
 ----
 
@@ -1074,7 +1074,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xgrid.png" width="600" height="375"></p>
 
 ----
 
@@ -1096,7 +1096,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid_color.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xgrid_color.png" width="600" height="375"></p>
 
 ----
 
@@ -1116,7 +1116,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid_width.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xgrid_width.png" width="600" height="375"></p>
 
 ----
 
@@ -1138,7 +1138,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="/images/API/plot/option_xgrid_linestyle.png" width="600"></p>
+<p align="center"><img src="/images/API/plot/option_xgrid_linestyle.png" width="600" height="375"></p>
 
 ----
 
