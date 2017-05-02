@@ -14,7 +14,7 @@ Without specifying any option, you will get an empty plot with default axes:
 d3lines.plot(svg);
 ```
 
-<p align="center"><img src="/images/plot/no_options.png" width="600" height="375" align="center"></p>
+<p align="center"><img src="images/plot/no_options.png" width="600" height="375" align="center"></p>
 
 ### Options
 
