@@ -1033,6 +1033,7 @@ d3.csv("example2.csv", function(error, data) {
 <!-- xtick_format, ytick_format, y2tick_format -->
 <a name="plot_option_xtick_format"></a>**`xtick_format`**, **`ytick_format`**, **`y2tick_format`** - tick-formatting for the x-, y- or y2-axis. These options allow you to format the strings associated with the ticks. To specify the format, you need to provide a function that will transform the tick string. The function takes optional arguments: the original tick string and the tick index.
 
+```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
@@ -1053,6 +1054,7 @@ d3.csv("example2.csv", function(error, data) {
     };
     d3lines.plot(svg, options);
 });
+```
 
 <p align="center"><img src="/images/API/plot/option_xtick_format.png" width="600"></p>
 
