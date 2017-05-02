@@ -93,7 +93,7 @@
 
 #### <a name="plot_options_category_allaxes"></a>Options for all axes
 
-Options related to the look/style of all axes.
+These options allow you to alter the look/style of all axes (colors, background colors, font, ...).
 
 ----
 
