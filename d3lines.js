@@ -20,17 +20,17 @@ var d3lines = (function () {
             left: 70
         },
 
-        DEFAULT_LINE_YAXIS = 'left',
-        DEFAULT_LINE_COLOR = ['blue', 'red', 'limegreen', 'magenta', 'cyan', 'black', 'orange'],
+        DEFAULT_LINE_YAXIS = "left",
+        DEFAULT_LINE_COLOR = ["blue", "red", "limegreen", "magenta", "cyan", "black", "orange"],
         DEFAULT_LINE_WIDTH = 1.5,
         DEFAULT_LINE_WIDTH_SCATTER = 0.,
-        DEFAULT_LINE_STYLE = '-',
-        DEFAULT_LINE_FILL = 'none',
+        DEFAULT_LINE_STYLE = "-",
+        DEFAULT_LINE_FILL = "none",
         DEFAULT_LINE_FILL_OPACITY = 1.0,
-        DEFAULT_MARKER = '',
-        DEFAULT_MARKER_SCATTER = ['o', 's', 'v', 'd', '^', '+'],
+        DEFAULT_MARKER = "",
+        DEFAULT_MARKER_SCATTER = ["o", "s", "v", "d", "^", "+"],
         DEFAULT_MARKER_FILL = "white",
-        DEFAULT_MARKER_FILL_SCATTER = ['#ddf', '#fdd', '#ded', '#fdf', '#dff', '#ddd', '#fed'],
+        DEFAULT_MARKER_FILL_SCATTER = ["#ddf", "#fdd", "#ded", "#fdf", "#dff", "#ddd", "#fed"],
         DEFAULT_MARKER_FILL_OPACITY = 1.0,
         DEFAULT_MARKER_FILL_OPACITY_SCATTER = 1.0,
         DEFAULT_MARKER_STROKE_WIDTH = 1.0,
@@ -50,17 +50,17 @@ var d3lines = (function () {
         DEFAULT_XGRID = false,
         DEFAULT_XGRID_COLOR = "#BBB",
         DEFAULT_XGRID_WIDTH = 0.5,
-        DEFAULT_XGRID_LINESTYLE = ':',
+        DEFAULT_XGRID_LINESTYLE = ":",
 
         DEFAULT_YGRID = false,
         DEFAULT_YGRID_COLOR = "#BBB",
         DEFAULT_YGRID_WIDTH = 0.5,
-        DEFAULT_YGRID_LINESTYLE = ':',
+        DEFAULT_YGRID_LINESTYLE = ":",
 
         DEFAULT_Y2GRID = false,
         DEFAULT_Y2GRID_COLOR = "#BBB",
         DEFAULT_Y2GRID_WIDTH = 0.5,
-        DEFAULT_Y2GRID_LINESTYLE = ':',
+        DEFAULT_Y2GRID_LINESTYLE = ":",
 
         // LEGEND
         DEFAULT_LEGEND = true,
@@ -97,7 +97,7 @@ var d3lines = (function () {
         DEFAULT_INTERACTIVE = true;
         DEFAULT_INTERACTIVE_OPTIONS = {
 
-            snap_axis: 'x',
+            snap_axis: "x",
 
             line: true,
             linestyle: "-",
@@ -120,7 +120,7 @@ var d3lines = (function () {
                 Object.keys(pt).forEach(function(key, index){
                     arr.push(key+": "+pt[key]);
                 });
-                return arr.join('<br>');
+                return arr.join("<br>");
             },
 
             zoom: true,
@@ -145,12 +145,12 @@ var d3lines = (function () {
     // Check if a variable is a function
     function isFunction(obj) {
         var getType = {};
-        return obj && getType.toString.call(obj) === '[object Function]';
+        return obj && getType.toString.call(obj) === "[object Function]";
     }
 
     // Check if a variable is a String
     function isString(obj){
-        return typeof obj === 'string' || obj instanceof String;
+        return typeof obj === "string" || obj instanceof String;
     }
 
     /// Attempts to convert string to a Date, returns undefined if unsuccessfull
@@ -233,12 +233,12 @@ var d3lines = (function () {
             return;
         }
         var typeData = getType(data);
-        if (typeData === 'array'){
+        if (typeData === "array"){
             if (data.length != 0){
                 var type = getType(data[0]);
                 var all = data.reduce(function(total, row){return total && getType(row) === type});
-                if (!all) throw TypeError('Data has mixed types');
-                if (type === 'object') {
+                if (!all) throw TypeError("Data has mixed types");
+                if (type === "object") {
                     this.data = data;
                 } else if (type === "array") {
                     // transform array of arrays into array of dictionaries
@@ -258,21 +258,21 @@ var d3lines = (function () {
                     });
                     this.data = data2;
                 } else {
-                    throw TypeError('Data type is not supported');
+                    throw TypeError("Data type is not supported");
                 }
             }
-        } else if (typeData === 'object'){
+        } else if (typeData === "object"){
             var data2 = [];
             var keys = Object.keys(data);
             var nitems;
             keys.forEach(function(key, jkey){
                 if (!isArray(data[key])){
-                    throw TypeError('Data type is not supported');
+                    throw TypeError("Data type is not supported");
                 } else {
                     if (jkey === 0) {
                         nitems = data[key].length
                     } else {
-                        if (data[key].length !== nitems) throw TypeError('Inconsistent number of elements for different keys');
+                        if (data[key].length !== nitems) throw TypeError("Inconsistent number of elements for different keys");
                     }
                     data[key].forEach(function(item, jitem){
                         if (jkey === 0) {
@@ -284,7 +284,7 @@ var d3lines = (function () {
             });
             this.data = data2;
         } else {
-            throw TypeError('Data type is not supported');
+            throw TypeError("Data type is not supported");
         }
     }
 
@@ -515,32 +515,32 @@ var d3lines = (function () {
     function lineGen(xscale, yscale, y2scale, line) {
         return d3.svg.line()
             .x(function(d, i) {
-                if (line.hasOwnProperty('x')) return xscale(line.x[i]);
+                if (line.hasOwnProperty("x")) return xscale(line.x[i]);
                 return xscale(i);
             })
             .y(function(d, i) {
-                if (line.hasOwnProperty('y')) return yscale(line.y[i]);
-                if (line.hasOwnProperty('y2')) return y2scale(line.y2[i]);
+                if (line.hasOwnProperty("y")) return yscale(line.y[i]);
+                if (line.hasOwnProperty("y2")) return y2scale(line.y2[i]);
                 return yscale(i);
         });
     }
 
     // Creates a vertical line
     function vline(svg, x, xscale, yscale) {
-        return svg.append('line')
-                    .attr('x1', xscale(x))
-                    .attr('y1', yscale.range()[0])
-                    .attr('x2', xscale(x))
-                    .attr('y2', yscale.range()[1]);
+        return svg.append("line")
+                    .attr("x1", xscale(x))
+                    .attr("y1", yscale.range()[0])
+                    .attr("x2", xscale(x))
+                    .attr("y2", yscale.range()[1]);
     }
 
     // Creates a horizontal line
     function hline(svg, y, xscale, yscale) {
-        return svg.append('line')
-                    .attr('x1', xscale.range()[0])
-                    .attr('y1', yscale(y))
-                    .attr('x2', xscale.range()[1])
-                    .attr('y2', yscale(y));
+        return svg.append("line")
+                    .attr("x1", xscale.range()[0])
+                    .attr("y1", yscale(y))
+                    .attr("x2", xscale.range()[1])
+                    .attr("y2", yscale(y));
     }
 
     // Create a legend
@@ -558,18 +558,18 @@ var d3lines = (function () {
                 var self = d3.select(this);
                 var key = self.attr("data-legend")
                 while (items.hasOwnProperty(key)) {
-                    var splitems = key.split('-');
+                    var splitems = key.split("-");
                     var root = key;
                     var index = 2;
                     if (splitems.length > 1 && isNumeric(splitems[splitems.length-1])){
                         index = parseFloat(splitems[splitems.length-1])+1;
-                        root = splitems.slice(0, splitems.length-1).join('-');
+                        root = splitems.slice(0, splitems.length-1).join("-");
                     }
                     key = root+"-"+index;
                 }
                 items[key] = {
                     pos : self.attr("data-legend-pos") || this.getBBox().y,
-                    line_color: self.attr("data-line-color") !== 'none' ? self.attr("data-line-color") : self.attr("data-line-fill"),
+                    line_color: self.attr("data-line-color") !== "none" ? self.attr("data-line-color") : self.attr("data-line-fill"),
                     line_width: self.attr("data-line-width"),
                     line_style: self.attr("data-line-style"),
                     marker: self.attr("data-marker"),
@@ -577,26 +577,26 @@ var d3lines = (function () {
                     marker_fill_opacity: self.attr("data-marker-fill-opacity"),
                     marker_size: self.attr("data-marker-size"),
                     marker_stroke_width: self.attr("data-marker-stroke-width"),
-                    symbol: symbolType(self.attr("data-marker"), 36) !== '' ? symbolType(self.attr("data-marker"), 36)() : null,
+                    symbol: symbolType(self.attr("data-marker"), 36) !== "" ? symbolType(self.attr("data-marker"), 36)() : null,
 
                 };
               });
 
             items = d3.entries(items).sort(function(a,b) { return a.value.pos-b.value.pos;});
 
-            var legend = g.append('g')
+            var legend = g.append("g")
                 .attr("class", "legend-items")
 
-            var emSize = parseFloat(window.getComputedStyle(legend[0][0]).getPropertyValue('font-size'));
+            var emSize = parseFloat(window.getComputedStyle(legend[0][0]).getPropertyValue("font-size"));
 
             var legendRect = legend
-                .selectAll('g')
+                .selectAll("g")
                 .data(items);
 
             var legendRow = legendRect.enter()
                 .append("g")
                 .attr("transform", function(d,i){
-                  return 'translate(0, ' + (i*1.2*emSize) + ')';
+                  return "translate(0, " + (i*1.2*emSize) + ")";
                 });
 
             legendRow.append("line")
@@ -608,13 +608,13 @@ var d3lines = (function () {
                 .style("stroke-width", function(d){return d.value.line_width;})
                 .style("stroke-dasharray", function(d){return dashArray(d.value.line_style);})
 
-            legendRow.append('path')
+            legendRow.append("path")
                 .attr("d", function(d){return d.value.symbol})
                 .attr("transform", function(d,i){
-                  return 'translate(' + (0.75*emSize) + ', ' + (-0.38*emSize) + ')';
+                  return "translate(" + (0.75*emSize) + ", " + (-0.38*emSize) + ")";
                 })
                 .style("stroke", function(d){return d.value.line_color;})
-                .style("fill", function(d){return d.value.marker_fill === 'color' ? d.value.line_color : d.value.marker_fill})
+                .style("fill", function(d){return d.value.marker_fill === "color" ? d.value.line_color : d.value.marker_fill})
                 .style("fill-opacity", function(d){return d.value.marker_fill_opacity})
                 .style("stroke-width", function(d){return d.value.marker_stroke_width});
 
@@ -640,7 +640,7 @@ var d3lines = (function () {
         // Arguments:
         //  - data: data array
         //  - lines: line array
-        //  - axis: 'x', 'y' or 'y2'
+        //  - axis: "x", "y" or "y2"
         //  - layoutType: a float (1.0 for tight layout, 1.02 is a good number) or
         //                  an array with the two axes limits
         //  - scale: for example, xscale = d3.scale.linear()
@@ -657,9 +657,9 @@ var d3lines = (function () {
                 maxData = 1;
             } else {
                 switch (axis) {
-                    case 'x':
+                    case "x":
                         lines.forEach(function(line){
-                            if (line.hasOwnProperty('x')) {
+                            if (line.hasOwnProperty("x")) {
                                 // If line.x is defined, that's the data to use
                                 minData = d3.min([minData, d3.min(line.x)]);
                                 maxData = d3.max([maxData, d3.max(line.x)]);
@@ -670,18 +670,18 @@ var d3lines = (function () {
                             }
                         });
                         break;
-                    case 'y':
+                    case "y":
                         lines.forEach(function(line){
-                            if (line.hasOwnProperty('y')) {
+                            if (line.hasOwnProperty("y")) {
                                 // If line.y is defined, that's the data to use
                                 minData = d3.min([minData, d3.min(line.y)]);
                                 maxData = d3.max([maxData, d3.max(line.y)]);
                             }
                         });
                         break;
-                    case 'y2':
+                    case "y2":
                         lines.forEach(function(line){
-                            if (line.hasOwnProperty('y2')) {
+                            if (line.hasOwnProperty("y2")) {
                                 // If line.y2 is defined, that's the data to use
                                 minData = d3.min([minData, d3.min(line.y2)]);
                                 maxData = d3.max([maxData, d3.max(line.y2)]);
@@ -737,10 +737,10 @@ var d3lines = (function () {
             minRange = layoutType[0];
             maxRange = layoutType[1];
             if (!isNumeric(minRange) || !isNumeric(maxRange)) {
-                throw TypeError('`layoutType` should be a two-element float array');
+                throw TypeError("`layoutType` should be a two-element float array");
             }
         } else {
-            throw TypeError('`layoutType` should be a strictly-positive float or a two-element float array');
+            throw TypeError("`layoutType` should be a strictly-positive float or a two-element float array");
         }
         scale.domain([minRange, maxRange]);
     }
@@ -748,17 +748,17 @@ var d3lines = (function () {
     // Transforms a style string into a dash array pattern that d3 can understand
     function dashArray(style){
         switch(style) {
-            case ':':
-            case 'dotted':
+            case ":":
+            case "dotted":
                 return "1 1";
-            case '-':
-            case 'solid':
+            case "-":
+            case "solid":
                 return "";
-            case '--':
-            case 'dashed':
+            case "--":
+            case "dashed":
                 return "3 3";
-            case '-.':
-            case 'dash-dot':
+            case "-.":
+            case "dash-dot":
                 return "5 2 1 2";
             default:
                 return style;
@@ -768,26 +768,26 @@ var d3lines = (function () {
     // Transforms a symbol string into a d3 svg symbol
     function symbolType(symbol, size){
         switch(symbol) {
-            case 'o':
-            case 'circle':
-                return d3.svg.symbol().type('circle').size(size);
-            case '+':
-            case 'cross':
-                return d3.svg.symbol().type('cross').size(size);
-            case 'd':
-            case 'diamond':
-                return d3.svg.symbol().type('diamond').size(size);
-            case 's':
-            case 'square':
-                return d3.svg.symbol().type('square').size(size);
-            case '^':
-            case 'triangle-up':
-                return d3.svg.symbol().type('triangle-up').size(size);
-            case 'v':
-            case 'triangle-down':
-                return d3.svg.symbol().type('triangle-down').size(size);
+            case "o":
+            case "circle":
+                return d3.svg.symbol().type("circle").size(size);
+            case "+":
+            case "cross":
+                return d3.svg.symbol().type("cross").size(size);
+            case "d":
+            case "diamond":
+                return d3.svg.symbol().type("diamond").size(size);
+            case "s":
+            case "square":
+                return d3.svg.symbol().type("square").size(size);
+            case "^":
+            case "triangle-up":
+                return d3.svg.symbol().type("triangle-up").size(size);
+            case "v":
+            case "triangle-down":
+                return d3.svg.symbol().type("triangle-down").size(size);
             default:
-                return '';
+                return "";
         }
     }
 
@@ -805,41 +805,41 @@ var d3lines = (function () {
                 line[key] = lineOptions[key];
             });
         }
-        if (!line.hasOwnProperty('color')) {
+        if (!line.hasOwnProperty("color")) {
             line.color = getDefaultLineProperty(LINE_COLOR, line_index);
         }
-        if (!line.hasOwnProperty('width')) {
+        if (!line.hasOwnProperty("width")) {
             line.width = getDefaultLineProperty(LINE_WIDTH, line_index);
         }
-        if (!line.hasOwnProperty('style')) {
+        if (!line.hasOwnProperty("style")) {
             line.style = getDefaultLineProperty(LINE_STYLE, line_index);
         }
-        if (!line.hasOwnProperty('fill')) {
+        if (!line.hasOwnProperty("fill")) {
             line.fill = getDefaultLineProperty(LINE_FILL, line_index);
         }
-        if (!line.hasOwnProperty('fill_opacity')) {
+        if (!line.hasOwnProperty("fill_opacity")) {
             line.fill_opacity = getDefaultLineProperty(LINE_FILL_OPACITY, line_index);
         }
-        if (!line.hasOwnProperty('marker')) {
+        if (!line.hasOwnProperty("marker")) {
             line.marker = getDefaultLineProperty(MARKER, line_index);
         }
-        if (!line.hasOwnProperty('marker_fill')) {
+        if (!line.hasOwnProperty("marker_fill")) {
             line.marker_fill = getDefaultLineProperty(MARKER_FILL, line_index);
         }
-        if (!line.hasOwnProperty('marker_fill_opacity')) {
+        if (!line.hasOwnProperty("marker_fill_opacity")) {
             line.marker_fill_opacity = getDefaultLineProperty(MARKER_FILL_OPACITY, line_index);
         }
-        if (!line.hasOwnProperty('marker_stroke_width')) {
+        if (!line.hasOwnProperty("marker_stroke_width")) {
             line.marker_stroke_width = getDefaultLineProperty(MARKER_STROKE_WIDTH, line_index);
         }
-        if (!line.hasOwnProperty('marker_size')) {
+        if (!line.hasOwnProperty("marker_size")) {
             line.marker_size = getDefaultLineProperty(MARKER_SIZE, line_index);
         }
-    //         if (!line.hasOwnProperty('xkey')) {
-    //             throw 'Line does not have an `xkey` property. The `xkey` property should be the names of a field of all data element objects.'
+    //         if (!line.hasOwnProperty("xkey")) {
+    //             throw "Line does not have an `xkey` property. The `xkey` property should be the names of a field of all data element objects."
     //         }
-        if (!line.hasOwnProperty('ykey') && !line.hasOwnProperty('y2key')) {
-            throw 'Line does not have an `ykey` or `y2key` property. The `ykey` or `y2key` property should be the names of a field of all data element objects.';
+        if (!line.hasOwnProperty("ykey") && !line.hasOwnProperty("y2key")) {
+            throw "Line does not have an `ykey` or `y2key` property. The `ykey` or `y2key` property should be the names of a field of all data element objects.";
         }
         return line;
     }
@@ -931,7 +931,7 @@ var d3lines = (function () {
 
         lines.forEach(function(line){
             line.x.forEach(function(valX, valIndex){
-                if (line.hasOwnProperty('y')){
+                if (line.hasOwnProperty("y")){
                     valY = line.y[valIndex];
                     scale = yscale;
                 } else {
@@ -944,7 +944,7 @@ var d3lines = (function () {
                         closestX = valX;
                         closestY = valY;
                         nameX = line.xkey
-                        if (line.hasOwnProperty('y')){
+                        if (line.hasOwnProperty("y")){
                             nameY = line.ykey
                         } else {
                             nameY = line.y2key
@@ -987,7 +987,7 @@ var d3lines = (function () {
         var AXES_LINESTYLE = getValue(options, "axes_linestyle",
             DEFAULT_AXES_LINESTYLE, false);
 
-        d3.selectAll('.d3lines-axis path').each(function(){
+        d3.selectAll(".d3lines-axis path").each(function(){
             var self = d3.select(this);
             self.style("fill", "none")
                 .style("stroke", AXES_COLOR)
@@ -995,16 +995,16 @@ var d3lines = (function () {
                 .style("stroke-dasharray", dashArray(AXES_LINESTYLE));
         });
 
-        d3.selectAll('.d3lines-axis line').each(function(){
+        d3.selectAll(".d3lines-axis line").each(function(){
             var self = d3.select(this);
-            if (!self.classed('d3lines-grid')){
+            if (!self.classed("d3lines-grid")){
                 self.style("stroke", AXES_COLOR)
                     .style("stroke-width", AXES_WIDTH)
                     .style("stroke-dasharray", dashArray(AXES_LINESTYLE));
             }
         });
 
-        d3.selectAll('.d3lines-axis text').each(function(){
+        d3.selectAll(".d3lines-axis text").each(function(){
             var self = d3.select(this);
             self.style("font-size", AXES_FONT_SIZE);
             if (AXES_FONT_COLOR !== undefined) {
@@ -1037,15 +1037,15 @@ var d3lines = (function () {
                 DEFAULT_XGRID_WIDTH, false);
             var XGRID_LINESTYLE = getValue(options, "xgrid_linestyle",
                 DEFAULT_XGRID_LINESTYLE, false);
-            d3.selectAll('.d3lines-xaxis .tick').each(function(d,i){
+            d3.selectAll(".d3lines-xaxis .tick").each(function(d,i){
                 var self = d3.select(this);
-                if (self.selectAll('line.d3lines-grid').size() === 0){
-                    self.append('line')
+                if (self.selectAll("line.d3lines-grid").size() === 0){
+                    self.append("line")
                         .attr("class", "d3lines-grid d3lines-xgrid")
-                        .attr('y2', -HEIGHT+MARGINS.bottom+MARGINS.top)
-                        .style('stroke', XGRID_COLOR)
-                        .style('stroke-width', XGRID_WIDTH)
-                        .style('stroke-dasharray', dashArray(XGRID_LINESTYLE));
+                        .attr("y2", -HEIGHT+MARGINS.bottom+MARGINS.top)
+                        .style("stroke", XGRID_COLOR)
+                        .style("stroke-width", XGRID_WIDTH)
+                        .style("stroke-dasharray", dashArray(XGRID_LINESTYLE));
                 }
             });
         }
@@ -1058,15 +1058,15 @@ var d3lines = (function () {
                 DEFAULT_YGRID_WIDTH, false);
             var YGRID_LINESTYLE = getValue(options, "ygrid_linestyle",
                 DEFAULT_YGRID_LINESTYLE, false);
-            d3.selectAll('.d3lines-yaxis .tick').each(function(d,i){
+            d3.selectAll(".d3lines-yaxis .tick").each(function(d,i){
                 var self = d3.select(this);
-                if (self.selectAll('line.d3lines-grid').size() === 0){
-                    self.append('line')
+                if (self.selectAll("line.d3lines-grid").size() === 0){
+                    self.append("line")
                         .attr("class", "d3lines-grid d3lines-ygrid")
-                        .attr('x2', WIDTH-MARGINS.left-MARGINS.right)
-                        .style('stroke', YGRID_COLOR)
-                        .style('stroke-width', YGRID_WIDTH)
-                        .style('stroke-dasharray', dashArray(YGRID_LINESTYLE));
+                        .attr("x2", WIDTH-MARGINS.left-MARGINS.right)
+                        .style("stroke", YGRID_COLOR)
+                        .style("stroke-width", YGRID_WIDTH)
+                        .style("stroke-dasharray", dashArray(YGRID_LINESTYLE));
                 }
             });
         }
@@ -1079,15 +1079,15 @@ var d3lines = (function () {
                 DEFAULT_Y2GRID_WIDTH, false);
             var Y2GRID_LINESTYLE = getValue(options, "y2grid_linestyle",
                 DEFAULT_Y2GRID_LINESTYLE, false);
-            d3.selectAll('.d3lines-y2axis .tick').each(function(d,i){
+            d3.selectAll(".d3lines-y2axis .tick").each(function(d,i){
                 var self = d3.select(this);
-                if (self.selectAll('line.d3lines-grid').size() === 0){
-                    self.append('line')
+                if (self.selectAll("line.d3lines-grid").size() === 0){
+                    self.append("line")
                         .attr("class", "d3lines-grid d3lines-y2grid")
-                        .attr('x2', -WIDTH+MARGINS.left+MARGINS.right)
-                        .style('stroke', Y2GRID_COLOR)
-                        .style('stroke-width', Y2GRID_WIDTH)
-                        .style('stroke-dasharray', dashArray(Y2GRID_LINESTYLE));
+                        .attr("x2", -WIDTH+MARGINS.left+MARGINS.right)
+                        .style("stroke", Y2GRID_COLOR)
+                        .style("stroke-width", Y2GRID_WIDTH)
+                        .style("stroke-dasharray", dashArray(Y2GRID_LINESTYLE));
                 }
             });
         }
@@ -1208,19 +1208,19 @@ var d3lines = (function () {
             }
             if (objectExists(options.lines)){
                 options.lines.forEach(function(line){
-                    if (!line.hasOwnProperty('xkey') && objectExists(XKEY)){
+                    if (!line.hasOwnProperty("xkey") && objectExists(XKEY)){
                         line.xkey = XKEY;
                     }
-                    if (!line.hasOwnProperty('ykey') && !line.hasOwnProperty('y2key') && objectExists(YKEY)){
+                    if (!line.hasOwnProperty("ykey") && !line.hasOwnProperty("y2key") && objectExists(YKEY)){
                         line.ykey = YKEY;
                     }
                     var curLine = newLine(line, LINE_INDEX);
                     LINE_INDEX += 1;
-                    if (curLine.hasOwnProperty('xkey') && keys.indexOf(curLine.xkey) == -1){
+                    if (curLine.hasOwnProperty("xkey") && keys.indexOf(curLine.xkey) == -1){
                         xkeys.push(curLine.xkey);
                         keys.push(curLine.xkey);
                     }
-                    if (curLine.hasOwnProperty('ykey') && keys.indexOf(curLine.ykey) == -1){
+                    if (curLine.hasOwnProperty("ykey") && keys.indexOf(curLine.ykey) == -1){
                         ykeys.push(curLine.ykey);
                         keys.push(curLine.ykey);
                     } else if (keys.indexOf(curLine.y2key) == -1){
@@ -1240,14 +1240,14 @@ var d3lines = (function () {
                 Object.keys(DATA[0]).forEach(function(key){
                     var yaxis = getDefaultLineProperty(LINE_YAXIS, LINE_INDEX);
                     if (!objectExists(XKEY)) {
-                        if (yaxis === 'right'){
+                        if (yaxis === "right"){
                             LINES.push(newLine({y2key: key}, LINE_INDEX));
                         } else {
                             LINES.push(newLine({ykey: key}, LINE_INDEX));
                         }
                         LINE_INDEX += 1;
                     } else if (key != XKEY){
-                        if (yaxis === 'right'){
+                        if (yaxis === "right"){
                             LINES.push(newLine({xkey: XKEY, y2key: key}, LINE_INDEX));
                         } else {
                             LINES.push(newLine({xkey: XKEY, ykey: key}, LINE_INDEX));
@@ -1281,7 +1281,7 @@ var d3lines = (function () {
 
             // Create x and y arrays based on xkey and ykey
             LINES.forEach(function(line, line_index){
-                if (line.hasOwnProperty('xkey') && !line.hasOwnProperty('x')) {
+                if (line.hasOwnProperty("xkey") && !line.hasOwnProperty("x")) {
                     line.x = Array.apply(null, Array(DATA.length))
                                 .map(function (_, i) {return DATA[i][line.xkey];})
                 } else {
@@ -1289,10 +1289,10 @@ var d3lines = (function () {
                     line.x = Array.apply(null, Array(DATA.length))
                                 .map(function (_, i) {return i;})
                 }
-                if (line.hasOwnProperty('ykey') && !line.hasOwnProperty('y')) {
+                if (line.hasOwnProperty("ykey") && !line.hasOwnProperty("y")) {
                     line.y = Array.apply(null, Array(DATA.length))
                                 .map(function (_, i) {return DATA[i][line.ykey];})
-                } else if (line.hasOwnProperty('y2key') && !line.hasOwnProperty('y2')) {
+                } else if (line.hasOwnProperty("y2key") && !line.hasOwnProperty("y2")) {
                     line.y2 = Array.apply(null, Array(DATA.length))
                                 .map(function (_, i) {return DATA[i][line.y2key];})
                 }
@@ -1366,10 +1366,10 @@ var d3lines = (function () {
                 // Axis scales
                 var XSCALE, YSCALE, Y2SCALE;
                 if (objectExists(options.xscale_type)) {
-                    if (options.xscale_type == 'time') {
+                    if (options.xscale_type == "time") {
                         XSCALE = d3.time.scale();
                         XSCALE.type = scaleType.TIME;
-                    } else if (options.xscale_type == 'log') {
+                    } else if (options.xscale_type == "log") {
                         XSCALE = d3.scale.log();
                         XSCALE.type = scaleType.LOG;
                     } else {
@@ -1382,10 +1382,10 @@ var d3lines = (function () {
                     XSCALE.type = scaleType.LINEAR;
                 }
                 if (objectExists(options.yscale_type)) {
-                    if (options.yscale_type == 'time') {
+                    if (options.yscale_type == "time") {
                         YSCALE = d3.time.scale();
                         YSCALE.type = scaleType.TIME;
-                    } else if (options.yscale_type == 'log') {
+                    } else if (options.yscale_type == "log") {
                         YSCALE = d3.scale.log();
                         YSCALE.type = scaleType.LOG;
                     } else {
@@ -1398,10 +1398,10 @@ var d3lines = (function () {
                     YSCALE.type = scaleType.LINEAR;
                 }
                 if (objectExists(options.y2scale_type)) {
-                    if (options.y2scale_type == 'time') {
+                    if (options.y2scale_type == "time") {
                         Y2SCALE = d3.time.scale();
                         Y2SCALE.type = scaleType.TIME;
-                    } else if (options.y2scale_type == 'log') {
+                    } else if (options.y2scale_type == "log") {
                         Y2SCALE = d3.scale.log();
                         Y2SCALE.type = scaleType.LOG;
                     } else {
@@ -1413,7 +1413,7 @@ var d3lines = (function () {
             }
 
             LINES.forEach(function(line){
-                if ((line.hasOwnProperty('y2key')) && !objectExists(Y2SCALE)) {
+                if ((line.hasOwnProperty("y2key")) && !objectExists(Y2SCALE)) {
                     Y2SCALE = d3.scale.linear();
                     Y2SCALE.type = scaleType.LINEAR;
                 }
@@ -1506,13 +1506,13 @@ var d3lines = (function () {
 
             // Set SVG width and height
             if (HOLD) {
-                setAxisLimits(DATA, LINES, 'x', XLIM, XSCALE, HOLD);
-                setAxisLimits(DATA, LINES, 'y', YLIM, YSCALE, HOLD);
+                setAxisLimits(DATA, LINES, "x", XLIM, XSCALE, HOLD);
+                setAxisLimits(DATA, LINES, "y", YLIM, YSCALE, HOLD);
                 plt.scale.original_x = XSCALE.copy()
                 plt.scale.original_y = YSCALE.copy();
                 if (objectExists(Y2SCALE)) {
                     Y2SCALE.range([HEIGHT - MARGINS.bottom, MARGINS.top]);
-                    setAxisLimits(DATA, LINES, 'y2', Y2LIM, Y2SCALE, HOLD);
+                    setAxisLimits(DATA, LINES, "y2", Y2LIM, Y2SCALE, HOLD);
                     plt.scale.y2 = Y2SCALE;
                     plt.scale.original_y2 = Y2SCALE.copy()
                 }
@@ -1523,10 +1523,10 @@ var d3lines = (function () {
 
                 // Set axes range
                 XSCALE.range([MARGINS.left, WIDTH - MARGINS.right]);
-                setAxisLimits(DATA, LINES, 'x', XLIM, XSCALE);
+                setAxisLimits(DATA, LINES, "x", XLIM, XSCALE);
 
                 YSCALE.range([HEIGHT - MARGINS.bottom, MARGINS.top]);
-                setAxisLimits(DATA, LINES, 'y', YLIM, YSCALE);
+                setAxisLimits(DATA, LINES, "y", YLIM, YSCALE);
 
                 plt.scale.x = XSCALE;
                 plt.scale.original_x = XSCALE.copy()
@@ -1535,7 +1535,7 @@ var d3lines = (function () {
 
                 if (objectExists(Y2SCALE)) {
                     Y2SCALE.range([HEIGHT - MARGINS.bottom, MARGINS.top]);
-                    setAxisLimits(DATA, LINES, 'y2', Y2LIM, Y2SCALE);
+                    setAxisLimits(DATA, LINES, "y2", Y2LIM, Y2SCALE);
                     plt.scale.y2 = Y2SCALE;
                     plt.scale.original_y2 = Y2SCALE.copy()
                 }
@@ -1554,7 +1554,7 @@ var d3lines = (function () {
 
             // Create axes
             if (HOLD){
-                var XAXIS = getValue(plt, 'XAXIS', d3.svg.axis().scale(XSCALE), false)
+                var XAXIS = getValue(plt, "XAXIS", d3.svg.axis().scale(XSCALE), false)
             } else {
                 var XAXIS = d3.svg.axis()
                                     .scale(XSCALE);
@@ -1567,7 +1567,7 @@ var d3lines = (function () {
             }
 
             if (HOLD){
-                var YAXIS = getValue(plt, 'YAXIS', d3.svg.axis().scale(YSCALE).orient("left"), false)
+                var YAXIS = getValue(plt, "YAXIS", d3.svg.axis().scale(YSCALE).orient("left"), false)
             } else {
                 var YAXIS = d3.svg.axis()
                                 .scale(YSCALE)
@@ -1583,7 +1583,7 @@ var d3lines = (function () {
 
             if (objectExists(Y2SCALE)) {
                 if (HOLD){
-                    var Y2AXIS = getValue(plt, 'Y2AXIS', d3.svg.axis().scale(Y2SCALE).orient("right"), false)
+                    var Y2AXIS = getValue(plt, "Y2AXIS", d3.svg.axis().scale(Y2SCALE).orient("right"), false)
                 } else {
                     var Y2AXIS = d3.svg.axis()
                                     .scale(Y2SCALE)
@@ -1601,7 +1601,7 @@ var d3lines = (function () {
             var prevBOX = objectExists(plt.svg.box.group)
             if (!BOX) plt.svg.box.remove();
             if (BOX && !prevBOX) {
-                plt.svg.box.group = svg.append('g')
+                plt.svg.box.group = svg.append("g")
                                 .attr("class", "d3lines-box")
 
                 plt.svg.box.rect = plt.svg.box.group.append("rect")
@@ -1635,9 +1635,9 @@ var d3lines = (function () {
                 plt.line_options.push(line)
 
                 function definition(d, i){
-                    if (line.hasOwnProperty('x') && isNaN(line.x[i])) return false;
-                    if (line.hasOwnProperty('y') && isNaN(line.y[i])) return false;
-                    if (line.hasOwnProperty('y2') && isNaN(line.y2[i])) return false;
+                    if (line.hasOwnProperty("x") && isNaN(line.x[i])) return false;
+                    if (line.hasOwnProperty("y") && isNaN(line.y[i])) return false;
+                    if (line.hasOwnProperty("y2") && isNaN(line.y2[i])) return false;
                     return true;
                 }
 
@@ -1649,23 +1649,23 @@ var d3lines = (function () {
                 var style = line.style;
                 var fill = line.fill;
                 var fill_opacity = line.fill_opacity;
-                if (line.hasOwnProperty('label')) {
+                if (line.hasOwnProperty("label")) {
                     legend_label = line.label;
                 } else if (objectExists(LEGEND_LABELS)){
                     legend_label = getDefaultLineProperty(LEGEND_LABELS, index+indexOffset)
-                } else if (line.hasOwnProperty('ykey')){
+                } else if (line.hasOwnProperty("ykey")){
                     legend_label = line.ykey;//function(d) { return line.ykey;};
-                } else if (line.hasOwnProperty('y2key')){
+                } else if (line.hasOwnProperty("y2key")){
                     legend_label = line.y2key;//function(d) { return line.y2key;};
                 } else {
                     legend_label = "";//function(d) { return "";};
                 }
 
-                if (fill === 'color'){
+                if (fill === "color"){
                     fill = color;
                 }
 
-                if (fill != 'none'){
+                if (fill != "none"){
                     var area = d3.svg.area()
                         .x(linegen1.x())
                         .y(linegen1.y())
@@ -1683,8 +1683,8 @@ var d3lines = (function () {
                 } else {
                     plt.svg.lines.areas.push(null);
                 }
-                plt.svg.lines.lines.push(plt.svg.lines.group.append('svg:path')
-                    .attr('d', linegen1(DATA))
+                plt.svg.lines.lines.push(plt.svg.lines.group.append("svg:path")
+                    .attr("d", linegen1(DATA))
                     .attr("clip-path", "url(#clipPath)")
                     .attr("data-legend", legend_label)
                     .attr("data-line-color", color)
@@ -1697,7 +1697,7 @@ var d3lines = (function () {
                     .attr("data-marker-stroke-width", line.marker_stroke_width)
                     .attr("data-marker-size", line.marker_size)
                     .attr("data-legend-pos", index+indexOffset)
-                    .style("fill", 'none')
+                    .style("fill", "none")
                     .style("stroke", color)
                     .style("stroke-width", width)
                     .style("stroke-dasharray", dashArray(style))
@@ -1706,7 +1706,7 @@ var d3lines = (function () {
                 // MARKERS
                 if (line.marker != "") {
                     var marker_fill = line.marker_fill;
-                    if (marker_fill == 'color') marker_fill = color;
+                    if (marker_fill == "color") marker_fill = color;
 
                     plt.svg.lines.markers.push(plt.svg.lines.group.append("g")
                         .attr("clip-path", "url(#clipPath)")
@@ -1854,7 +1854,7 @@ var d3lines = (function () {
                     .attr("class", "d3lines-interactive");
 
                 // LINE FOR MOUSEOVER
-                if (getValue(INTERACTIVE_OPTIONS, 'line', false)) {
+                if (getValue(INTERACTIVE_OPTIONS, "line", false)) {
                     var MOUSETIP_VLINE = vline(plt.svg.interactive.group, minX, XSCALE, YSCALE);
                     MOUSETIP_VLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.linestyle))
                                     .attr("stroke", INTERACTIVE_OPTIONS.linecolor)
@@ -1874,11 +1874,11 @@ var d3lines = (function () {
                 }
 
                 // DOTS FOR MOUSEOVER
-                if (getValue(INTERACTIVE_OPTIONS, 'dots', false)) {
+                if (getValue(INTERACTIVE_OPTIONS, "dots", false)) {
                     if (!HOLD || !objectExists(plt.svg.interactive.dots)){
                         plt.svg.interactive.dots = [];
                     }
-                    var dot_group = plt.svg.interactive.group.append('g')
+                    var dot_group = plt.svg.interactive.group.append("g")
                         .attr("clip-path", "url(#clipPath)");
 
                     LINES.forEach(function(line, index){
@@ -1891,7 +1891,7 @@ var d3lines = (function () {
                 }
 
                 // BOX FOR TEXT
-                if (getValue(INTERACTIVE_OPTIONS, 'textbox', false)) {
+                if (getValue(INTERACTIVE_OPTIONS, "textbox", false)) {
 
                     var MOUSETIP_BOX = plt.svg.interactive.group.append("rect")
                                         .attr("x", 0)
@@ -1948,7 +1948,7 @@ var d3lines = (function () {
                     if (norm_x < 0 || norm_x > 1 || norm_y < 0 || norm_y > 1) {
                         return;
                     }
-                    if (INTERACTIVE_OPTIONS.snap_axis == 'x') {
+                    if (INTERACTIVE_OPTIONS.snap_axis == "x") {
 
                         var data_x = XSCALE.invert(x0);
 
@@ -1961,7 +1961,7 @@ var d3lines = (function () {
                                          .attr("x2", XSCALE(datapoint[snap_key]))
                                          .style("display", "block");
                         }
-                    } else if (INTERACTIVE_OPTIONS.snap_axis == 'y') {
+                    } else if (INTERACTIVE_OPTIONS.snap_axis == "y") {
 
                         var data_y = YSCALE.invert(y0);
 
@@ -1974,7 +1974,7 @@ var d3lines = (function () {
                                          .attr("y2", YSCALE(datapoint[snap_key]))
                                          .style("display", "block");
                         }
-                    } else if (INTERACTIVE_OPTIONS.snap_axis == 'both'){
+                    } else if (INTERACTIVE_OPTIONS.snap_axis == "both"){
 //                         var data_x = XSCALE.invert(x0);
 //                         var data_y = YSCALE.invert(y0);
 
@@ -1999,11 +1999,11 @@ var d3lines = (function () {
                             if (datapoint.hasOwnProperty(line.xkey) &&
                                 isNaN(datapoint[line.xkey])) {
                                     MOUSETIP_DOTS[index].style("display", "none");
-                            } else if (line.hasOwnProperty('ykey') &&
+                            } else if (line.hasOwnProperty("ykey") &&
                                 datapoint.hasOwnProperty(line.ykey) &&
                                 isNaN(datapoint[line.ykey])) {
                                     MOUSETIP_DOTS[index].style("display", "none");
-                            } else if (line.hasOwnProperty('y2key') &&
+                            } else if (line.hasOwnProperty("y2key") &&
                                 datapoint.hasOwnProperty(line.y2key) &&
                                 isNaN(datapoint[line.y2key])) {
                                     MOUSETIP_DOTS[index].style("display", "none");
@@ -2013,7 +2013,7 @@ var d3lines = (function () {
                             } else {
                                 MOUSETIP_DOTS[index]
                                         .attr("cx", XSCALE(datapoint[line.xkey]))
-                                if (line.hasOwnProperty('ykey')){
+                                if (line.hasOwnProperty("ykey")){
                                     MOUSETIP_DOTS[index]
                                             .attr("cy", YSCALE(datapoint[line.ykey]));
                                 } else {
@@ -2046,7 +2046,7 @@ var d3lines = (function () {
                         var newWidth = textbox.width+2*INTERACTIVE_OPTIONS.box_padding;
                         if (HEIGHT-newHeight < y0+10){
                             MOUSETIP_BOX.attr("y", HEIGHT-newHeight);
-                            var tspans = MOUSETIP_TEXT.selectAll('tspan');
+                            var tspans = MOUSETIP_TEXT.selectAll("tspan");
                             tspans.each(function(d,i){
                                 d3.select(tspans[0][i]).attr("y", HEIGHT-newHeight+INTERACTIVE_OPTIONS.box_padding+lineHeight);
                             });
@@ -2055,7 +2055,7 @@ var d3lines = (function () {
                         }
                         if (WIDTH-newWidth < x0+10){
                             MOUSETIP_BOX.attr("x", WIDTH-newWidth);
-                            var tspans = MOUSETIP_TEXT.selectAll('tspan');
+                            var tspans = MOUSETIP_TEXT.selectAll("tspan");
                             tspans.each(function(d,i){
                                 d3.select(tspans[0][i]).attr("x", WIDTH-newWidth+INTERACTIVE_OPTIONS.box_padding);
                             });
@@ -2108,7 +2108,7 @@ var d3lines = (function () {
                                 .style("stroke-width", LEGEND_BORDER_WIDTH)
                                 .style("stroke-dasharray", dashArray(LEGEND_BORDER_STYLE));
 
-                var bbox = plt.svg.legend.group.selectAll('rect')[0][0].getBBox();
+                var bbox = plt.svg.legend.group.selectAll("rect")[0][0].getBBox();
                 var dx = 0, dy = 0;
 
                 if (isArray(LEGEND_POSITION) && LEGEND_POSITION.length == 2){
@@ -2132,12 +2132,12 @@ var d3lines = (function () {
                         dx = ppos[0]
                         dy = ppos[1]
                     } catch(err) {
-                        if (LEGEND_POSITION.indexOf('right') == -1) {
+                        if (LEGEND_POSITION.indexOf("right") == -1) {
                             dx = MARGINS.left+10
                         } else {
                             dx = WIDTH-MARGINS.right-bbox.width-10
                         }
-                        if (LEGEND_POSITION.indexOf('bottom') == -1) {
+                        if (LEGEND_POSITION.indexOf("bottom") == -1) {
                             dy = MARGINS.top+10
                         } else {
                             dy = HEIGHT-MARGINS.bottom-bbox.height-10
@@ -2275,15 +2275,15 @@ var d3lines = (function () {
             var options = plt.line_options[index];
             var area = plt.svg.lines.areas[index];
             var markers = plt.svg.lines.markers[index];
-            if (options.hasOwnProperty('x') && (options.hasOwnProperty('y') || options.hasOwnProperty('y2'))) {
+            if (options.hasOwnProperty("x") && (options.hasOwnProperty("y") || options.hasOwnProperty("y2"))) {
                 data = Array(options.x.length);
             } else {
                 return;
             }
             function definition(d, i){
-                if (options.hasOwnProperty('x') && isNaN(options.x[i])) return false;
-                if (options.hasOwnProperty('y') && isNaN(options.y[i])) return false;
-                if (options.hasOwnProperty('y2') && isNaN(options.y2[i])) return false;
+                if (options.hasOwnProperty("x") && isNaN(options.x[i])) return false;
+                if (options.hasOwnProperty("y") && isNaN(options.y[i])) return false;
+                if (options.hasOwnProperty("y2") && isNaN(options.y2[i])) return false;
                 return true;
             }
             var linegen = lineGen(plt.scale.x, plt.scale.y, plt.scale.y2, options);
@@ -2299,7 +2299,7 @@ var d3lines = (function () {
                 area.attr("d", newArea);
             }
             if (objectExists(markers)) {
-                markers.selectAll('path').attr("transform", function(d, i) {return "translate(" + (linegen.x())(d, i) + "," + (linegen.y())(d, i) + ")"; })
+                markers.selectAll("path").attr("transform", function(d, i) {return "translate(" + (linegen.x())(d, i) + "," + (linegen.y())(d, i) + ")"; })
             }
 
 
