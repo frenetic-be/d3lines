@@ -66,19 +66,9 @@ d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
         xkey: "Day",
-        line_yaxis: ["left", "left", "right"],
-        xlabel: "Hours",
-        xtick_format: function(data, index){
-            return data*24;
-        },
-        yticks: 3,
-        ytick_format: function(data, index){
-            return ["Very low", "Low", "High", "Very high"][index];
-        },
-        y2tick_format: function(data, index){
-            return data+" %";
-        },
-        margins: {left: 80},
+        legend_font_size: "18px",
+        legend_font_color: "red",
+        legend_font_family: "Palatino, Serif"
     };
     d3lines.plot(svg, options);
 });

@@ -229,6 +229,7 @@ d3.csv("example2.csv", function(error, data) {
     d3lines.plot(svg, options);
 });
 ```
+
 <p align="center"><img src="images/plot/option_axes_font_size.png" width="600" height="375"></p>
 
 ----
