@@ -1,5 +1,7 @@
 #### <a name="plot_options_category_data"></a>Data options
 
+These options will allow you to define the data that you want to plot.
+
 ----
 
 **Table of contents for [``d3lines.plot``](d3lines_plot.md)**
