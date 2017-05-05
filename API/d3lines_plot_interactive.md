@@ -99,12 +99,14 @@ By default, your chart is interactive: this means that the following features ar
 
 - When hovering over your chart, you will see:
     - a vertical line and/or a horizontal line, that snaps to your data along one axis or both axes,
-    - a series of colored dots along the line that snaps to your data,
+    - a series of colored (same color as specified in `line_color`) dots along the line that snaps to your data,
     - a text box with data information at the dot locations.
 
 - zooming/panning is enabled.
 
-All of these features can be turned on or off and everything is customizable using the following options.
+All of these features can be turned on or off and everything is customizable using the following `interactive_options`.
+
+By default, here is how it looks when hovering over your chart:
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -115,8 +117,6 @@ d3.csv("example2.csv", function(error, data) {
     d3lines.plot(svg, options);
 });
 ```
-
-By default, here is how it looks when hovering over your chart:
 
 <p align="center"><img src="images/plot/option_interactive.png" width="600" height="375"></p>
 
