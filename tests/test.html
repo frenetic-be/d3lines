@@ -66,9 +66,12 @@ d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
         xkey: "Day",
-        legend_font_size: "18px",
-        legend_font_color: "red",
-        legend_font_family: "Palatino, Serif"
+        interactive_options: {
+            output_string: function(pt){
+                if (pt.hasOwnProperty("Day")) return "Day: "+pt.Day+"/99";
+                return "Sorry, I can't tell which day it is";
+            }
+        }
     };
     d3lines.plot(svg, options);
 });

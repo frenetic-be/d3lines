@@ -79,12 +79,13 @@
         * [**`dots`**](d3lines_plot_interactive.md#plot_option_interactive_dots) - set to true (default) if you want dots corresponding to your data when hovering over the plot.
         * [**`dot_radius`**](d3lines_plot_interactive.md#plot_option_interactive_dot_radius) - radius of the dots.
         * [**`textbox`**](d3lines_plot_interactive.md#plot_option_interactive_textbox) - set to true (default) if you want a textbox with data information when hovering over the plot.
-        * [**`box_color`**](d3lines_plot_interactive.md#plot_option_interactive_box_color) - background color of the textbox.
+        * [**`box_fill`**](d3lines_plot_interactive.md#plot_option_interactive_box_fill) - background color of the textbox.
+        * [**`box_fill_opacity`**](d3lines_plot_interactive.md#plot_option_interactive_box_fill_opacity) - background opacity of the textbox.
         * [**`box_padding`**](d3lines_plot_interactive.md#plot_option_interactive_box_padding) - padding between the border of the box and the text.
-        * [**`box_opacity`**](d3lines_plot_interactive.md#plot_option_interactive_box_opacity) - background opacity of the textbox.
         * [**`font_size`**](d3lines_plot_interactive.md#plot_option_interactive_font_size) - font size for the textbox.
         * [**`font_color`**](d3lines_plot_interactive.md#plot_option_interactive_font_color) - font color for the textbox.
         * [**`font_family`**](d3lines_plot_interactive.md#plot_option_interactive_font_family) - font family for the textbox.
+        * [**`output_string`**](d3lines_plot_interactive.md#plot_option_interactive_output_string) - specifies the text that you want to write in the text box.
         * [**`zoom`**](d3lines_plot_interactive.md#plot_option_interactive_zoom) - set to true (default) if you want zooming to be enabled.
         
 </em>  
@@ -94,107 +95,373 @@
 #### <a name="plot_options_category_interactivity"></a>Interactivity options
 
 With these options, you can customize the interactive behavior of your chart.
+By default, your chart is interactive: this means that the following features are enabled:
+
+- When hovering over your chart, you will see:
+    - a vertical line and/or a horizontal line, that snaps to your data along one axis or both axes,
+    - a series of colored dots along the line that snaps to your data,
+    - a text box with data information at the dot locations.
+
+- zooming/panning is enabled.
+
+All of these features can be turned on or off and everything is customizable using the following options.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+By default, here is how it looks when hovering over your chart:
+
+<p align="center"><img src="images/plot/option_interactive.png" width="600" height="375"></p>
 
 ----
 
 <!-- interactive -->
 <a name="plot_option_interactive"></a>**`interactive`** - set to true (default) if you want an interactive plot.
-
+Set this option to false to turn off all interactive behavior (including zooming/panning).
 
 ----
 
 <!-- interactive_options -->
 <a name="plot_option_interactive_options"></a>**`interactive_options`** - dictionary of interactive options.
+All options related to the interactive behavior are defined in `interactive_options`.
+`interactive_options` must be an object with the following optional keys:
 
+* [**`snap_axis`**](d3lines_plot_interactive.md#plot_option_interactive_snap_axis) - which axis should your mouse snap to.
+* [**`line`**](d3lines_plot_interactive.md#plot_option_interactive_line) - set to true (default) if you want an interactive line when hovering over the plot.
+* [**`line_color`**](d3lines_plot_interactive.md#plot_option_interactive_line_color) - color of the interactive line.
+* [**`line_width`**](d3lines_plot_interactive.md#plot_option_interactive_line_width) - width of the interactive line.
+* [**`line_style`**](d3lines_plot_interactive.md#plot_option_interactive_line_style) - style of the interactive line.
+* [**`dots`**](d3lines_plot_interactive.md#plot_option_interactive_dots) - set to true (default) if you want dots corresponding to your data when hovering over the plot.
+* [**`dot_radius`**](d3lines_plot_interactive.md#plot_option_interactive_dot_radius) - radius of the dots.
+* [**`textbox`**](d3lines_plot_interactive.md#plot_option_interactive_textbox) - set to true (default) if you want a textbox with data information when hovering over the plot.
+* [**`box_fill`**](d3lines_plot_interactive.md#plot_option_interactive_box_fill) - background color of the textbox.
+* [**`box_fill_opacity`**](d3lines_plot_interactive.md#plot_option_interactive_box_fill_opacity) - background opacity of the textbox.
+* [**`box_padding`**](d3lines_plot_interactive.md#plot_option_interactive_box_padding) - padding between the border of the box and the text.
+* [**`font_size`**](d3lines_plot_interactive.md#plot_option_interactive_font_size) - font size for the textbox.
+* [**`font_color`**](d3lines_plot_interactive.md#plot_option_interactive_font_color) - font color for the textbox.
+* [**`font_family`**](d3lines_plot_interactive.md#plot_option_interactive_font_family) - font family for the textbox.
+* [**`output_string`**](d3lines_plot_interactive.md#plot_option_interactive_output_string) - specifies the text that you want to write in the text box.
+* [**`zoom`**](d3lines_plot_interactive.md#plot_option_interactive_zoom) - set to true (default) if you want zooming to be enabled.
+
+By default,
+
+```javascript
+interactive_options = {
+    snap_axis: "x",
+
+    line: true,
+    line_style: "-",
+    line_width: 1,
+    line_color: "#777",
+
+    dots: true,
+    dot_radius: 5,
+
+    textbox: true,
+    box_fill: "#ffb4b4",
+    box_padding: 10,
+    box_fill_opacity: 0.95,
+    font_size: "1em",
+    font_color: "black",
+    font_family: "",
+
+    output_string: function(pt){
+        var arr = [];
+        Object.keys(pt).forEach(function(key, index){
+            arr.push(key+": "+pt[key]);
+        });
+        return arr.join("<br>");
+    },
+
+    zoom: true,
+};
+```
 
 ----
 
 <!-- snap_axis -->
-<a name="plot_option_interactive_snap_axis"></a>**`snap_axis`** - which axis should your mouse snap to.
+<a name="plot_option_interactive_snap_axis"></a>**`snap_axis`** - which axis should your mouse snap to when hovering over your data.
+By default, `snap_axis = x`.
 
+Possible values:
+
+- "x",
+- "y",
+- "both".
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            snap_axis: "both",
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_snap_axis.png" width="600" height="375"></p>
 
 ----
 
 <!-- line -->
-<a name="plot_option_interactive_line"></a>**`line`** - set to true (default) if you want an interactive line when hovering over the plot.
+<a name="plot_option_interactive_line"></a>**`line`** - set to true (default) if you want an interactive line when hovering over the plot and to false otherwise.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            line: false,
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_line.png" width="600" height="375"></p>
 
 ----
 
 <!-- line_color -->
 <a name="plot_option_interactive_line_color"></a>**`line_color`** - color of the interactive line.
-
-
-----
-
 <!-- line_width -->
 <a name="plot_option_interactive_line_width"></a>**`line_width`** - width of the interactive line.
-
-
-----
-
 <!-- line_style -->
 <a name="plot_option_interactive_line_style"></a>**`line_style`** - style of the interactive line.
 
+By default, `line_color = "#777"`, `line_style: "-"` and `line_width: 1`.
+
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
+
+See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            line_color: "red",
+            line_style: "dashed",
+            line_width: 2,
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_line_color.png" width="600" height="375"></p>
 
 ----
 
 <!-- dots -->
-<a name="plot_option_interactive_dots"></a>**`dots`** - set to true (default) if you want dots corresponding to your data when hovering over the plot.
+<a name="plot_option_interactive_dots"></a>**`dots`** - set to true (default) if you want dots corresponding to your data when hovering over the plot and to false otherwise.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            dots: false,
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_dots.png" width="600" height="375"></p>
 
 ----
 
 <!-- dot_radius -->
 <a name="plot_option_interactive_dot_radius"></a>**`dot_radius`** - radius of the dots.
+By default, `dot_radius = 5`.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            dot_radius: 10,
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_dot_radius.png" width="600" height="375"></p>
 
 ----
 
 <!-- textbox -->
 <a name="plot_option_interactive_textbox"></a>**`textbox`** - set to true (default) if you want a textbox with data information when hovering over the plot.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            textbox: false,
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_textbox.png" width="600" height="375"></p>
 
 ----
 
-<!-- box_color -->
-<a name="plot_option_interactive_box_color"></a>**`box_color`** - background color of the textbox.
+<!-- box_fill -->
+<a name="plot_option_interactive_box_fill"></a>**`box_fill`** - background color of the textbox.
+By default, `box_fill = "#ffb4b4"`.
 
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_fill: "lightsteelblue",
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_box_fill.png" width="600" height="375"></p>
+
+----
+
+<!-- box_fill_opacity -->
+<a name="plot_option_interactive_box_fill_opacity"></a>**`box_fill_opacity`** - background opacity of the textbox.
+By default, `box_fill_opacity = 0.95`.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_fill: "limegreen",
+            box_fill_opacity: 0.5
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_box_fill_opacity.png" width="600" height="375"></p>
 
 ----
 
 <!-- box_padding -->
 <a name="plot_option_interactive_box_padding"></a>**`box_padding`** - padding between the border of the box and the text.
+By default, `box_padding = 10`.
 
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_padding: 50,
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
 
-----
-
-<!-- box_opacity -->
-<a name="plot_option_interactive_box_opacity"></a>**`box_opacity`** - background opacity of the textbox.
+<p align="center"><img src="images/plot/option_interactive_box_padding.png" width="600" height="375"></p>
 
 
 ----
 
 <!-- font_size -->
 <a name="plot_option_interactive_font_size"></a>**`font_size`** - font size for the textbox.
-
-
-----
-
 <!-- font_color -->
 <a name="plot_option_interactive_font_color"></a>**`font_color`** - font color for the textbox.
-
-
-----
-
 <!-- font_family -->
 <a name="plot_option_interactive_font_family"></a>**`font_family`** - font family for the textbox.
 
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_fill: "steelblue",
+            font_size: "2em",
+            font_color: "white",
+            font_family: "Palatino",
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_font_size.png" width="600" height="375"></p>
 
 ----
 
-    <!-- zoom -->
-<a name="plot_option_interactive_zoom"></a>**`zoom`** - set to true (default) if you want zooming to be enabled.
+<!-- output_string -->
+<a name="plot_option_interactive_output_string"></a>**`output_string`** - specifies the text that you want to write in the text box.
+`output_string` should be a function that transform a data object into a string.
 
+For example (default value):
+```javascript
+output_string: function(pt){
+    var arr = [];
+    Object.keys(pt).forEach(function(key, index){
+        arr.push(key+": "+pt[key]);
+    });
+    return arr.join("<br>");
+}
+```
+
+In this example, a string representation of all key-value pairs in the data object.
+
+Here is another example,
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            output_string: function(pt){
+                if (pt.hasOwnProperty("Day")) return "Day: "+pt.Day+"/99";
+                return "Sorry, I can't tell which day it is";
+            }
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_interactive_output_string.png" width="600" height="375"></p>
+
+----
+
+<!-- zoom -->
+<a name="plot_option_interactive_zoom"></a>**`zoom`** - set to true (default) if you want zooming/panning to be enabled and to false otherwise.
+Click-and-drag to pan, spin the wheel or double-tap to zoom. See [d3.zoom](https://github.com/d3/d3-zoom#api-reference) to see how native events are interpreted.
 
 ----

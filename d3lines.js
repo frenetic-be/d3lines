@@ -108,9 +108,9 @@ var d3lines = (function () {
             dot_radius: 5,
 
             textbox: true,
-            box_color: "#ffb4b4",
+            box_fill: "#ffb4b4",
             box_padding: 10,
-            box_opacity: 0.95,
+            box_fill_opacity: 0.95,
             font_size: "1em",
             font_color: "black",
             font_family: "",
@@ -1496,6 +1496,10 @@ var d3lines = (function () {
                 delete options.interactive_options;
             }
 
+            if (["x", "y", "both"].indexOf(INTERACTIVE_OPTIONS.snap_axis) === -1){
+                INTERACTIVE_OPTIONS.snap_axis = "x";
+            }
+
             Object.keys(options).forEach(function(key){
                 throw "ValueError: unknown key `"+key+"`";
             });
@@ -1898,8 +1902,8 @@ var d3lines = (function () {
                                         .attr("y", 0)
                                         .attr("width", 50)
                                         .attr("height", 50)
-                                        .attr("fill", INTERACTIVE_OPTIONS.box_color)
-                                        .attr("fill-opacity", INTERACTIVE_OPTIONS.box_opacity)
+                                        .attr("fill", INTERACTIVE_OPTIONS.box_fill)
+                                        .attr("fill-opacity", INTERACTIVE_OPTIONS.box_fill_opacity)
                                         .style("display", "none");
                     plt.svg.interactive.box = MOUSETIP_BOX;
 

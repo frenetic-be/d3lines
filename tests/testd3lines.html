@@ -1,36 +1,36 @@
 <!DOCTYPE html>
 
 <html lang="en">
- 
+
 <head>
- 
+
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script src="https://d3js.org/d3-time.v1.min.js"></script>
     <script src="../d3lines.js"></script>
 
     <style>
-    
+
         body, h1, div {
             text-align: center;
             font-family: 'Open Sans', sans-serif, Palatino;
             font-size: 1em;
             font-weight: 300;
         }
-    
+
         h1 {
             font-size: 2em;
         }
-        
+
         div#maxhum {
             font-size: 1.125em;
-/* 
+/*
             position: absolute;
             top: 560px;
  */
             width: 100%;
         }
-        
+
         div.navigation {
             position: absolute;
             top: 620px;
@@ -43,25 +43,25 @@
         }
 
     </style>
- 
+
 </head>
- 
+
 <body>
- 
+
     <h1>Temperature and humidity data for {{ date }} </h1>
-    
+
     <div class="container">
- 
+
         <div class="jumbotron">
- 
+
             <svg id="visualisation"></svg>
- 
+
         </div>
- 
+
     </div>
- 
+
     <div id="maxhum"></div>
- 
+
     <div class="navigation">
         {% if prevlink %}
             <a href="{{ prevlink }}">Previous day</a>
@@ -101,7 +101,7 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
         d.Temperature = celsius2fahrenheit(d.Temperature);
     });
 
-    
+
     // Display the time of max humidity
     date = data[indexMaxHum].Time;
     datestr = (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
@@ -112,15 +112,15 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
 
     timestr = hours+":"+mins;
     document.getElementById("maxhum").innerHTML = "Max. Humidity = "+maxHum+"% on "+datestr+" at "+timestr;
-        
+
     var svg = d3.select("#visualisation");
 
     options = {
         data: data,
-        
+
         xkey: 'Time',
         // ykey: 'Time',
-        
+
         lines: [{
 //             xkey: 'Time',
 //             ykey: 'Temperature',
@@ -153,23 +153,23 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
             bottom: 45,
             right: 70
         },
-        
+
         xscale_type: 'time',
         yscale_type: 'linear',
         y2scale_type: 'linear',
-        
+
         xlim: 1.0,
         ylim: 1.02,
         y2lim: 1.02,
-        
+
         xticks: 10,
         yticks: 5,
         y2ticks: 5,
 
-        xtick_format: d3.time.format('%H:%M'),        
+        xtick_format: d3.time.format('%H:%M'),
         ytick_format: function(d){return d+" °F"},
         y2tick_format: function(d){return d+"%"},
-        
+
         box: true,
         xgrid: true,
         xgrid_color: '#BBB',
@@ -183,21 +183,21 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
         y2grid_color: '#BBB',
         y2grid_width: 0.5,
         y2grid_linestyle: ':',
-        
+
         legend: true,
         legend_font_size: "0.875em",
         legend_fill: "white",
         legend_linecolor: "#777",
         legend_linewidth: 1,
         legend_linestyle: "-",
-        
+
         xlabel: 'Time',
         ylabel: 'Temperature',
         y2label: 'Humidity',
         xlabel_offset: 0,
         ylabel_offset: 0,
         y2label_offset: 0,
-        
+
         axis_color: '#777',
         axis_width: 1,
         axis_linestyle: '-',
@@ -207,10 +207,10 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
 
         interactive: true,
         interactive_options: {
-        
+
             snap_axis: 'x',
             snap_key: "",
-    
+
             line: true,
             linestyle: "-",
             linewidth: 1,
@@ -219,10 +219,10 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
             dots: true,
             dot_radius: 5,
 
-            box_color: "#ffb4b4",
+            box_fill: "#ffb4b4",
             box_padding: 10,
-            box_opacity: 0.95,
-        
+            box_fill_opacity: 0.95,
+
             output_string: function(pt){
                 date = pt.Time;
                 datestr = (date.getMonth()+1)+"/"+date.getDate()+"/"+date.getFullYear();
@@ -231,7 +231,7 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
                 mins = date.getMinutes();
                 if (mins < 10) mins = "0"+mins;
                 timestr = hours+":"+mins;
-        
+
                 tempstr = pt.Temperature.toFixed(1) + ' °F ('+fahrenheit2celsius(pt.Temperature).toFixed(1)+' °C)';
 
                 humstr = pt.Humidity;
@@ -241,16 +241,8 @@ d3.csv("TempHum_20170413.txt", function(error, data) {
                 return "Time: "+datestr+" at "+timestr+"<br>Temperature: "+tempstr+"<br>Humidity: "+humstr;
             }
         }
-        
+
     };
-    
-options = {
-    data: data,
-    xkey: "Time",
-    xscale_type: "time",
-    legend_font_size: "0.75em",
-    legend_linecolor: "red",
-};
 
     d3objects = d3plot(svg, options);
 
