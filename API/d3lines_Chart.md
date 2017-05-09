@@ -1,3 +1,18 @@
+<em>
+**Table of contents for [`d3lines.Chart`](d3lines_Chart.md)**
+
+* [`d3lines.Chart`](d3lines_Chart.md#Chart)
+* [`d3lines.SVGChart`](d3lines_Chart.md#SVGChart)
+* [`d3lines.SVGAxesGroup`](d3lines_Chart.md#SVGAxesGroup)
+* [`d3lines.SVGAxesLabelGroup`](d3lines_Chart.md#SVGAxesLabelGroup)
+* [`d3lines.SVGBoxGroup`](d3lines_Chart.md#SVGBoxGroup)
+* [`d3lines.SVGLegendGroup`](d3lines_Chart.md#SVGLegendGroup)
+* [`d3lines.SVGLinesGroup`](d3lines_Chart.md#SVGLinesGroup)
+* [`d3lines.SVGInteractiveGroup`](d3lines_Chart.md#SVGInteractiveGroup)
+</em>
+
+----
+
 ## <a name="Chart"></a>`d3lines.Chart(svg)`
 
 `d3lines.Chart` is an object representing a chart and all of its svg elements.
@@ -82,11 +97,11 @@ plt.reset();
 
 Arguments:
 
-- **`svg`**: a D3 selection object of an `svg` tag.
+- **`svg`**: D3 selection object of an `svg` tag.
 
 ### Properties
 
-- **`main`**: object containing all chart options (see [`options`](d3lines_plot.md#plot_options))
+- **`main`**: D3 selection object of the `svg` tag..
 - **`axes`**: [`d3lines.SVGAxesGroup`](d3lines_Chart.md#SVGAxesGroup) object that contains the svg elements related to the chart axes.
 - **`box`**: [`d3lines.SVGBoxGroup`](d3lines_Chart.md#SVGBoxGroup) object that contains the svg elements related to the box around the chart.
 - **`legend`**: [`d3lines.SVGLegendGroup`](d3lines_Chart.md#SVGLegendGroup) object that contains the svg elements related to the chart legend.
@@ -95,7 +110,7 @@ Arguments:
 
 ### Methods
 
-- **`removeAll()`**: remove all nodes and groups from the chart (axes, box, legend, lines, interactive).
+- **`removeAll()`**: removes all nodes and groups from the chart (axes, box, legend, lines, interactive).
 
 For example:
 
@@ -129,7 +144,7 @@ plt.svg.axes.y.selectAll('.tick line').style("stroke", "red");
 
 ### Methods
 
-- **`remove()`**: remove the svg group containing all axes and labels.
+- **`remove()`**: removes the svg group containing all axes and labels.
 
 For example:
 
@@ -171,7 +186,7 @@ plt.svg.axes.labels.y.text("Y-AXIS");
 
 ### Methods
 
-- **`remove()`**: remove the svg group containing all axes labels.
+- **`remove()`**: removes the svg group containing all axes labels.
 
 For example:
 
@@ -210,7 +225,7 @@ plt.svg.box.rect.style("stroke", "red");
 
 ### Methods
 
-- **`remove()`**: remove the svg group containing the box. This will also remove the axes lines.
+- **`remove()`**: removes the svg group containing the box. This will also remove the axes lines.
 
 For example:
 
@@ -256,7 +271,7 @@ plt.svg.legend.group.attr("transform", "translate(500, 200)");
 
 ### Methods
 
-- **`remove()`**: remove the svg group containing the legend.
+- **`remove()`**: removes the svg group containing the legend.
 
 For example:
 
@@ -305,7 +320,7 @@ plt.svg.lines.lines[0].style("stroke-width", 4);
 
 ### Methods
 
-- **`remove()`**: remove the svg group containing the data lines.
+- **`remove()`**: removes the svg group containing the data lines.
 
 For example:
 
@@ -340,7 +355,7 @@ plt.svg.lines.remove();
 
 ### Methods
 
-- **`remove()`**: remove the svg group.
+- **`remove()`**: removes the svg group.
 
 For example:
 
