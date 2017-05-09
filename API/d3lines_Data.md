@@ -6,7 +6,7 @@ Arguments:
 
 - **`data`**: the data.
 
-`d3lines.plot` accepts several data types:
+`d3lines.Data` accepts several data types:
 
 1. An array of dictionaries
 
