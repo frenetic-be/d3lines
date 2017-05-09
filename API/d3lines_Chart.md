@@ -1,4 +1,5 @@
 <em>
+
 **Table of contents for [`d3lines.Chart`](d3lines_Chart.md)**
 
 * [`d3lines.Chart`](d3lines_Chart.md#Chart)
@@ -9,6 +10,7 @@
 * [`d3lines.SVGLegendGroup`](d3lines_Chart.md#SVGLegendGroup)
 * [`d3lines.SVGLinesGroup`](d3lines_Chart.md#SVGLinesGroup)
 * [`d3lines.SVGInteractiveGroup`](d3lines_Chart.md#SVGInteractiveGroup)
+
 </em>
 
 ----
