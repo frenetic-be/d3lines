@@ -21,7 +21,8 @@ var d3lines = (function () {
         },
 
         DEFAULT_LINE_YAXIS = "left",
-        DEFAULT_LINE_COLOR = ["blue", "red", "limegreen", "magenta", "cyan", "black", "orange"],
+        DEFAULT_LINE_COLOR = ["blue", "red", "limegreen", "magenta", "cyan",
+                              "black", "orange"],
         DEFAULT_LINE_WIDTH = 1.5,
         DEFAULT_LINE_WIDTH_SCATTER = 0.,
         DEFAULT_LINE_STYLE = "-",
@@ -30,7 +31,8 @@ var d3lines = (function () {
         DEFAULT_MARKER = "",
         DEFAULT_MARKER_SCATTER = ["o", "s", "v", "d", "^", "+"],
         DEFAULT_MARKER_FILL = "white",
-        DEFAULT_MARKER_FILL_SCATTER = ["#ddf", "#fdd", "#ded", "#fdf", "#dff", "#ddd", "#fed"],
+        DEFAULT_MARKER_FILL_SCATTER = ["#ddf", "#fdd", "#ded", "#fdf", "#dff",
+                                       "#ddd", "#fed"],
         DEFAULT_MARKER_FILL_OPACITY = 1.0,
         DEFAULT_MARKER_FILL_OPACITY_SCATTER = 1.0,
         DEFAULT_MARKER_STROKE_WIDTH = 1.0,
@@ -78,9 +80,9 @@ var d3lines = (function () {
         DEFAULT_XLIM = 1.0,
         DEFAULT_YLIM = 1.05,
         DEFAULT_Y2LIM = 1.05,
-        DEFAULT_XLABEL,
-        DEFAULT_YLABEL,
-        DEFAULT_Y2LABEL,
+        DEFAULT_XLABEL = "",
+        DEFAULT_YLABEL = "",
+        DEFAULT_Y2LABEL = "",
         DEFAULT_XLABEL_OFFSET = 0,
         DEFAULT_YLABEL_OFFSET = 0,
         DEFAULT_Y2LABEL_OFFSET = 0,
@@ -236,7 +238,9 @@ var d3lines = (function () {
         if (typeData === "array"){
             if (data.length != 0){
                 var type = getType(data[0]);
-                var all = data.reduce(function(total, row){return total && getType(row) === type});
+                var all = data.reduce(function(total, row){
+                    return total && getType(row) === type;
+                });
                 if (!all) throw TypeError("Data has mixed types");
                 if (type === "object") {
                     this.data = data;
@@ -246,7 +250,7 @@ var d3lines = (function () {
                     data.forEach(function(row, jrow){
                         data2.push({});
                         row.forEach(function(item, jitem){
-                            data2[jrow]["y"+(jitem+1)] = item
+                            data2[jrow]["y"+ (jitem + 1)] = item
                         });
                     });
                     this.data = data2;
@@ -272,7 +276,10 @@ var d3lines = (function () {
                     if (jkey === 0) {
                         nitems = data[key].length
                     } else {
-                        if (data[key].length !== nitems) throw TypeError("Inconsistent number of elements for different keys");
+                        if (data[key].length !== nitems) {
+                            throw TypeError("Inconsistent number of elements " +
+                                            "for different keys");
+                        }
                     }
                     data[key].forEach(function(item, jitem){
                         if (jkey === 0) {
@@ -304,7 +311,9 @@ var d3lines = (function () {
         var data2 = [], rowName;
         data.forEach(function(row, jrow){
             rowName = row[""];
-            var keys = Object.keys(data[0]).filter(function(key){return key.trim() !== ""});
+            var keys = Object.keys(data[0]).filter(function(key){
+                return key.trim() !== "";
+            });
             keys.forEach(function(key, jkey){
                 if (jrow === 0) {
                     data2.push({});
@@ -332,20 +341,21 @@ var d3lines = (function () {
         if (data.length === 0) return;
 
         // Get the keys from the first element and remove empty keys
-        var keys = Object.keys(data[0]).filter(function(key){return key.trim() !== ""});
+        var keys = Object.keys(data[0]).filter(function(key){
+            return key.trim() !== "";
+        });
         // Get the data types from the first element
         var types = [];
         keys.forEach(function(key){
             if (typeof(data[0][key]) === "object"){
                 types.push("object");
-            } else if (isNumeric(data[0][key]) || (typeof(data[0][key]) === "string" && data[0][key].trim() === "")) {
+            } else if (isNumeric(data[0][key]) ||
+                       (typeof(data[0][key]) === "string" &&
+                        data[0][key].trim() === "")) {
                 types.push("float");
             } else if (objectExists(toDate(data[0][key]))) {
                 types.push("date");
             } else {
-//                 console.log("Warning: Could not convert key `"+key+
-//                             "` to a plotable format: column will be ignored. "+
-//                             "You might need to transform it beforehand if you need it.");
                 types.push("string");
             }
         });
@@ -370,8 +380,9 @@ var d3lines = (function () {
                         if (!isNumeric(row[key])){
                             row2[key] = NaN;
                         } else {
-                            if (typeof(row[key]) === "string" && row[key].trim() === ""){
-                                row2[key] = NaN;
+                            if (typeof(row[key]) === "string" &&
+                                row[key].trim() === ""){
+                                    row2[key] = NaN;
                             } else {
                                 row2[key] = parseFloat(row[key]);
                                 allNaNs = false;
@@ -421,7 +432,9 @@ var d3lines = (function () {
         var data2 = [], rowName, keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
-                keys = Object.keys(data[0]).filter(function(key){return key.trim() !== ""});
+                keys = Object.keys(data[0]).filter(function(key){
+                    return key.trim() !== "";
+                });
             }
             var row2 = {};
             keys.slice(start, end).forEach(function(key, jkey){
@@ -442,12 +455,16 @@ var d3lines = (function () {
             throw TypeError("The data should be an array of dictionaries.")
         }
 
-        if (data.length === 0 || !objectExists(columns) || !isArray(columns)) return;
+        if (data.length === 0 ||
+            !objectExists(columns) ||
+            !isArray(columns)) return;
 
         var data2 = [], rowName, keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
-                keys = Object.keys(data[0]).filter(function(key){return columns.indexOf(key) != -1});
+                keys = Object.keys(data[0]).filter(function(key){
+                    return columns.indexOf(key) != -1;
+                });
             }
             var row2 = {};
             keys.forEach(function(key, jkey){
@@ -468,12 +485,16 @@ var d3lines = (function () {
             throw TypeError("The data should be an array of dictionaries.")
         }
 
-        if (data.length === 0 || !objectExists(columns) || !isArray(columns)) return;
+        if (data.length === 0 ||
+            !objectExists(columns) ||
+            !isArray(columns)) return;
 
         var data2 = [], rowName, keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
-                keys = Object.keys(data[0]).filter(function(key){return columns.indexOf(key) == -1});
+                keys = Object.keys(data[0]).filter(function(key){
+                    return columns.indexOf(key) == -1
+                });
             }
             var row2 = {};
             keys.forEach(function(key, jkey){
@@ -510,7 +531,354 @@ var d3lines = (function () {
         return new Data(data2);
     }
 
-    ///////////////////////////
+    ///////////////////////
+    /// SVGGroup objects ///
+    ///////////////////////
+
+    function SVGGroup(group){
+        this.group = group;
+    }
+
+    SVGGroup.prototype.remove = function(){
+        var object = this;
+        if (object === undefined) return;
+        if (object.group !== undefined) {
+            object.group.remove()
+            object.group = undefined;
+        }
+    }
+
+    SVGGroup.prototype.append = function(arg){
+        var object = this;
+        if (object.group !== undefined) {
+            object.group.append(arg)
+        }
+    }
+
+    function SVGLinesGroup(group, lines, areas, markers){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGLinesGroup) )
+            return new SVGLinesGroup(group, lines, areas, markers);
+
+        SVGGroup.call(this, group);
+        this.lines = lines;
+        this.areas = areas;
+        this.markers = markers;
+    }
+
+    SVGLinesGroup.prototype = Object.create(SVGGroup.prototype);
+    SVGLinesGroup.prototype.constructor = SVGLinesGroup;
+
+    SVGLinesGroup.prototype.remove = function(){
+        SVGGroup.prototype.remove.call(this)
+        this.lines = undefined;
+        this.areas = undefined;
+        this.markers = undefined;
+    }
+
+    function SVGAxesLabelGroup(group, x, y, y2){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGAxesLabelGroup) )
+            return new SVGAxesLabelGroup(group, x, y, y2);
+
+        SVGGroup.call(this, group);
+        this.x = x;
+        this.y = y;
+        this.y2 = y2;
+    }
+
+    SVGAxesLabelGroup.prototype = Object.create(SVGGroup.prototype);
+    SVGAxesLabelGroup.prototype.constructor = SVGAxesLabelGroup;
+
+    SVGAxesLabelGroup.prototype.remove = function(){
+        SVGGroup.prototype.remove.call(this)
+        this.x = undefined;
+        this.y = undefined;
+        this.y2 = undefined;
+    }
+
+    function SVGAxesGroup(group, x, y, y2, labels){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGAxesGroup) )
+            return new SVGAxesGroup(group, x, y, y2, labels);
+
+        SVGGroup.call(this, group);
+        this.x = x;
+        this.y = y;
+        this.y2 = y2;
+        if (labels === undefined){
+            this.labels = new SVGAxesLabelGroup()
+        } else {
+            this.labels = labels;
+        }
+    }
+
+    SVGAxesGroup.prototype = Object.create(SVGGroup.prototype);
+    SVGAxesGroup.prototype.constructor = SVGAxesGroup;
+
+    SVGAxesGroup.prototype.remove = function(){
+        SVGAxesLabelGroup.prototype.remove.call(this.labels)
+        SVGGroup.prototype.remove.call(this)
+        this.x = undefined;
+        this.y = undefined;
+        this.y2 = undefined;
+        this.labels = undefined;
+    }
+
+    function SVGLegendGroup(group){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGLegendGroup) )
+            return new SVGLegendGroup(group);
+
+        SVGGroup.call(this, group);
+    }
+
+    SVGLegendGroup.prototype = Object.create(SVGGroup.prototype);
+    SVGLegendGroup.prototype.constructor = SVGLegendGroup;
+
+    function SVGBoxGroup(group, rect){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGBoxGroup) )
+            return new SVGBoxGroup(group, rect);
+
+        SVGGroup.call(this, group);
+        this.rect = rect;
+    }
+
+    SVGBoxGroup.prototype = Object.create(SVGGroup.prototype);
+    SVGBoxGroup.prototype.constructor = SVGBoxGroup;
+
+    SVGBoxGroup.prototype.remove = function(){
+        SVGGroup.prototype.remove.call(this)
+        this.rect = undefined;
+    }
+
+    function SVGInteractiveGroup(group, hline, vline, dots, box, text){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGInteractiveGroup) )
+            return new SVGInteractiveGroup(group, hline, vline, dots, box,
+                                           text);
+
+        SVGGroup.call(this, group);
+        this.hline = hline;
+        this.vline = vline;
+        this.dots = dots;
+        this.box = box;
+        this.text = text;
+    }
+
+    SVGInteractiveGroup.prototype = Object.create(SVGGroup.prototype);
+    SVGInteractiveGroup.prototype.constructor = SVGInteractiveGroup;
+
+    SVGInteractiveGroup.prototype.remove = function(){
+        SVGGroup.prototype.remove.call(this)
+        this.hline = undefined;
+        this.vline = undefined;
+        this.dots = undefined;
+        this.box = undefined;
+        this.text = undefined;
+    }
+
+    function SVGChart(svg){
+        // if user accidentally omits the new keyword, this will
+        // silently correct the problem...
+        if ( !(this instanceof SVGChart) )
+            return new SVGChart(svg);
+
+        this.main = svg;
+        this.axes = new SVGAxesGroup();
+        this.box = new SVGBoxGroup();
+        this.lines = new SVGLinesGroup();
+        this.legend = new SVGLegendGroup();
+        this.interactive = new SVGInteractiveGroup();
+    }
+
+    SVGChart.prototype.removeAll = function(){
+        this.axes.remove();
+        this.box.remove();
+        this.lines.remove();
+        this.legend.remove();
+        this.interactive.remove();
+        var node = this.main.node();
+        while (node.hasChildNodes()) {
+            node.removeChild(node.lastChild);
+        }
+    }
+
+    function Chart(svg){
+        if (arguments.length < 1){
+            throw TypeError("d3lines.Chart takes 1 argument: a d3.Selection of an svg tag.")
+        }
+        if ( !(this instanceof Chart) )
+            return new Chart(svg);
+
+        this.options = {};
+        this.width = undefined;
+        this.height = undefined;
+        this.margins = {};
+        this.xaxis = undefined;
+        this.yaxis = undefined;
+        this.y2axis = undefined;
+        this.line_options = [];
+        this.scale = {};
+        this.svg = new SVGChart(svg);
+    }
+
+    Chart.prototype.copy = function(other){
+        if (!other instanceof Chart){
+            throw TypeError("You can only copy a d3lines.Chart object");
+        }
+        this.options = copyOptions(other.options)
+        this.width = other.width;
+        this.height = other.height;
+        this.margins = copyOptions(other.margins);
+        this.xaxis = other.xaxis;
+        this.yaxis = other.yaxis;
+        this.y2axis = other.y2axis;
+        this.line_options = copyOptions(other.line_options);
+        var scale = this.scale;
+        Object.keys(other.scale).forEach(function(key){
+            scale[key] = other.scale[key];
+        });
+        this.svg = other.svg;
+    }
+
+    Chart.prototype.redrawXAxis = function(refreshStyle){
+        var self = this;
+        if (objectExists(self.svg.axes.x) && objectExists(self.xaxis)) {
+            self.svg.axes.x.call(self.xaxis)
+        }
+        if (!objectExists(refreshStyle)) refreshStyle = true;
+        if (refreshStyle){
+            setAxesStyle(self.svg.main, self.options);
+            createGrid(self.svg.main, self.options, self.scale.hasOwnProperty("y2"));
+        }
+    }
+
+    Chart.prototype.redrawYAxis = function(refreshStyle){
+        var self = this;
+        if (objectExists(self.svg.axes.y) && objectExists(self.yaxis)) {
+            self.svg.axes.y.call(self.yaxis)
+        }
+        if (!objectExists(refreshStyle)) refreshStyle = true;
+        if (refreshStyle){
+            setAxesStyle(self.svg.main, self.options);
+            createGrid(self.svg.main, self.options, self.scale.hasOwnProperty("y2"));
+        }
+    }
+
+    Chart.prototype.redrawY2Axis = function(refreshStyle){
+        var self = this;
+        if (objectExists(self.svg.axes.y2) && objectExists(self.y2axis)) {
+            self.svg.axes.y2.call(self.y2axis)
+        }
+        if (!objectExists(refreshStyle)) refreshStyle = true;
+        if (refreshStyle){
+            setAxesStyle(self.svg.main, self.options);
+            createGrid(self.svg.main, self.options, self.scale.hasOwnProperty("y2"));
+        }
+    }
+
+    Chart.prototype.redrawLine = function(index){
+        var self = this;
+        if (!objectExists(self.svg.lines.lines)){
+            return;
+        }
+        var line = self.svg.lines.lines[index];
+        var options = self.line_options[index];
+        var area = self.svg.lines.areas[index];
+        var markers = self.svg.lines.markers[index];
+        if (options.hasOwnProperty("x") && (options.hasOwnProperty("y") || options.hasOwnProperty("y2"))) {
+            data = Array(options.x.length);
+        } else {
+            return;
+        }
+        function definition(d, i){
+            if (options.hasOwnProperty("x") && isNaN(options.x[i])) return false;
+            if (options.hasOwnProperty("y") && isNaN(options.y[i])) return false;
+            if (options.hasOwnProperty("y2") && isNaN(options.y2[i])) return false;
+            return true;
+        }
+        var linegen = lineGen(self.scale.x, self.scale.y, self.scale.y2, options);
+        linegen.defined(definition);
+        line.attr("d", linegen(data));
+        if (objectExists(area)) {
+            var newArea = d3.svg.area()
+                .x(linegen.x())
+                .y(linegen.y())
+                .y0(self.scale.y.range()[0])
+                .defined(definition);
+
+            area.attr("d", newArea);
+        }
+        if (objectExists(markers)) {
+            markers.selectAll("path").attr("transform", function(d, i) {return "translate(" + (linegen.x())(d, i) + "," + (linegen.y())(d, i) + ")"; })
+        }
+
+
+    }
+
+    Chart.prototype.redrawLines = function(){
+        var self = this;
+        if (!objectExists(self.svg.lines.lines) ||
+            !objectExists(self.svg.lines.areas) ||
+            !objectExists(self.svg.lines.markers)){
+            return;
+        }
+        if (isArray(self.svg.lines.lines) &&
+            isArray(self.svg.lines.areas) &&
+            isArray(self.svg.lines.markers) &&
+            self.line_options.length !== self.svg.lines.lines.length &&
+            self.svg.lines.areas.length !== self.svg.lines.lines.length &&
+            self.svg.lines.markers.length !== self.svg.lines.lines.length) {
+                return;
+        }
+        var lines = self.svg.lines.lines;
+        lines.forEach(function(line, index){
+            self.redrawLine(index);
+        });
+    }
+
+    Chart.prototype.redraw = function(){
+        var self = this;
+        if (!self.scale.hasOwnProperty("original_x") ||
+            !self.scale.hasOwnProperty("original_y") ||
+            !self.scale.hasOwnProperty("x") ||
+            !self.scale.hasOwnProperty("y") ||
+            !objectExists(self.svg.lines.lines) ||
+            !objectExists(self.svg.lines.areas) ||
+            !objectExists(self.svg.lines.markers)){
+            return;
+        }
+        self.redrawXAxis(false);
+        self.redrawYAxis(false);
+        self.redrawY2Axis(false);
+        setAxesStyle(self.svg.main, self.options);
+        createGrid(self.svg.main, self.options, self.scale.hasOwnProperty("y2"));
+        self.redrawLines();
+    }
+
+    Chart.prototype.reset = function(){
+        var self = this;
+        if (self.scale.hasOwnProperty("original_x") && self.scale.hasOwnProperty("x")) {
+            self.scale.x.domain([self.scale.original_x.domain()[0], self.scale.original_x.domain()[1]])
+        }
+        if (self.scale.hasOwnProperty("original_y") && self.scale.hasOwnProperty("y")) {
+            self.scale.y.domain([self.scale.original_y.domain()[0], self.scale.original_y.domain()[1]])
+        }
+        if (self.scale.hasOwnProperty("original_y2") && self.scale.hasOwnProperty("y2")) {
+            self.scale.y2.domain([self.scale.original_y2.domain()[0], self.scale.original_y2.domain()[1]])
+        }
+        self.redraw();
+    }
+
+    ///////////////////////
 
     function lineGen(xscale, yscale, y2scale, line) {
         return d3.svg.line()
@@ -561,9 +929,10 @@ var d3lines = (function () {
                     var splitems = key.split("-");
                     var root = key;
                     var index = 2;
-                    if (splitems.length > 1 && isNumeric(splitems[splitems.length-1])){
-                        index = parseFloat(splitems[splitems.length-1])+1;
-                        root = splitems.slice(0, splitems.length-1).join("-");
+                    if (splitems.length > 1 &&
+                        isNumeric(splitems[splitems.length - 1])){
+                            index = parseFloat(splitems[splitems.length - 1])+1;
+                            root = splitems.slice(0, splitems.length - 1).join("-");
                     }
                     key = root+"-"+index;
                 }
@@ -582,7 +951,9 @@ var d3lines = (function () {
                 };
               });
 
-            items = d3.entries(items).sort(function(a,b) { return a.value.pos-b.value.pos;});
+            items = d3.entries(items).sort(function(a, b) {
+                return a.value.pos - b.value.pos;
+            });
 
             var legend = g.append("g")
                 .attr("class", "legend-items")
@@ -595,42 +966,50 @@ var d3lines = (function () {
 
             var legendRow = legendRect.enter()
                 .append("g")
-                .attr("transform", function(d,i){
-                  return "translate(0, " + (i*1.2*emSize) + ")";
+                .attr("transform", function(d, i){
+                  return "translate(0, " + (i * 1.2*emSize) + ")";
                 });
 
             legendRow.append("line")
-                .attr("x2","1.5em")
-                .attr("y1","-0.38em")
-                .attr("y2","-0.38em")
+                .attr("x2", "1.5em")
+                .attr("y1", "-0.38em")
+                .attr("y2", "-0.38em")
                 .style("fill", "none")
                 .style("stroke", function(d){return d.value.line_color;})
                 .style("stroke-width", function(d){return d.value.line_width;})
-                .style("stroke-dasharray", function(d){return dashArray(d.value.line_style);})
+                .style("stroke-dasharray", function(d){
+                    return dashArray(d.value.line_style);
+                });
 
             legendRow.append("path")
                 .attr("d", function(d){return d.value.symbol})
-                .attr("transform", function(d,i){
+                .attr("transform", function(d, i){
                   return "translate(" + (0.75*emSize) + ", " + (-0.38*emSize) + ")";
                 })
                 .style("stroke", function(d){return d.value.line_color;})
-                .style("fill", function(d){return d.value.marker_fill === "color" ? d.value.line_color : d.value.marker_fill})
-                .style("fill-opacity", function(d){return d.value.marker_fill_opacity})
-                .style("stroke-width", function(d){return d.value.marker_stroke_width});
+                .style("fill", function(d){
+                    return d.value.marker_fill === "color" ? d.value.line_color : d.value.marker_fill;
+                })
+                .style("fill-opacity", function(d){
+                    return d.value.marker_fill_opacity
+                })
+                .style("stroke-width", function(d){
+                    return d.value.marker_stroke_width
+                });
 
             legendRow.append("text")
-                .attr("x","2em")
+                .attr("x", "2em")
                 .text(function (d) {
                     return d.key;
                 });
 
             // Reposition and resize the box
             var lbbox = legend[0][0].getBBox();
-            legend.attr("transform", "translate("+(-lbbox.x+legendPadding)+","+(-lbbox.y+legendPadding)+")");
+            legend.attr("transform", "translate(" + (-lbbox.x+legendPadding) + "," + (-lbbox.y+legendPadding)+")");
             lb.attr("x", 0)
               .attr("y", 0)
-              .attr("height",(lbbox.height+2*legendPadding))
-              .attr("width",(lbbox.width+2*legendPadding));
+              .attr("height", (lbbox.height + 2*legendPadding))
+              .attr("width", (lbbox.width + 2*legendPadding));
           })
           return g;
     }
@@ -707,31 +1086,31 @@ var d3lines = (function () {
                     throw "ValueError: Cannot use a logarithmic scale with negative data"
                 }
                 var oldRange = Math.log10(maxData)-Math.log10(minData);
-                var midData = Math.log10(minData)+oldRange/2.0;
+                var midData = Math.log10(minData)+oldRange / 2.0;
                 var newRange = oldRange * layoutType;
-                minRange = Math.pow(10, midData-newRange/2.0);
-                maxRange = Math.pow(10, midData+newRange/2.0);
+                minRange = Math.pow(10, midData-newRange / 2.0);
+                maxRange = Math.pow(10, midData+newRange / 2.0);
             } else if (scale.type === scaleType.LOG && minData instanceof Date && maxData instanceof Date){
                 if (minData < 0. || maxData < 0.) {
                     throw "ValueError: Cannot use a logarithmic scale with negative data"
                 }
                 var oldRange = Math.log10(maxData.getTime())-Math.log10(minData.getTime());
-                var midData = Math.log10(minData)+oldRange/2.0;
+                var midData = Math.log10(minData) + oldRange / 2.0;
                 var newRange = oldRange * layoutType;
-                minRange = new Date(Math.pow(10, midData-newRange/2.0));
-                maxRange = new Date(Math.pow(10, midData+newRange/2.0));
+                minRange = new Date(Math.pow(10, midData - newRange / 2.0));
+                maxRange = new Date(Math.pow(10, midData + newRange / 2.0));
             } else if (minData instanceof Date && maxData instanceof Date){
-                var oldRange = maxData.getTime()-minData.getTime();
-                var midData = minData.getTime()+oldRange/2.0;
+                var oldRange = maxData.getTime() - minData.getTime();
+                var midData = minData.getTime() + oldRange / 2.0;
                 var newRange = oldRange * layoutType;
                 minRange = new Date(midData-newRange/2.0);
                 maxRange = new Date(midData+newRange/2.0);
             } else {
-                var oldRange = maxData-minData;
-                var midData = minData+oldRange/2.0;
+                var oldRange = maxData - minData;
+                var midData = minData+oldRange / 2.0;
                 var newRange = oldRange * layoutType;
-                minRange = midData-newRange/2.0;
-                maxRange = midData+newRange/2.0;
+                minRange = midData - newRange / 2.0;
+                maxRange = midData + newRange / 2.0;
             }
         } else if (isArray(layoutType) && layoutType.length == 2) {
             minRange = layoutType[0];
@@ -915,7 +1294,7 @@ var d3lines = (function () {
     function closest_point(x, y, lines, xscale, yscale, y2scale) {
 
         function distance(ptx, pty, ptx_2, pty_2, scale){
-            return Math.sqrt((ptx-xscale(ptx_2))**2+(pty-scale(pty_2))**2);
+            return Math.sqrt((ptx-xscale(ptx_2)) ** 2 + (pty-scale(pty_2)) ** 2);
         }
 
         var valX,
@@ -971,7 +1350,10 @@ var d3lines = (function () {
     }
 
     // Reapply style to axes
-    function setAxesStyle(options){
+    function setAxesStyle(svg, options){
+
+        var BOX = getValue(options, "box",
+            DEFAULT_BOX, false);
 
         var AXES_FONT_SIZE = getValue(options, "axes_font_size",
             DEFAULT_AXES_FONT_SIZE, false);
@@ -987,15 +1369,23 @@ var d3lines = (function () {
         var AXES_LINESTYLE = getValue(options, "axes_linestyle",
             DEFAULT_AXES_LINESTYLE, false);
 
-        d3.selectAll(".d3lines-axis path").each(function(){
-            var self = d3.select(this);
-            self.style("fill", "none")
-                .style("stroke", AXES_COLOR)
-                .style("stroke-width", AXES_WIDTH)
-                .style("stroke-dasharray", dashArray(AXES_LINESTYLE));
-        });
+        if (BOX) {
+            svg.selectAll(".d3lines-axis path").each(function(){
+                var self = d3.select(this);
+                self.style("fill", "none")
+                    .style("stroke", "none")
+            });
+        } else {
+            svg.selectAll(".d3lines-axis path").each(function(){
+                var self = d3.select(this);
+                self.style("fill", "none")
+                    .style("stroke", AXES_COLOR)
+                    .style("stroke-width", AXES_WIDTH)
+                    .style("stroke-dasharray", dashArray(AXES_LINESTYLE));
+            });
+        }
 
-        d3.selectAll(".d3lines-axis line").each(function(){
+        svg.selectAll(".d3lines-axis line").each(function(){
             var self = d3.select(this);
             if (!self.classed("d3lines-grid")){
                 self.style("stroke", AXES_COLOR)
@@ -1004,7 +1394,7 @@ var d3lines = (function () {
             }
         });
 
-        d3.selectAll(".d3lines-axis text").each(function(){
+        svg.selectAll(".d3lines-axis text").each(function(){
             var self = d3.select(this);
             self.style("font-size", AXES_FONT_SIZE);
             if (AXES_FONT_COLOR !== undefined) {
@@ -1017,7 +1407,7 @@ var d3lines = (function () {
     }
 
     // Create grids
-    function createGrid(options, y2scale_exists){
+    function createGrid(svg, options, y2scale_exists){
 
         if (!objectExists(options)) options = {};
         var WIDTH = getValue(options, "width", DEFAULT_WIDTH, false);
@@ -1037,7 +1427,7 @@ var d3lines = (function () {
                 DEFAULT_XGRID_WIDTH, false);
             var XGRID_LINESTYLE = getValue(options, "xgrid_linestyle",
                 DEFAULT_XGRID_LINESTYLE, false);
-            d3.selectAll(".d3lines-xaxis .tick").each(function(d,i){
+            svg.selectAll(".d3lines-xaxis .tick").each(function(d, i){
                 var self = d3.select(this);
                 if (self.selectAll("line.d3lines-grid").size() === 0){
                     self.append("line")
@@ -1058,7 +1448,7 @@ var d3lines = (function () {
                 DEFAULT_YGRID_WIDTH, false);
             var YGRID_LINESTYLE = getValue(options, "ygrid_linestyle",
                 DEFAULT_YGRID_LINESTYLE, false);
-            d3.selectAll(".d3lines-yaxis .tick").each(function(d,i){
+            svg.selectAll(".d3lines-yaxis .tick").each(function(d, i){
                 var self = d3.select(this);
                 if (self.selectAll("line.d3lines-grid").size() === 0){
                     self.append("line")
@@ -1079,7 +1469,7 @@ var d3lines = (function () {
                 DEFAULT_Y2GRID_WIDTH, false);
             var Y2GRID_LINESTYLE = getValue(options, "y2grid_linestyle",
                 DEFAULT_Y2GRID_LINESTYLE, false);
-            d3.selectAll(".d3lines-y2axis .tick").each(function(d,i){
+            svg.selectAll(".d3lines-y2axis .tick").each(function(d, i){
                 var self = d3.select(this);
                 if (self.selectAll("line.d3lines-grid").size() === 0){
                     self.append("line")
@@ -1107,9 +1497,17 @@ var d3lines = (function () {
 
         // data
         Data: Data,
-//         getData: function(){
-//             return DATA;
-//         },
+
+        // Chart
+        Chart: Chart,
+        SVGChart: SVGChart,
+        SVGGroup: SVGGroup,
+        SVGAxesGroup: SVGAxesGroup,
+        SVGAxesLabelGroup: SVGAxesLabelGroup,
+        SVGBoxGroup: SVGBoxGroup,
+        SVGInteractiveGroup: SVGInteractiveGroup,
+        SVGLegendGroup: SVGLegendGroup,
+        SVGLinesGroup: SVGLinesGroup,
 
         // plot function
         plot: function(svg, original_options, previousPlot){
@@ -1126,22 +1524,15 @@ var d3lines = (function () {
             }
 
             // Initialize plot dictionary
-            var plt = {};
+            var plt = new Chart(svg);
             if (HOLD) {
-                plt = copyObject(previousPlot);
+                plt.copy(previousPlot);
             } else {
                 plt.options = copyOptions(original_options);
             }
-            if (!plt.hasOwnProperty("scale")) plt.scale = {};
-            if (!plt.hasOwnProperty("svg")) plt.svg = {};
-            if (!plt.svg.hasOwnProperty("box")) plt.svg.box = {remove: function(){removeGroup(this)}};
-            if (!plt.svg.hasOwnProperty("axes")) plt.svg.axes = {remove: function(){removeGroup(this)}};
-            if (!plt.svg.hasOwnProperty("lines")) plt.svg.lines = {remove: function(){removeGroup(this)}};
-            if (!plt.svg.hasOwnProperty("interactive")) plt.svg.interactive = {remove: function(){removeGroup(this)}};
-            if (!plt.svg.hasOwnProperty("legend")) plt.svg.legend = {remove: function(){removeGroup(this)}};
 
             var LINE_INDEX = 0;
-            if (HOLD && plt.hasOwnProperty("line_options")) LINE_INDEX = plt.line_options.length
+            if (HOLD && isArray(plt.line_options)) LINE_INDEX = plt.line_options.length
 
             // Throw error if options is defined and is not an object
             if (objectExists(original_options) && typeof(original_options) != "object") {
@@ -1322,9 +1713,9 @@ var d3lines = (function () {
                 Object.keys(DEFAULT_MARGINS).forEach(function(key, index) {
                     MARGINS[key] = DEFAULT_MARGINS[key];
                 });
-                if (objectExists(plt.MARGINS)) {
-                    Object.keys(plt.MARGINS).forEach(function(key, index) {
-                        MARGINS[key] = plt.MARGINS[key];
+                if (objectExists(plt.margins)) {
+                    Object.keys(plt.margins).forEach(function(key, index) {
+                        MARGINS[key] = plt.margins[key];
                     });
                 }
                 if (options.hasOwnProperty("width")) delete options["width"]
@@ -1343,9 +1734,9 @@ var d3lines = (function () {
                     });
                     delete options.margins;
                 }
-                plt.WIDTH = WIDTH;
-                plt.HEIGHT = HEIGHT;
-                plt.MARGINS = MARGINS;
+                plt.width = WIDTH;
+                plt.height = HEIGHT;
+                plt.margins = MARGINS;
             }
 
             if (WIDTH < MARGINS.left+MARGINS.right) {
@@ -1462,7 +1853,10 @@ var d3lines = (function () {
             var XLIM = getValue(options, "xlim", DEFAULT_XLIM);
             var YLIM = getValue(options, "ylim", DEFAULT_YLIM);
             var Y2LIM = getValue(options, "y2lim", DEFAULT_Y2LIM);
-            var XLABEL = getValue(options, "xlabel", DEFAULT_XLABEL || XKEY);
+            var XLABEL = getValue(options, "xlabel", DEFAULT_XLABEL);
+            if (XLABEL === "" && objectExists(XKEY)) {
+                XLABEL = XKEY;
+            }
             var YLABEL = getValue(options, "ylabel", DEFAULT_YLABEL);
             var Y2LABEL = getValue(options, "y2label", DEFAULT_Y2LABEL);
             var XLABEL_OFFSET = getValue(options, "xlabel_offset", DEFAULT_XLABEL_OFFSET);
@@ -1521,7 +1915,7 @@ var d3lines = (function () {
                     plt.scale.original_y2 = Y2SCALE.copy()
                 }
             } else {
-                SVG_ELEMENT.setAttribute("style","width:"+WIDTH+"px; height:"+HEIGHT+"px");
+                SVG_ELEMENT.setAttribute("style", "width:"+WIDTH+"px; height:"+HEIGHT+"px");
                 SVG_ELEMENT.style.width = WIDTH;
                 SVG_ELEMENT.style.height = HEIGHT;
 
@@ -1561,7 +1955,8 @@ var d3lines = (function () {
                 var XAXIS = getValue(plt, "XAXIS", d3.svg.axis().scale(XSCALE), false)
             } else {
                 var XAXIS = d3.svg.axis()
-                                    .scale(XSCALE);
+                    .scale(XSCALE)
+                    .outerTickSize(0);
             }
             if (objectExists(XTICKS)) {
                 XAXIS.ticks(XTICKS);
@@ -1574,8 +1969,9 @@ var d3lines = (function () {
                 var YAXIS = getValue(plt, "YAXIS", d3.svg.axis().scale(YSCALE).orient("left"), false)
             } else {
                 var YAXIS = d3.svg.axis()
-                                .scale(YSCALE)
-                                .orient("left");
+                    .scale(YSCALE)
+                    .orient("left")
+                    .outerTickSize(0);
             }
 
             if (objectExists(YTICKS)) {
@@ -1590,8 +1986,9 @@ var d3lines = (function () {
                     var Y2AXIS = getValue(plt, "Y2AXIS", d3.svg.axis().scale(Y2SCALE).orient("right"), false)
                 } else {
                     var Y2AXIS = d3.svg.axis()
-                                    .scale(Y2SCALE)
-                                    .orient("right");
+                        .scale(Y2SCALE)
+                        .orient("right")
+                        .outerTickSize(0);
                 }
                 if (objectExists(Y2TICKS)) {
                     Y2AXIS.ticks(Y2TICKS);
@@ -1613,7 +2010,9 @@ var d3lines = (function () {
                     .attr("y", MARGINS.top)
                     .attr("width", WIDTH-MARGINS.left-MARGINS.right)
                     .attr("height", HEIGHT-MARGINS.top-MARGINS.bottom)
-                    .attr("stroke", "none")
+                    .style("stroke", AXES_COLOR)
+                    .style("stroke-width", AXES_WIDTH)
+                    .style("stroke-dasharray", dashArray(AXES_LINESTYLE))
                     .attr("fill", AXES_FILL)
                     .attr("fill-opacity", AXES_FILL_OPACITY)
             }
@@ -1715,7 +2114,7 @@ var d3lines = (function () {
                     plt.svg.lines.markers.push(plt.svg.lines.group.append("g")
                         .attr("clip-path", "url(#clipPath)")
                         .attr("class", "d3lines-markers"));
-                    plt.svg.lines.markers[plt.svg.lines.markers.length-1]
+                    plt.svg.lines.markers[plt.svg.lines.markers.length - 1]
                         .selectAll(".markersymbols")
                         .data(DATA)
                         .enter().append("path")
@@ -1734,42 +2133,27 @@ var d3lines = (function () {
                 YLABEL = legend_label;
             }
 
-            // BOX
-            if (BOX && !prevBOX) {
-                plt.svg.box.topline = hline(plt.svg.box.group, YSCALE.domain()[1], XSCALE, YSCALE)
-                        .style("stroke", AXES_COLOR)
-                        .style("stroke-width", AXES_WIDTH)
-                        .style("stroke-dasharray", dashArray(AXES_LINESTYLE));
-
-                if (!objectExists(Y2SCALE)) {
-                    plt.svg.box.rightline = vline(plt.svg.box.group, XSCALE.domain()[1], XSCALE, YSCALE)
-                            .style("stroke", AXES_COLOR)
-                            .style("stroke-width", AXES_WIDTH)
-                            .style("stroke-dasharray", dashArray(AXES_LINESTYLE));
-                }
-            }
-
             // AXES
-            if (!plt.svg.axes.hasOwnProperty("group")) {
+            if (!objectExists(plt.svg.axes.group)) {
                 plt.svg.axes.group = svg.append("g")
                     .attr("class", "d3lines-axes")
             }
             if (!HOLD){
-                plt.XAXIS = XAXIS
+                plt.xaxis = XAXIS
 
                 plt.svg.axes.x = plt.svg.axes.group.append("svg:g")
                     .attr("class", "d3lines-axis d3lines-xaxis")
                     .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
                     .call(XAXIS);
 
-                plt.YAXIS = YAXIS
+                plt.yaxis = YAXIS
                 plt.svg.axes.y = plt.svg.axes.group.append("svg:g")
                     .attr("class", "d3lines-axis d3lines-yaxis")
                     .attr("transform", "translate(" + (MARGINS.left) + ",0)")
                     .call(YAXIS);
 
                 if (objectExists(Y2SCALE)) {
-                    plt.Y2AXIS = Y2AXIS
+                    plt.y2axis = Y2AXIS
                     plt.svg.axes.y2 = plt.svg.axes.group.append("svg:g")
                         .attr("class", "d3lines-axis d3lines-y2axis")
                         .attr("transform", "translate(" + (WIDTH-MARGINS.right) + ",0)")
@@ -1777,35 +2161,35 @@ var d3lines = (function () {
                 }
 
                 // Set axes style
-                setAxesStyle(original_options);
+                setAxesStyle(svg, original_options);
 
                 // GRID
-                createGrid(original_options, objectExists(Y2SCALE));
+                createGrid(svg, original_options, objectExists(Y2SCALE));
 
                 // XLABEL
-                plt.svg.axes.labels = plt.svg.axes.group.append("g")
+                plt.svg.axes.labels.group = plt.svg.axes.group.append("g")
                     .attr("class", "d3lines-label");
                 if (objectExists(XLABEL)) {
-                    plt.svg.axes.xlabel = plt.svg.axes.labels.append("text")
+                    plt.svg.axes.labels.x = plt.svg.axes.labels.group.append("text")
                         .attr("text-anchor", "middle")
-                        .attr("x", WIDTH/2)
-                        .attr("y", HEIGHT+XLABEL_OFFSET-5)
+                        .attr("x", WIDTH / 2)
+                        .attr("y", HEIGHT+XLABEL_OFFSET - 5)
                         .text(XLABEL)
                         .style("font-size", AXES_FONT_SIZE);
 
                     if (AXES_FONT_COLOR !== undefined) {
-                        plt.svg.axes.xlabel.style("fill", AXES_FONT_COLOR);
+                        plt.svg.axes.labels.x.style("fill", AXES_FONT_COLOR);
                     }
                     if (AXES_FONT_FAMILY !== undefined) {
-                        plt.svg.axes.xlabel.style("font-family", AXES_FONT_FAMILY);
+                        plt.svg.axes.labels.x.style("font-family", AXES_FONT_FAMILY);
                     }
                 }
 
                 // YLABEL
                 if (objectExists(YLABEL)) {
-                    plt.svg.axes.ylabel = plt.svg.axes.labels.append("text")
+                    plt.svg.axes.labels.y = plt.svg.axes.labels.group.append("text")
                         .attr("text-anchor", "middle")
-                        .attr("x", -HEIGHT/2)
+                        .attr("x", -HEIGHT / 2)
                         .attr("y", -YLABEL_OFFSET)
                         .attr("dy", ".75em")
                         .attr("transform", "rotate(-90)")
@@ -1813,18 +2197,18 @@ var d3lines = (function () {
                         .style("font-size", AXES_FONT_SIZE);
 
                     if (AXES_FONT_COLOR !== undefined) {
-                        plt.svg.axes.ylabel.style("fill", AXES_FONT_COLOR);
+                        plt.svg.axes.labels.y.style("fill", AXES_FONT_COLOR);
                     }
                     if (AXES_FONT_FAMILY !== undefined) {
-                        plt.svg.axes.ylabel.style("font-family", AXES_FONT_FAMILY);
+                        plt.svg.axes.labels.y.style("font-family", AXES_FONT_FAMILY);
                     }
                 }
 
                 // Y2LABEL
                 if (objectExists(Y2LABEL)) {
-                    plt.svg.axes.y2label = plt.svg.axes.labels.append("text")
+                    plt.svg.axes.labels.y2 = plt.svg.axes.labels.group.append("text")
                         .attr("text-anchor", "middle")
-                        .attr("x", HEIGHT/2)
+                        .attr("x", HEIGHT / 2)
                         .attr("y", -WIDTH-Y2LABEL_OFFSET)
                         .attr("dy", ".75em")
                         .attr("transform", "rotate(90)")
@@ -1832,16 +2216,16 @@ var d3lines = (function () {
                         .style("font-size", AXES_FONT_SIZE);
 
                     if (AXES_FONT_COLOR !== undefined) {
-                        plt.svg.axes.y2label.style("fill", AXES_FONT_COLOR);
+                        plt.svg.axes.labels.y2.style("fill", AXES_FONT_COLOR);
                     }
                     if (AXES_FONT_FAMILY !== undefined) {
-                        plt.svg.axes.y2label.style("font-family", AXES_FONT_FAMILY);
+                        plt.svg.axes.labels.y2.style("font-family", AXES_FONT_FAMILY);
                     }
                 }
             }
 
             if (HOLD) {
-                self.redraw(plt);
+                plt.redraw();
                 LINES = plt.line_options;
             }
 
@@ -1930,8 +2314,8 @@ var d3lines = (function () {
                     var x0 = event.pageX-SVG_ELEMENT.offsetLeft;
                     var y0 = event.pageY-SVG_ELEMENT.offsetTop;
 
-                    var norm_x = (x0-MARGINS.left)/(WIDTH-MARGINS.left-MARGINS.right);
-                    var norm_y = 1-(y0-MARGINS.top)/(HEIGHT-MARGINS.top-MARGINS.bottom);
+                    var norm_x = (x0 - MARGINS.left) / (WIDTH - MARGINS.left - MARGINS.right);
+                    var norm_y = 1 - (y0-MARGINS.top) / (HEIGHT - MARGINS.top - MARGINS.bottom);
 
                     if (objectExists(MOUSETIP_VLINE)) {
                         MOUSETIP_VLINE.style("display", "none");
@@ -2038,20 +2422,20 @@ var d3lines = (function () {
                         str.split(new RegExp("<br ?/?>")).forEach(function(line, index){
                             MOUSETIP_TEXT.append("tspan")
                                 .text(line)
-                                .attr("x", x0+10+INTERACTIVE_OPTIONS.box_padding)
-                                .attr("y", y0+10+INTERACTIVE_OPTIONS.box_padding+lineHeight)
-                                .attr("dy", (index*1.2)+"em");
+                                .attr("x", x0 + 10 + INTERACTIVE_OPTIONS.box_padding)
+                                .attr("y", y0 + 10 + INTERACTIVE_OPTIONS.box_padding + lineHeight)
+                                .attr("dy", (index * 1.2) + "em");
                         });
                         MOUSETIP_TEXT.style("display", "block");
 
                         // Set the width, height and position of the mousetipbox
                         var textbox = MOUSETIP_TEXT[0][0].getBBox();
-                        var newHeight = textbox.height+2*INTERACTIVE_OPTIONS.box_padding;
-                        var newWidth = textbox.width+2*INTERACTIVE_OPTIONS.box_padding;
-                        if (HEIGHT-newHeight < y0+10){
+                        var newHeight = textbox.height + 2 * INTERACTIVE_OPTIONS.box_padding;
+                        var newWidth = textbox.width + 2 * INTERACTIVE_OPTIONS.box_padding;
+                        if (HEIGHT-newHeight < y0 + 10){
                             MOUSETIP_BOX.attr("y", HEIGHT-newHeight);
                             var tspans = MOUSETIP_TEXT.selectAll("tspan");
-                            tspans.each(function(d,i){
+                            tspans.each(function(d, i){
                                 d3.select(tspans[0][i]).attr("y", HEIGHT-newHeight+INTERACTIVE_OPTIONS.box_padding+lineHeight);
                             });
                         } else {
@@ -2060,7 +2444,7 @@ var d3lines = (function () {
                         if (WIDTH-newWidth < x0+10){
                             MOUSETIP_BOX.attr("x", WIDTH-newWidth);
                             var tspans = MOUSETIP_TEXT.selectAll("tspan");
-                            tspans.each(function(d,i){
+                            tspans.each(function(d, i){
                                 d3.select(tspans[0][i]).attr("x", WIDTH-newWidth+INTERACTIVE_OPTIONS.box_padding);
                             });
                         } else {
@@ -2088,7 +2472,7 @@ var d3lines = (function () {
                             y2d.push(plt.scale.original_y2.invert(yp1))
                             Y2SCALE.domain(y2d);
                         }
-                        self.redraw(plt);
+                        plt.redraw();
                         mouseHasMoved(EVENT);
                     }));
                 }
@@ -2148,7 +2532,7 @@ var d3lines = (function () {
                         }
                     }
                 }
-                plt.svg.legend.group.attr("transform","translate("+dx+","+dy+")")
+                plt.svg.legend.group.attr("transform", "translate(" + dx + "," + dy + ")")
 
                 if (LEGEND_FONT_COLOR !== undefined) {
                     plt.svg.legend.group.selectAll("text").style("fill", LEGEND_FONT_COLOR);
@@ -2189,7 +2573,7 @@ var d3lines = (function () {
             if (arguments.length < 4) throw Error("Not enough arguments\n\n"+usage())
 
             if (arguments.length < 6){
-                renameKeys = function(old, groupKey){return old+" ("+groupKey+")"}
+                renameKeys = function(old, groupKey){return old + " ("+groupKey+")"}
             }
 
             var plt;
@@ -2250,7 +2634,7 @@ var d3lines = (function () {
                 if (index == 0){
                     plt = d3lines.plot(svg, add_options);
                 } else {
-                    if (index === groups.length-1) {
+                    if (index === groups.length - 1) {
                         if (LEGEND) {
                             if (objectExists(LEGEND_LABELS)){
                                 add_options.legend_labels = LEGEND_LABELS;
@@ -2272,113 +2656,6 @@ var d3lines = (function () {
         },
 
      // End of d3lines.groupByPlot
-
-
-        redrawLine: function (index, plt){
-            var line = plt.svg.lines.lines[index];
-            var options = plt.line_options[index];
-            var area = plt.svg.lines.areas[index];
-            var markers = plt.svg.lines.markers[index];
-            if (options.hasOwnProperty("x") && (options.hasOwnProperty("y") || options.hasOwnProperty("y2"))) {
-                data = Array(options.x.length);
-            } else {
-                return;
-            }
-            function definition(d, i){
-                if (options.hasOwnProperty("x") && isNaN(options.x[i])) return false;
-                if (options.hasOwnProperty("y") && isNaN(options.y[i])) return false;
-                if (options.hasOwnProperty("y2") && isNaN(options.y2[i])) return false;
-                return true;
-            }
-            var linegen = lineGen(plt.scale.x, plt.scale.y, plt.scale.y2, options);
-            linegen.defined(definition);
-            line.attr("d", linegen(data));
-            if (objectExists(area)) {
-                var newArea = d3.svg.area()
-                    .x(linegen.x())
-                    .y(linegen.y())
-                    .y0(plt.scale.y.range()[0])
-                    .defined(definition);
-
-                area.attr("d", newArea);
-            }
-            if (objectExists(markers)) {
-                markers.selectAll("path").attr("transform", function(d, i) {return "translate(" + (linegen.x())(d, i) + "," + (linegen.y())(d, i) + ")"; })
-            }
-
-
-        },
-
-        redrawXAxis: function(plt){
-            if (plt.hasOwnProperty("svg") &&
-                plt.svg.hasOwnProperty("axes") &&
-                plt.svg.axes.hasOwnProperty("x") &&
-                plt.hasOwnProperty("XAXIS")) {
-                   plt.svg.axes.x.call(plt.XAXIS)
-            }
-        },
-
-        redrawYAxis: function(plt){
-            if (plt.hasOwnProperty("svg") &&
-                plt.svg.hasOwnProperty("axes") &&
-                plt.svg.axes.hasOwnProperty("y") &&
-                plt.hasOwnProperty("YAXIS")) {
-                    plt.svg.axes.y.call(plt.YAXIS)
-            }
-        },
-
-        redrawY2Axis: function(plt){
-            if (plt.hasOwnProperty("svg") &&
-                plt.svg.hasOwnProperty("axes") &&
-                plt.svg.axes.hasOwnProperty("y2") &&
-                plt.hasOwnProperty("Y2AXIS")) {
-                    plt.svg.axes.y2.call(plt.Y2AXIS)
-            }
-        },
-
-        redrawLines: function(plt){
-            var self = this;
-            if (plt.hasOwnProperty("svg") &&
-                plt.hasOwnProperty("line_options") &&
-                plt.svg.hasOwnProperty("lines") &&
-                plt.svg.lines.hasOwnProperty("lines") &&
-                plt.svg.lines.hasOwnProperty("areas") &&
-                plt.svg.lines.hasOwnProperty("markers") &&
-                plt.line_options.length !== plt.svg.lines.lines.length &&
-                plt.svg.lines.areas.length !== plt.svg.lines.lines.length &&
-                plt.svg.lines.markers.length !== plt.svg.lines.lines.length) {
-                    return;
-            }
-            var lines = plt.svg.lines.lines;
-            lines.forEach(function(line, index){
-                self.redrawLine(index, plt);
-            });
-        },
-
-        redraw: function(plt){
-            this.redrawXAxis(plt);
-            this.redrawYAxis(plt);
-            this.redrawY2Axis(plt);
-            if (plt.hasOwnProperty("options")){
-                setAxesStyle(plt.options);
-                createGrid(plt.options, plt.hasOwnProperty("scale") &&
-                    plt.scale.hasOwnProperty("y2"));
-            }
-            this.redrawLines(plt);
-        },
-
-        resetPlot: function(plt){
-            if (plt.hasOwnProperty("original_xscale") && plt.hasOwnProperty("xscale")) {
-                plt.scale.x.domain([plt.scale.original_x.domain()[0], plt.scale.original_x.domain()[1]])
-            }
-            if (plt.hasOwnProperty("original_yscale") && plt.hasOwnProperty("yscale")) {
-                plt.scale.y.domain([plt.scale.original_y.domain()[0], plt.scale.original_y.domain()[1]])
-            }
-            if (plt.hasOwnProperty("original_y2scale") && plt.hasOwnProperty("y2scale")) {
-                plt.scale.y2.domain([plt.scale.original_y2.domain()[0], plt.scale.original_y2.domain()[1]])
-            }
-            this.redraw()
-        },
 
     };
 

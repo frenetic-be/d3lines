@@ -15,6 +15,7 @@
 </head>
 <body>
     <svg id="main-svg"></svg>
+    <svg id="main-svg2"></svg>
 </body>
 
 <script>
@@ -61,11 +62,14 @@
     };
 
 var svg = d3.select("#main-svg");
+var plt, plt2
 
 d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
         xkey: "Day",
+        axes_font_color: "red",
+        xgrid: true,
         interactive_options: {
             output_string: function(pt){
                 if (pt.hasOwnProperty("Day")) return "Day: "+pt.Day+"/99";
@@ -73,7 +77,24 @@ d3.csv("example2.csv", function(error, data) {
             }
         }
     };
-    d3lines.plot(svg, options);
+    plt = d3lines.plot(svg, options);
+});
+
+var svg2 = d3.select("#main-svg2");
+
+d3.csv("example_time.csv", function(error, data) {
+    data.forEach(function(d){
+        d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time);
+    });
+
+    var options = {
+        data: data,
+        xkey: "Time",
+        xscale_type: "time",
+        axes_font_color: "blue",
+        ygrid: true,
+    };
+    plt2 = d3lines.plot(svg2, options);
 });
 
 </script>

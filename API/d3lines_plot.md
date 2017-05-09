@@ -1,6 +1,17 @@
-## <a name="plot"></a>d3lines.plot(svg[, options])
+## <a name="plot"></a>`d3lines.plot(svg[, options, previousChart])`
 
-Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection object.
+Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection object. 
+This method returns a [`d3lines.Chart`](d3lines_Chart.md#Chart) object.
+
+Arguments:
+
+- `svg`: a D3 selection object of an `svg` tag.
+
+Optional arguments:
+
+- [`options`](d3lines_plot.md#plot_options): object containing all chart options including the data.
+- [`previousChart`](d3lines_plot.md#plot_previouschart): a [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
+This allows to add lines from the same or another data source to an existing chart.
 
 For example, if you have an `svg` tag with the ID "main-svg":
 
@@ -16,7 +27,7 @@ d3lines.plot(svg);
 
 <p align="center"><img src="images/plot/no_options.png" width="600" height="375" align="center"></p>
 
-### Options
+### <a name="plot_options"></a>`options`
 
 `options` is an object with keys and values. For example:
 
@@ -118,3 +129,6 @@ We split the options into the following categories:
         * [**`font_family`**](d3lines_plot_interactive.md#plot_option_interactive_font_family) - font family for the textbox.
         * [**`output_string`**](d3lines_plot_interactive.md#plot_option_interactive_output_string) - specifies the text that you want to write in the text box.
         * [**`zoom`**](d3lines_plot_interactive.md#plot_option_interactive_zoom) - set to true (default) if you want zooming to be enabled.
+
+### <a name="plot_previouschart"></a>`previousChart`
+

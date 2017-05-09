@@ -1,6 +1,6 @@
 <em>
 
-**Table of contents for [``d3lines.plot``](d3lines_plot.md)**
+**Table of contents for [`d3lines.plot`](d3lines_plot.md)**
 
 * [Data](d3lines_plot_data.md#plot_options_category_data) - options that define the data that you want to display.
 
