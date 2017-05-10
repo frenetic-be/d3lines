@@ -223,6 +223,25 @@ d3.csv("example2.csv", function(error, data) {
 
 <p align="center"><img src="images/Data/Data_selectColumns.png" width="600" height="375"></p>
 
+- **`removeNaNColumns()`**: removes columns that only have NaN values.
+
+Example:
+
+```javascript
+var data = [{date: "Jan 3, 2017", x: "3.5", category: "AAA"},
+            {date: "Jan 7, 2017", x: "7.1", category: "BBB"},
+            {date: "Jan 13, 2017", x: "some_string", category: "CCC"}];
+var D = new d3lines.Data(data).sanitize();
+// D.data = [{date: Tue Jan 03 2017 00:00:00 GMT-0800 (PST), x: 3.5, category: NaN},
+//           {date: Sat Jan 07 2017 00:00:00 GMT-0800 (PST), x: 7.1, category: NaN},
+//           {date: Fri Jan 13 2017 00:00:00 GMT-0800 (PST), x: NaN, category: NaN}]
+D = D.removeNaNColumns();
+// D.data = [{date: Tue Jan 03 2017 00:00:00 GMT-0800 (PST), x: 3.5},
+//           {date: Sat Jan 07 2017 00:00:00 GMT-0800 (PST), x: 7.1},
+//           {date: Fri Jan 13 2017 00:00:00 GMT-0800 (PST), x: NaN]
+
+```
+
 - **`sample([start, end])`**: keeps columns based on column numbers.
 
 Example:

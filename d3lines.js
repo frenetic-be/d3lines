@@ -403,6 +403,44 @@ var d3lines = (function () {
         return new Data(data2);
     }
 
+    /// Attempt to sanitize DATA
+    Data.prototype.removeNaNColumns = function(){
+
+        var data = this.data;
+        if (!objectExists(data)) return;
+
+        if (!isArray(data)) {
+            throw TypeError("The data should be an array of dictionaries.")
+        }
+
+        if (data.length === 0) return;
+
+        // Get the keys from the first element and remove empty keys
+        var keys = Object.keys(data[0]);
+
+        for (dataIndex in data){
+            row = data[dataIndex];
+            keys.forEach(function(key, index){
+                if (typeof row[key] !== "number" || !isNaN(row[key])) {
+                    delete keys[keys.indexOf(key)];
+                }
+            });
+            if (keys.every(function (x){return !objectExists(x)})) break;
+        }
+
+        keys = keys.filter(objectExists);
+
+        if (keys.length === 0) return new Data(data);
+        var data2 = [];
+        for (dataIndex in data){
+            row = data[dataIndex];
+            keys.forEach(function(key, index){
+                delete row[key];
+            });
+            data2.push(row);
+        }
+        return new Data(data2);
+    }
 
     Data.prototype.sample = function(start, end){
 
