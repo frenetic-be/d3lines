@@ -132,8 +132,6 @@ var d3lines = (function () {
         MARKER, MARKER_FILL, MARKER_FILL_OPACITY, MARKER_STROKE_WIDTH,
         MARKER_SIZE, LINE_YAXIS, PLOT_TYPE;
 
-//     var DATA = [];
-
     /// Checks if an object is undefined or not
     function objectExists(object) {
         return (object !== undefined && object !== null);
@@ -193,28 +191,15 @@ var d3lines = (function () {
         return typeof object;
     }
 
-    // Deep copy for objects
-    function copyObject(obj){
-        var out = {};
-        Object.keys(obj).forEach(function(key){
-            if (isArray(obj[key]) ||
-                isNumeric(obj[key]) ||
-                isFunction(obj[key]) ||
-                isString(obj[key]) ||
-                !objectExists(obj[key])) {
-                out[key] = obj[key];
-            } else {
-                out[key] = copyObject(obj[key])
-            }
-        });
-        return out;
-    }
-
     function copyOptions(options){
         var out = {};
         if (!objectExists(options)) return options;
         var keys = Object.keys(options);
-        if (keys.length === 0 || isString(options)) return options;
+        if (keys.length === 0 ||
+            isString(options) ||
+            options instanceof Data) {
+                return options;
+        }
         if (isArray(options)){
             out = [];
             options.forEach(function(option, index){
@@ -234,6 +219,9 @@ var d3lines = (function () {
             this.data = data;
             return;
         }
+        if ( !(this instanceof Data) )
+            return new Data(data);
+
         var typeData = getType(data);
         if (typeData === "array"){
             if (data.length != 0){
@@ -295,9 +283,15 @@ var d3lines = (function () {
         }
     }
 
-    Data.prototype.transpose = function(xkey){
+    Data.prototype.toString = function() {
+        return "[object d3lines.Data]"
+    }
 
-        if (!objectExists(xkey)) xkey = "x";
+    Data.prototype.transpose = function(lineNameKey, xkey){
+
+        if (!objectExists(lineNameKey)) lineNameKey = "";
+        if (!objectExists(xkey)) xkey = lineNameKey;
+        if (xkey === "") xkey = "x";
 
         var data = this.data;
         if (!objectExists(data)) return;
@@ -310,9 +304,9 @@ var d3lines = (function () {
 
         var data2 = [], rowName;
         data.forEach(function(row, jrow){
-            rowName = row[""];
+            rowName = row[lineNameKey];
             var keys = Object.keys(data[0]).filter(function(key){
-                return key.trim() !== "";
+                return key.trim() !== lineNameKey;
             });
             keys.forEach(function(key, jkey){
                 if (jrow === 0) {

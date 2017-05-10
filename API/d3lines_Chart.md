@@ -26,7 +26,7 @@ var svg = d3.select("#main-svg");
 var plt = d3lines.plot(svg); // plt is a d3lines.Chart object
 ```
 
-Arguments:
+### Arguments
 
 - **`svg`**: a D3 selection object of an `svg` tag.
 
@@ -97,7 +97,7 @@ plt.reset();
 
 `d3lines.SVGChart` is an object representing all of the svg elements created by [`d3lines.plot`](d3lines_plot.md#plot).
 
-Arguments:
+### Arguments
 
 - **`svg`**: D3 selection object of an `svg` tag.
 
