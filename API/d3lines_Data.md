@@ -322,6 +322,7 @@ d3.csv("example2.csv", function(error, data) {
     Now, that's much better. Let's see how the data looks like before and after transposing it. Before:
     
     ```javascript
+    var D = new d3lines.Data(data);
     \\ D.data = [{1980: "0.96156", 1981: "0.99047", 1982: "1.05584", 1983: "1.11653", 1984: "1.23682", 1985: "1.20679", : "Canada"},
     \\           {1980: "0.10239", 1981: "0.10562", 1982: "0.11967", 1983: "0.12869", 1984: "0.13071", 1985: "0.14646", : "Mexico"}]
     ```
@@ -329,6 +330,7 @@ d3.csv("example2.csv", function(error, data) {
     And after:
     
     ```javascript
+    D = D.transpose("", "Year");
     \\ D.data = [{Year: "1980", Canada: "0.96156", Mexico: "0.10239"},
     \\           {Year: "1981", Canada: "0.99047", Mexico: "0.10562"},
     \\           {Year: "1982", Canada: "1.05584", Mexico: "0.11967"},
