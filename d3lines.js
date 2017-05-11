@@ -2338,7 +2338,6 @@ var d3lines = (function () {
 
                 // Mouse over
                 function mouseHasMoved(event){
-
                     if (!objectExists(event)) return;
                     EVENT = event;
 

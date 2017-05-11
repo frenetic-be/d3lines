@@ -64,19 +64,15 @@
 var svg = d3.select("#main-svg");
 var plt, plt2
 
-d3.csv("example2.csv", function(error, data) {
-
-    var D = new d3lines.Data([{date: "Jan 3, 2017", x: "3.5", category: "AAA"},
-                    {date: "Jan 7, 2017", x: "7.1", category: "BBB"},
-                    {date: "Jan 13, 2017", x: "some_string", category: "CCC"}]).sanitize()
-
-    var options = {
-        data: D.removeNaNColumns(),
-        xkey: "date",
-        xscale_type: "time"
-    };
-    plt = d3lines.plot(svg, options);
-});
+// Create data
+var npts = 100;
+var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
+var y = Array.apply(null, Array(npts)).map(function (_, i) {return Math.sin(x[i]);});
+data = {x: x, y: y};
+// Select svg tag
+var svg = d3.select("#main-svg");
+// plot data
+d3lines.plot(svg, {data: data, xkey: "x"});
 
 var svg2 = d3.select("#main-svg2");
 

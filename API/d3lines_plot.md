@@ -3,6 +3,22 @@
 Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection object. 
 This method returns a [`d3lines.Chart`](d3lines_Chart.md#Chart) object.
 
+#### Example
+
+```javascript
+// Create data
+var npts = 100;
+var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
+var y = Array.apply(null, Array(npts)).map(function (_, i) {return Math.sin(x[i]);});
+data = {x: x, y: y};
+// Select svg tag
+var svg = d3.select("#main-svg");
+// plot data
+d3lines.plot(svg, {data: data, xkey: "x"});
+```
+
+<p align="center"><img src="images/plot/example.png" width="600" height="375" align="center"></p>
+
 ### Arguments
 
 - `svg`: a D3 selection object of an `svg` tag.
@@ -10,7 +26,7 @@ This method returns a [`d3lines.Chart`](d3lines_Chart.md#Chart) object.
 ### Optional arguments
 
 - [`options`](d3lines_plot.md#plot_options): object containing all chart options including the data.
-- [`previousChart`](d3lines_plot.md#plot_previouschart): a [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
+- [`previousChart`](d3lines_plot.md#plot_previouschart): [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
 This allows to add lines from the same or another data source to an existing chart.
 
 For example, if you have an `svg` tag with the ID "main-svg":
@@ -29,7 +45,7 @@ d3lines.plot(svg);
 
 #### <a name="plot_options"></a>`options`
 
-`options` is an object with keys and values. For example:
+`options` is an object that specifies all optional chart parameters. For example:
 
 ```javascript
 var options = {
@@ -132,3 +148,48 @@ We split the options into the following categories:
 
 #### <a name="plot_previouschart"></a>`previousChart`
 
+- `previousChart` is a [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
+This allows to add lines from the same or another data source to an existing chart.
+
+For example,
+
+```javascript
+var svg = d3.select("#main-svg");
+
+var data1 = [{day: 3, temp_in: 72.7},
+             {day: 5, temp_in: 72.4},
+             {day: 7, temp_in: 79.3},
+             {day: 9, temp_in: 81.2},
+             {day: 13, temp_in: 77.7},
+             {day: 17, temp_in: 71.3},
+             {day: 21, temp_in: 71.9}];
+var options1 = {
+    data: data1,
+    xkey: "day",
+    plot_type: "scatter",
+    line_width: 1,
+    interactive: false
+}
+plt1 = d3lines.plot(svg, options1);
+
+var data2 = [{day: 4, temp_out: 75.7},
+             {day: 5, temp_out: 67.4},
+             {day: 8, temp_out: 71.3},
+             {day: 11, temp_out: 72.2},
+             {day: 13, temp_out: 75.7},
+             {day: 15, temp_out: 77.3},
+             {day: 20, temp_out: 73.9}];
+var options2 = {
+    data: data2,
+    xkey: "day",
+    plot_type: "scatter",
+    line_width: 1
+}
+plt2 = d3lines.plot(svg, options2, plt1);
+```
+
+<p align="center"><img src="images/plot/previousPlot.png" width="600" height="375" align="center"></p>
+
+Note how `interactive` is false for the first chart and true (by default) for the second chart.
+If interactive behavior is desired in such a chart with multiple datasets, we recommend to set it to false for all of the chart options except for the last one.
+Otherwise, multiple events will fire at every mouse movement instead of one single event.
