@@ -5,7 +5,7 @@ d3lines is a JavaScript module with the following methods and prototypes:
 ### Methods
 
 * [`d3lines.plot`](d3lines_plot.md#plot) - Creates a plot.
-* [`d3lines.groupByPlot`](d3lines_groupbyplot.md#groupbyplot) - Creates a plot.
+* [`d3lines.groupByPlot`](d3lines_groupbyplot.md#groupbyplot) - Groups data by given key/column name and then creates a plot of the grouped data.
 
 ### Prototypes
 
