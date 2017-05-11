@@ -148,7 +148,7 @@ We split the options into the following categories:
 
 #### <a name="plot_previouschart"></a>`previousChart`
 
-- `previousChart` is a [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
+`previousChart` is a [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
 This allows to add lines from the same or another data source to an existing chart.
 
 For example,
