@@ -295,8 +295,8 @@ d3.csv("example2.csv", function(error, data) {
 
     Optional arguments:
     
-    - `lineNameKey`: name of the column that holds the line names,
-    - `xkey`: name that you want to give to the first column after transposing the data.
+    - **`lineNameKey`**: name of the column that holds the line names,
+    - **`xkey`**: name that you want to give to the first column after transposing the data.
 
     Suppose we have a `example_transpose.csv` file with the following content:
     

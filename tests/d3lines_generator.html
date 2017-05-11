@@ -912,7 +912,7 @@ function loadData(dataid){
                 break;
             case 3:
                 data = new d3lines.Data(data)
-                            .transpose('Year')
+                            .transpose("", "Year")
 //                             .filterColumns(function(c){return c.startsWith("Chi")})
                             .sample(7)
 //                             .selectColumns(['Year', 'Canada', 'Brazil', 'Mexico'])

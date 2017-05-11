@@ -63,29 +63,27 @@
 
 var svg = d3.select("#main-svg");
 var plt, plt2
+//
+// // Create data
+// var npts = 100;
+// var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
+// var y = Array.apply(null, Array(npts)).map(function (_, i) {return Math.sin(x[i]);});
+// data = {x: x, y: y};
+// // Select svg tag
+// var svg = d3.select("#main-svg");
+// // plot data
+// d3lines.plot(svg, {data: data, xkey: "x"});
 
-// Create data
-var npts = 100;
-var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
-var y = Array.apply(null, Array(npts)).map(function (_, i) {return Math.sin(x[i]);});
-data = {x: x, y: y};
-// Select svg tag
-var svg = d3.select("#main-svg");
-// plot data
-d3lines.plot(svg, {data: data, xkey: "x"});
+// var svg2 = d3.select("#main-svg2");
 
-var svg2 = d3.select("#main-svg2");
-
-d3.csv("example_transpose.csv", function(error, data) {
+d3.csv("iris.csv", function(error, data) {
     var D = new d3lines.Data(data)
-        .transpose("", "Year")
+        .selectColumns(["Petal Width", "Petal Length", "Species"])
 
     var options = {
-        data: D,
-        xkey: "Year",
-        xticks: 5,
+        plot_type: "scatter",
     };
-    plt = d3lines.plot(svg2, options);
+    plt = d3lines.groupByPlot(svg, D, "Petal Width", "Species", options);
 });
 
 </script>

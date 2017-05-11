@@ -2615,7 +2615,7 @@ var d3lines = (function () {
             }
 
             // Default configuration
-            var options = copyOptions(original_options);
+            var options = copyOptions(original_options) || {};
 
             // ignore data and xkey
             if (options.hasOwnProperty("data")) delete options.data;

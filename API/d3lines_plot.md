@@ -21,12 +21,12 @@ d3lines.plot(svg, {data: data, xkey: "x"});
 
 ### Arguments
 
-- `svg`: a D3 selection object of an `svg` tag.
+- **`svg`**: a D3 selection object of an `svg` tag.
 
 ### Optional arguments
 
-- [`options`](d3lines_plot.md#plot_options): object containing all chart options including the data.
-- [`previousChart`](d3lines_plot.md#plot_previouschart): [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
+- [**`options`**](d3lines_plot.md#plot_options): object containing all chart options including the data.
+- [**`previousChart`**](d3lines_plot.md#plot_previouschart): [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
 This allows to add lines from the same or another data source to an existing chart.
 
 For example, if you have an `svg` tag with the ID "main-svg":
