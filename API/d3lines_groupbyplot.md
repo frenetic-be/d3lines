@@ -219,4 +219,4 @@ The default value is `renameKeys = function(old, groupKey){return old + " ("+gro
     - **`old`**: old key/column name.
     - **`groupKey`**: group name.
 
-In the example above, the columns were renamed from "Petal Length" (`old`) to "Petal Length (setosa)", "Petal Length (versicolor)", "Petal Length (virginica)", where "setosa", "versicolor" and "virginica" are the `groupKey` values.
+    In the example above, the columns were renamed from "Petal Length" (`old`) to "Petal Length (setosa)", "Petal Length (versicolor)", "Petal Length (virginica)", where "setosa", "versicolor" and "virginica" are the `groupKey` values.
