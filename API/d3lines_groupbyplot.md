@@ -185,6 +185,7 @@ Even though we have a nice plot, we have no way to differentiate data points cor
 What we would like is to have different colors for different species. Therefore, we would like to group the data points by species.
 This is where we can use `d3lines.groupByPlot()`.
 
+```javascript
 d3.csv("iris.csv", function(error, data) {
     var D = new d3lines.Data(data)
         .selectColumns(["Petal Width", "Petal Length", "Species"])
@@ -194,6 +195,7 @@ d3.csv("iris.csv", function(error, data) {
     };
     plt = d3lines.groupByPlot(svg, D, "Petal Width", "Species", options);
 });
+```
 
 <p align="center"><img src="images/groupbyplot/groupbyplot_2.png" width="600" height="375" align="center"></p>
 
