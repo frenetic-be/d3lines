@@ -926,21 +926,63 @@ var d3lines = (function () {
     }
 
     // Creates a vertical line
-    function vline(svg, x, xscale, yscale) {
+    function vline(svg, x, xscale, yscale, options) {
+        if (!objectExists(xscale)){
+            paddingLeft = parseFloat(window.getComputedStyle(svg.node()).paddingLeft);
+            paddingRight = parseFloat(window.getComputedStyle(svg.node()).paddingRight);
+            xscale = d3.scale.linear()
+                .range([-paddingLeft, svg.node().clientWidth-paddingRight])
+                .domain([0, 1]);
+        }
+        if (!objectExists(yscale)){
+            paddingTop = parseFloat(window.getComputedStyle(svg.node()).paddingTop);
+            paddingBottom = parseFloat(window.getComputedStyle(svg.node()).paddingBottom);
+            yscale = d3.scale.linear()
+                .range([svg.node().clientHeight-paddingBottom, -paddingTop])
+                .domain([0, 1]);
+
+        }
+        LINE_COLOR = getValue(options, "line_color", "#777", false);
+        LINE_WIDTH = getValue(options, "line_width", 1, false);
+        LINE_STYLE = getValue(options, "line_style", "-", false);
         return svg.append("line")
                     .attr("x1", xscale(x))
                     .attr("y1", yscale.range()[0])
                     .attr("x2", xscale(x))
-                    .attr("y2", yscale.range()[1]);
+                    .attr("y2", yscale.range()[1])
+                    .style("stroke", LINE_COLOR)
+                    .style("stroke-width", LINE_WIDTH)
+                    .style("stroke-dasharray", dashArray(LINE_STYLE));
     }
 
     // Creates a horizontal line
-    function hline(svg, y, xscale, yscale) {
+    function hline(svg, y, xscale, yscale, options) {
+        if (!objectExists(xscale)){
+            paddingLeft = parseFloat(window.getComputedStyle(svg.node()).paddingLeft);
+            paddingRight = parseFloat(window.getComputedStyle(svg.node()).paddingRight);
+            xscale = d3.scale.linear()
+                .range([-paddingLeft, svg.node().clientWidth-paddingRight])
+                .domain([0, 1]);
+        }
+        if (!objectExists(yscale)){
+            paddingTop = parseFloat(window.getComputedStyle(svg.node()).paddingTop);
+            paddingBottom = parseFloat(window.getComputedStyle(svg.node()).paddingBottom);
+            yscale = d3.scale.linear()
+                .range([svg.node().clientHeight-paddingBottom, -paddingTop])
+                .domain([0, 1]);
+
+        }
+        LINE_COLOR = getValue(options, "line_color", "#777", false);
+        LINE_WIDTH = getValue(options, "line_width", 1, false);
+        LINE_STYLE = getValue(options, "line_style", "-", false);
         return svg.append("line")
                     .attr("x1", xscale.range()[0])
                     .attr("y1", yscale(y))
                     .attr("x2", xscale.range()[1])
-                    .attr("y2", yscale(y));
+                    .attr("y2", yscale(y))
+                    .style("stroke", LINE_COLOR)
+                    .style("stroke-width", LINE_WIDTH)
+                    .style("stroke-dasharray", dashArray(LINE_STYLE));
     }
 
     // Create a legend
@@ -2045,8 +2087,8 @@ var d3lines = (function () {
                     .style("stroke", AXES_COLOR)
                     .style("stroke-width", AXES_WIDTH)
                     .style("stroke-dasharray", dashArray(AXES_LINESTYLE))
-                    .attr("fill", AXES_FILL)
-                    .attr("fill-opacity", AXES_FILL_OPACITY)
+                    .style("fill", AXES_FILL)
+                    .style("fill-opacity", AXES_FILL_OPACITY)
             }
 
             // LINES
@@ -2276,20 +2318,20 @@ var d3lines = (function () {
                 // LINE FOR MOUSEOVER
                 if (getValue(INTERACTIVE_OPTIONS, "line", false)) {
                     var MOUSETIP_VLINE = vline(plt.svg.interactive.group, minX, XSCALE, YSCALE);
-                    MOUSETIP_VLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.line_style))
-                                    .attr("stroke", INTERACTIVE_OPTIONS.line_color)
-                                    .attr("stroke-width", INTERACTIVE_OPTIONS.line_width)
-                                    .attr("class", "d3lines-interactive-vline")
-                                    .attr("clip-path", "url(#clipPath)")
-                                    .style("display", "none");
+                    MOUSETIP_VLINE.attr("class", "d3lines-interactive-vline")
+                        .attr("clip-path", "url(#clipPath)")
+                        .style("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.line_style))
+                        .style("stroke", INTERACTIVE_OPTIONS.line_color)
+                        .style("stroke-width", INTERACTIVE_OPTIONS.line_width)
+                        .style("display", "none");
                     plt.svg.interactive.vline = MOUSETIP_VLINE;
                     var MOUSETIP_HLINE = hline(plt.svg.interactive.group, minY, XSCALE, YSCALE);
-                    MOUSETIP_HLINE.attr("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.line_style))
-                                    .attr("stroke", INTERACTIVE_OPTIONS.line_color)
-                                    .attr("stroke-width", INTERACTIVE_OPTIONS.line_width)
-                                    .attr("class", "d3lines-interactive-hline")
-                                    .attr("clip-path", "url(#clipPath)")
-                                    .style("display", "none");
+                    MOUSETIP_HLINE.attr("class", "d3lines-interactive-hline")
+                        .attr("clip-path", "url(#clipPath)")
+                        .style("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.line_style))
+                        .style("stroke", INTERACTIVE_OPTIONS.line_color)
+                        .style("stroke-width", INTERACTIVE_OPTIONS.line_width)
+                        .style("display", "none");
                     plt.svg.interactive.hline = MOUSETIP_HLINE;
                 }
 
@@ -2304,7 +2346,7 @@ var d3lines = (function () {
                     LINES.forEach(function(line, index){
                         plt.svg.interactive.dots.push(dot_group.append("circle")
                                         .attr("r", INTERACTIVE_OPTIONS.dot_radius)
-                                        .attr("fill", line.color)
+                                        .style("fill", line.color)
                                         .style("display", "none"));
                     });
                     var MOUSETIP_DOTS = plt.svg.interactive.dots;
@@ -2318,8 +2360,8 @@ var d3lines = (function () {
                                         .attr("y", 0)
                                         .attr("width", 50)
                                         .attr("height", 50)
-                                        .attr("fill", INTERACTIVE_OPTIONS.box_fill)
-                                        .attr("fill-opacity", INTERACTIVE_OPTIONS.box_fill_opacity)
+                                        .style("fill", INTERACTIVE_OPTIONS.box_fill)
+                                        .style("fill-opacity", INTERACTIVE_OPTIONS.box_fill_opacity)
                                         .style("display", "none");
                     plt.svg.interactive.box = MOUSETIP_BOX;
 
