@@ -3,7 +3,7 @@
 Draws a horizontal line inside an `svg` element at a given `y` value.
 This method returns a D3 selection object of the created line.
 
-#### Example
+#### Examples
 
 - 
 
