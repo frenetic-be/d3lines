@@ -337,6 +337,27 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
+Finally, `marker_fill` can also be a function (see [this jsfiddle](https://jsfiddle.net/frenetic_be/z86hL3kv/)):
+
+```javascript
+var npts = 100;
+var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
+var y = Array.apply(null, Array(npts)).map(function (_, i) {return -Math.sin(x[i]);});
+var data = {x: x, y: y};
+
+var options = {
+    data: data,
+    xkey: "x",
+    line_width: 0,
+    marker_stroke_width: 0,
+    marker: "o",
+    marker_fill: function(d, i){f = Math.round(x[i]/d3.max(x)*225); return "rgb("+(255-f)+","+f+", 255)"},
+};
+d3lines.plot(svg, options);
+```
+
+<p align="center"><img src="images/plot/option_marker_fill_function.png" width="600" height="375"></p>
+
 ----
 
 <!-- MARKER_FILL_OPACITY -->
@@ -411,6 +432,20 @@ d3.csv("example2.csv", function(error, data) {
 ```
 
 <p align="center"><img src="images/plot/option_marker_size.png" width="600" height="375"></p>
+
+`marker_size` can also be a function:
+
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        marker: ["o", "s", "v"],
+        marker_size: function(d, i){return data[i]["Day"]/10+5;},
+    };
+    d3lines.plot(svg, options);
+});
+
+<p align="center"><img src="images/plot/option_marker_size_function.png" width="600" height="375"></p>
 
 ----
 

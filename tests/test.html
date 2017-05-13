@@ -64,9 +64,6 @@
 var svg = d3.select("#main-svg");
 var plt, plt2
 
-    var svg = d3.select("#main-svg");
-    var plt = d3lines.plot(svg);
-    var v = d3lines.vline(svg, 0.5, plt.scale.x, plt.scale.y);
 //
 // // Create data
 // var npts = 100;
@@ -88,15 +85,23 @@ var plt, plt2
 //
 // var svg2 = d3.select("#main-svg2");
 
-// d3.csv("iris.csv", function(error, data) {
-//     var D = new d3lines.Data(data)
-//         .selectColumns(["Petal Width", "Petal Length", "Species"])
-//
-//     var options = {
-//         plot_type: "scatter",
-//     };
-//     plt = d3lines.groupByPlot(svg, D, "Petal Width", "Species", options);
-// });
+d3.tsv("stacked.tsv", function(error, data) {
+    data.forEach(function(d,i){
+        d.date = d3.time.format("%Y %b %d").parse(d.date);
+    });
+    var D = new d3lines.Data(data)
+//         .ignoreColumns(["Mozilla", "Other/Unknown","Microsoft Edge"])
+    var options = {
+        data: D,
+        xkey: "date",
+        xscale_type: "time",
+        plot_type: "stack",
+        line_fill: "color",
+        ylim: [0, 100],
+        width: 1200,
+    };
+    d3lines.plot(svg, options);
+});
 
 
 </script>

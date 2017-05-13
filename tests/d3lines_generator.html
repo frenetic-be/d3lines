@@ -230,7 +230,7 @@
     <!-- plot_type -->
                 <div class="option active" id="plot_type">
                     <input type="checkbox" class="checkbox" name="plot_type">
-                    <div class="option-text has-tooltip" alt="The plot type (line or scatter)"><span>    plot_type: "</span><span><select class="select"><option selected>line</option><option>scatter</option></select></span><span>",</span></div>
+                    <div class="option-text has-tooltip" alt="The plot type (line or scatter)"><span>    plot_type: "</span><span><select class="select"><option selected>line</option><option>scatter</option><option>stack</option></select></span><span>",</span></div>
                 </div>
     <!-- line_yaxis -->
                 <div class="option active" id="line_yaxis">
@@ -618,7 +618,7 @@
                     <div class="option-text has-tooltip" alt="Options for interactive plots">
                         <span>    interactive_options: {<br></span>
         <!-- snap_axis -->
-                        <div class="suboption has-tooltip interactive_options" alt="Snap axis (x, y or both)."><input type="checkbox" class="subcheckbox" name="interactive_line"><span>&nbsp;snap_axis: "</span><span><select class="select"><option selected>x</option><option>y</option><option>both</option></select></span><span>",<br></span></div>
+                        <div class="suboption has-tooltip interactive_options" alt="Snap axis (x, y or both)." id="snap_axis"><input type="checkbox" class="subcheckbox" name="interactive_line"><span>&nbsp;snap_axis: "</span><span><select class="select"><option selected>x</option><option>y</option><option>both</option></select></span><span>",<br></span></div>
         <!-- line -->
                         <div class="suboption has-tooltip interactive_options" alt="Set to true if you want a scanning line when the mouse hovers over the plot."><input type="checkbox" class="subcheckbox" name="interactive_line"><span>&nbsp;line: </span><span><select class="select boolean"><option selected>true</option><option>false</option></select></span><span>,<br></span></div>
         <!-- line_color -->
@@ -926,6 +926,7 @@ function loadData(dataid){
                 data = {x: x, y: y};
                 break;
             case 6:
+                console.log(data)
                 data.forEach(function(d, i) {
                     d.Date = d3.time.format("%Y%m%d").parse(d.date);
                     d["Sample A"] = d["New York"]/d.Austin;
@@ -971,6 +972,10 @@ function loadData(dataid){
                 activateOption('y2scale_type', 'linear');
                 activateOption('y2label', 'Humidity');
                 activateOption('y2tick_format', 'd+"%"');
+                activateOption('plot_type', "stack");
+//                 activateOption('interactive_options', null);
+//                 activateOption('snap_axis', "y");
+//                 $('#snap_axis').removeClass('hidden-option');
                 $('#marker_size').removeClass('hidden-option');
                 $('#y2label').removeClass('y2hidden');
                 $('#y2tick_format').removeClass('y2hidden');
@@ -1020,7 +1025,6 @@ function loadData(dataid){
                 activateOption('axes_font_size', '0.875em');
                 activateOption('line_color', '["steelblue","orange","limegreen"]');
                 activateOption('ylabel', 'Some normalized data');
-
                 break;
             case 7: // groupByPlot
                 activateOption('plot_type', "scatter");
@@ -1280,7 +1284,7 @@ $(document).ready(function(){
 
     prettyPrint();
 
-    dataID = 2;
+    dataID = 0;
     loadData(dataID);
 
     // An option was enabled/disabled

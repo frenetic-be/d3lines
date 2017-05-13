@@ -833,8 +833,8 @@ var d3lines = (function () {
         }
         function definition(d, i){
             if (options.hasOwnProperty("x") && isNaN(options.x[i])) return false;
-            if (options.hasOwnProperty("y") && isNaN(options.y[i])) return false;
-            if (options.hasOwnProperty("y2") && isNaN(options.y2[i])) return false;
+            if (options.hasOwnProperty("y") && isNaN(options.offset_y[i])) return false;
+            if (options.hasOwnProperty("y2") && isNaN(options.offset_y2[i])) return false;
             return true;
         }
         var linegen = lineGen(self.scale.x, self.scale.y, self.scale.y2, options);
@@ -846,7 +846,6 @@ var d3lines = (function () {
                 .y(linegen.y())
                 .y0(self.scale.y.range()[0])
                 .defined(definition);
-
             area.attr("d", newArea);
         }
         if (objectExists(markers)) {
@@ -919,8 +918,8 @@ var d3lines = (function () {
                 return xscale(i);
             })
             .y(function(d, i) {
-                if (line.hasOwnProperty("y")) return yscale(line.y[i]);
-                if (line.hasOwnProperty("y2")) return y2scale(line.y2[i]);
+                if (line.hasOwnProperty("y")) return yscale(line.offset_y[i]);
+                if (line.hasOwnProperty("y2")) return y2scale(line.offset_y2[i]);
                 return yscale(i);
         });
     }
@@ -1020,7 +1019,7 @@ var d3lines = (function () {
                     marker_fill_opacity: self.attr("data-marker-fill-opacity"),
                     marker_size: self.attr("data-marker-size"),
                     marker_stroke_width: self.attr("data-marker-stroke-width"),
-                    symbol: symbolType(self.attr("data-marker"), 36) !== "" ? symbolType(self.attr("data-marker"), 36)() : null,
+                    symbol: symbolType(self.attr("data-marker"), 6) !== "" ? symbolType(self.attr("data-marker"), 6)() : null,
 
                 };
               });
@@ -1126,18 +1125,18 @@ var d3lines = (function () {
                     case "y":
                         lines.forEach(function(line){
                             if (line.hasOwnProperty("y")) {
-                                // If line.y is defined, that's the data to use
-                                minData = d3.min([minData, d3.min(line.y)]);
-                                maxData = d3.max([maxData, d3.max(line.y)]);
+                                // If line.offset_y is defined, that's the data to use
+                                minData = d3.min([minData, d3.min(line.offset_y)]);
+                                maxData = d3.max([maxData, d3.max(line.offset_y)]);
                             }
                         });
                         break;
                     case "y2":
                         lines.forEach(function(line){
                             if (line.hasOwnProperty("y2")) {
-                                // If line.y2 is defined, that's the data to use
-                                minData = d3.min([minData, d3.min(line.y2)]);
-                                maxData = d3.max([maxData, d3.max(line.y2)]);
+                                // If line.offset_y2 is defined, that's the data to use
+                                minData = d3.min([minData, d3.min(line.offset_y2)]);
+                                maxData = d3.max([maxData, d3.max(line.offset_y2)]);
                             }
                         });
                         break;
@@ -1220,25 +1219,31 @@ var d3lines = (function () {
 
     // Transforms a symbol string into a d3 svg symbol
     function symbolType(symbol, size){
+        var newSize = DEFAULT_MARKER_SIZE*DEFAULT_MARKER_SIZE
+        if (isNumeric(size)) {
+            newSize = size*size;
+        } else if (isFunction(size)) {
+            newSize = function(d, i){return size(d, i)*size(d, i);};
+        }
         switch(symbol) {
             case "o":
             case "circle":
-                return d3.svg.symbol().type("circle").size(size);
+                return d3.svg.symbol().type("circle").size(newSize);
             case "+":
             case "cross":
-                return d3.svg.symbol().type("cross").size(size);
+                return d3.svg.symbol().type("cross").size(newSize);
             case "d":
             case "diamond":
-                return d3.svg.symbol().type("diamond").size(size);
+                return d3.svg.symbol().type("diamond").size(newSize);
             case "s":
             case "square":
-                return d3.svg.symbol().type("square").size(size);
+                return d3.svg.symbol().type("square").size(newSize);
             case "^":
             case "triangle-up":
-                return d3.svg.symbol().type("triangle-up").size(size);
+                return d3.svg.symbol().type("triangle-up").size(newSize);
             case "v":
             case "triangle-down":
-                return d3.svg.symbol().type("triangle-down").size(size);
+                return d3.svg.symbol().type("triangle-down").size(newSize);
             default:
                 return "";
         }
@@ -1297,49 +1302,22 @@ var d3lines = (function () {
         return line;
     }
 
-
-    // Find closest data point in dataset from value
-    function closest_data(value, data, accessData) {
-        // Arguments:
-        //     value: the value for which you want to find a close
-        //              data point
-        //     data: the data
-        //     accessData: a function to access the data.
-        // Example:
-        //     closest_data(13, [0,7,11,19], function(d){return d;})
-        if (accessData === undefined) {
-            var accessData = function(d, i){return d;};
-        }
-        var closest_index = 0;
-        var closest = accessData(data[0], 0);
-        var diff = Math.abs(value-closest);
-
-        data.forEach(function(d, i){
-            var curVal = accessData(d, i);
-            if (Math.abs(curVal-value) < diff) {
-                closest_index = i;
-                closest = curVal;
-                diff = Math.abs(value-closest);
-            }
-        })
-        return [data[closest_index], closest_index];
-    }
-
     function closest_in_lines(value, lines, key) {
 
         var namekey = "";
         var closest = null;
         var diff = null;
+        var closestIndex = null;
+        var closestLine = null;
 
-        lines.forEach(function(line){
+        lines.forEach(function(line, line_index){
             if (line.hasOwnProperty(key)){
                 line[key].forEach(function(val, val_index){
                     if (objectExists(val) && !isNaN(val) && (closest === null || Math.abs(val-value) < diff)) {
                         closest = val;
+                        closestIndex = val_index;
+                        closestLine = line_index;
                         diff = Math.abs(value-closest);
-                        if (line.hasOwnProperty(key+"key")){
-                            namekey = line[key+"key"]
-                        }
                     }
                 });
             }
@@ -1362,7 +1340,7 @@ var d3lines = (function () {
                 });
             }
         });
-        return [datapoint, namekey];
+        return [datapoint, closestLine, closestIndex];
     }
 
     function closest_point(x, y, lines, xscale, yscale, y2scale) {
@@ -1372,45 +1350,54 @@ var d3lines = (function () {
         }
 
         var valX,
+            valOffsetY,
             valY,
-            valY2,
             nameX = "",
             nameY = "",
             closestX = null,
             closestY = null,
             closestScale = null,
-            dist = null;
+            closestIndex = null,
+            closestLine = null,
+            dist = null,
+            scale,
+            scaleName = "";
 
-
-        lines.forEach(function(line){
-            line.x.forEach(function(valX, valIndex){
+        lines.forEach(function(line, line_index){
+            line.x.forEach(function(valX, val_index){
                 if (line.hasOwnProperty("y")){
-                    valY = line.y[valIndex];
+                    valOffsetY = line.offset_y[val_index];
+                    valY = line.y[val_index];
                     scale = yscale;
+                    scaleName = "y";
                 } else {
-                    valY = line.y2[valIndex];
+                    valOffsetY = line.offset_y2[val_index];
+                    valY = line.y2[val_index];
                     scale = y2scale;
+                    scaleName = "y2";
                 }
                 if (objectExists(valX) && !isNaN(valX) &&
-                    objectExists(valY) && !isNaN(valY) &&
-                    (closestX === null || distance(x, y, valX, valY, scale) < dist)) {
+                    objectExists(valOffsetY) && !isNaN(valOffsetY) &&
+                    (closestX === null || distance(x, y, valX, valOffsetY, scale) < dist)) {
                         closestX = valX;
                         closestY = valY;
+                        closestIndex = val_index;
+                        closestLine = line_index;
                         nameX = line.xkey
                         if (line.hasOwnProperty("y")){
                             nameY = line.ykey
                         } else {
                             nameY = line.y2key
                         }
-                        dist = distance(x, y, valX, valY, scale);
-                        closestScale = scale;
+                        dist = distance(x, y, valX, valOffsetY, scale);
+                        closestScale = scaleName;
                 }
             });
         });
         var datapoint = {};
         datapoint[nameX] = closestX;
         datapoint[nameY] = closestY;
-        return [datapoint, nameX, nameY, closestScale];
+        return [datapoint, closestLine, closestIndex, closestScale];
     }
 
     // Remove an SVG group
@@ -1757,9 +1744,21 @@ var d3lines = (function () {
                 if (line.hasOwnProperty("ykey") && !line.hasOwnProperty("y")) {
                     line.y = Array.apply(null, Array(DATA.length))
                                 .map(function (_, i) {return DATA[i][line.ykey];})
+                    if (PLOT_TYPE !== "stack" || line_index == LINES.length-1){
+                        line.offset_y = Array.apply(null, Array(DATA.length))
+                            .map(function (_, i) {return DATA[i][line.ykey];})
+                        line.offset_y2 = Array.apply(null, Array(DATA.length))
+                            .map(function (_, i) {return 0;})
+                    }
                 } else if (line.hasOwnProperty("y2key") && !line.hasOwnProperty("y2")) {
                     line.y2 = Array.apply(null, Array(DATA.length))
                                 .map(function (_, i) {return DATA[i][line.y2key];})
+                    if (PLOT_TYPE !== "stack" || line_index == LINES.length-1){
+                        line.offset_y2 = Array.apply(null, Array(DATA.length))
+                            .map(function (_, i) {return DATA[i][line.y2key];})
+                        line.offset_y = Array.apply(null, Array(DATA.length))
+                            .map(function (_, i) {return 0;})
+                    }
                 }
 
                 // Check that all lines have the following keys: x, xkey, y or y2, ykey or y2key
@@ -1779,6 +1778,28 @@ var d3lines = (function () {
                 }
             });
 
+            if (PLOT_TYPE === "stack"){
+                for (line_index = LINES.length-2; line_index >= 0; line_index--){
+                    var line = LINES[line_index];
+                    if (line.hasOwnProperty("y")) {
+                        line.offset_y = Array.apply(null, Array(line.y.length))
+                            .map(function (_, i) {
+                                var offset = LINES[line_index+1].offset_y[i];
+                                return line.y[i]+offset;
+                        });
+                        line.offset_y2 = Array.apply(null, Array(DATA.length))
+                            .map(function (_, i) {return 0;})
+                    } else if (line.hasOwnProperty("y2")) {
+                        line.offset_y2 = Array.apply(null, Array(line.y2.length))
+                            .map(function (_, i) {
+                                var offset = LINES[line_index+1].offset_y2[i];
+                                return line.y2[i]+offset;
+                        });
+                        line.offset_y = Array.apply(null, Array(DATA.length))
+                            .map(function (_, i) {return 0;})
+                    }
+                }
+            }
             // GEOMETRY
             var MARGINS = {};
             if (HOLD) {
@@ -2113,8 +2134,8 @@ var d3lines = (function () {
 
                 function definition(d, i){
                     if (line.hasOwnProperty("x") && isNaN(line.x[i])) return false;
-                    if (line.hasOwnProperty("y") && isNaN(line.y[i])) return false;
-                    if (line.hasOwnProperty("y2") && isNaN(line.y2[i])) return false;
+                    if (line.hasOwnProperty("offset_y") && isNaN(line.offset_y[i])) return false;
+                    if (line.hasOwnProperty("offset_y2") && isNaN(line.offset_y2[i])) return false;
                     return true;
                 }
 
@@ -2192,7 +2213,7 @@ var d3lines = (function () {
                         .selectAll(".markersymbols")
                         .data(DATA)
                         .enter().append("path")
-                        .attr("d", symbolType(line.marker, line.marker_size*line.marker_size))
+                        .attr("d", symbolType(line.marker, line.marker_size))
                         .attr("transform", function(d, i) {return "translate(" + (linegen1.x())(d, i) + "," + (linegen1.y())(d, i) + ")"; })
                         .style("stroke", color)
                         .style("fill", marker_fill)
@@ -2413,50 +2434,56 @@ var d3lines = (function () {
 
                         var data_x = XSCALE.invert(x0);
 
-                        var datapoint, snap_key;
-                        [datapoint, snap_key] = closest_in_lines(data_x, LINES,
+                        var datapoint, closest_line, closest_index;
+                        [datapoint, closest_line, closest_index] = closest_in_lines(data_x, LINES,
                             INTERACTIVE_OPTIONS.snap_axis);
 
                         if (objectExists(MOUSETIP_VLINE)) {
-                            MOUSETIP_VLINE.attr("x1", XSCALE(datapoint[snap_key]))
-                                         .attr("x2", XSCALE(datapoint[snap_key]))
+                            MOUSETIP_VLINE.attr("x1", XSCALE(LINES[closest_line].x[closest_index]))
+                                         .attr("x2", XSCALE(LINES[closest_line].x[closest_index]))
                                          .style("display", "block");
                         }
                     } else if (INTERACTIVE_OPTIONS.snap_axis == "y") {
 
                         var data_y = YSCALE.invert(y0);
 
-                        var datapoint, snap_key;
-                        [datapoint, snap_key] = closest_in_lines(data_y, LINES,
-                            INTERACTIVE_OPTIONS.snap_axis);
-
+                        var datapoint, closest_line, closest_index;
+                        [datapoint, closest_line, closest_index] = closest_in_lines(data_y, LINES, "offset_y");
                         if (objectExists(MOUSETIP_HLINE)) {
-                            MOUSETIP_HLINE.attr("y1", YSCALE(datapoint[snap_key]))
-                                         .attr("y2", YSCALE(datapoint[snap_key]))
+                            MOUSETIP_HLINE.attr("y1", YSCALE(LINES[closest_line].offset_y[closest_index]))
+                                         .attr("y2", YSCALE(LINES[closest_line].offset_y[closest_index]))
                                          .style("display", "block");
                         }
                     } else if (INTERACTIVE_OPTIONS.snap_axis == "both"){
 //                         var data_x = XSCALE.invert(x0);
 //                         var data_y = YSCALE.invert(y0);
 
-                        var datapoint, snap_xkey, snap_ykey, snap_scale;
+                        var datapoint, closest_line, closest_index, snap_scale;
 
-                        var [datapoint, snap_xkey, snap_ykey, snap_scale] = closest_point(x0, y0, LINES, XSCALE, YSCALE, Y2SCALE);
-
+                        var [datapoint, closest_line, closest_index, snap_scale] = closest_point(x0, y0, LINES, XSCALE, YSCALE, Y2SCALE);
                         if (objectExists(MOUSETIP_VLINE)) {
-                            MOUSETIP_VLINE.attr("x1", XSCALE(datapoint[snap_xkey]))
-                                .attr("x2", XSCALE(datapoint[snap_xkey]))
+                            MOUSETIP_VLINE.attr("x1", XSCALE(LINES[closest_line].x[closest_index]))
+                                .attr("x2", XSCALE(LINES[closest_line].x[closest_index]))
                                 .style("display", "block");
                         }
 
                         if (objectExists(MOUSETIP_HLINE)) {
-                            MOUSETIP_HLINE.attr("y1", snap_scale(datapoint[snap_ykey]))
-                                .attr("y2", snap_scale(datapoint[snap_ykey]))
-                                .style("display", "block");
+                            if (snap_scale === "y"){
+                                MOUSETIP_HLINE.attr("y1", YSCALE(LINES[closest_line].offset_y[closest_index]))
+                                    .attr("y2", YSCALE(LINES[closest_line].offset_y[closest_index]))
+                                    .style("display", "block");
+                            } else if (snap_scale === "y2" && objectExists(Y2SCALE)){
+                                MOUSETIP_HLINE.attr("y1", Y2SCALE(LINES[closest_line].offset_y2[closest_index]))
+                                    .attr("y2", Y2SCALE(LINES[closest_line].offset_y2[closest_index]))
+                                    .style("display", "block");
+
+                            }
                         }
                     }
                     if (objectExists(MOUSETIP_DOTS)) {
-                        LINES.forEach(function(line, index){
+
+                        for (index = LINES.length-1; index >= 0; index--) {
+                            var line = LINES[index];
                             if (datapoint.hasOwnProperty(line.xkey) &&
                                 isNaN(datapoint[line.xkey])) {
                                     MOUSETIP_DOTS[index].style("display", "none");
@@ -2471,19 +2498,39 @@ var d3lines = (function () {
                             } else if (!datapoint.hasOwnProperty(line.ykey) &&
                                 !datapoint.hasOwnProperty(line.y2key)){
                                     MOUSETIP_DOTS[index].style("display", "none");
+                            } else if (PLOT_TYPE === "stack" &&
+                                line.hasOwnProperty("ykey") &&
+                                isNaN(line.offset_y[closest_index])) {
+                                    MOUSETIP_DOTS[index].style("display", "none");
+                            } else if (PLOT_TYPE === "stack" &&
+                                line.hasOwnProperty("y2key") &&
+                                isNaN(line.offset_y2[closest_index])) {
+                                    MOUSETIP_DOTS[index].style("display", "none");
                             } else {
-                                MOUSETIP_DOTS[index]
-                                        .attr("cx", XSCALE(datapoint[line.xkey]))
-                                if (line.hasOwnProperty("ykey")){
-                                    MOUSETIP_DOTS[index]
-                                            .attr("cy", YSCALE(datapoint[line.ykey]));
+                                if (PLOT_TYPE === "stack"){
+                                        MOUSETIP_DOTS[index]
+                                            .attr("cx", XSCALE(datapoint[line.xkey]))
+                                        if (line.hasOwnProperty("ykey")){
+                                            MOUSETIP_DOTS[index]
+                                                .attr("cy", YSCALE(line.offset_y[closest_index]));
+                                        } else {
+                                            MOUSETIP_DOTS[index]
+                                                .attr("cy", Y2SCALE(line.offset_y2[closest_index]));
+                                        }
                                 } else {
                                     MOUSETIP_DOTS[index]
-                                            .attr("cy", Y2SCALE(datapoint[line.y2key]));
+                                        .attr("cx", XSCALE(datapoint[line.xkey]))
+                                    if (line.hasOwnProperty("ykey")){
+                                        MOUSETIP_DOTS[index]
+                                                .attr("cy", YSCALE(datapoint[line.ykey]));
+                                    } else {
+                                        MOUSETIP_DOTS[index]
+                                                .attr("cy", Y2SCALE(datapoint[line.y2key]));
+                                    }
                                 }
                                 MOUSETIP_DOTS[index].style("display", "block");
                             }
-                        });
+                        };
                     }
 
                     // Set the mousetip text
