@@ -337,7 +337,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-Finally, `marker_fill` can also be a function (see [this jsfiddle](https://jsfiddle.net/frenetic_be/z86hL3kv/)):
+Finally, `marker_fill` can also be a function (see [this jsfiddle](https://jsfiddle.net/frenetic_be/z86hL3kv/)){:target="_blank"}:
 
 ```javascript
 var npts = 100;
