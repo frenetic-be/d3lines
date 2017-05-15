@@ -3,7 +3,7 @@
 Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection object. 
 This method returns a [`d3lines.Chart`](d3lines_Chart.md#Chart) object.
 
-#### Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/re9of48L/)):
+#### Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/pnp17do6/)):
 
 ```javascript
 // Create data
