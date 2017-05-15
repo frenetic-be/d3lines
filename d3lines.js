@@ -1346,7 +1346,7 @@ var d3lines = (function () {
     function closest_point(x, y, lines, xscale, yscale, y2scale) {
 
         function distance(ptx, pty, ptx_2, pty_2, scale){
-            return Math.sqrt((ptx-xscale(ptx_2)) ** 2 + (pty-scale(pty_2)) ** 2);
+            return Math.sqrt(Math.pow(ptx-xscale(ptx_2), 2) + Math.pow(pty-scale(pty_2), 2));
         }
 
         var valX,
@@ -1398,16 +1398,6 @@ var d3lines = (function () {
         datapoint[nameX] = closestX;
         datapoint[nameY] = closestY;
         return [datapoint, closestLine, closestIndex, closestScale];
-    }
-
-    // Remove an SVG group
-    function removeGroup(obj){
-        if (obj.hasOwnProperty("group")){
-            obj.group.remove();
-        }
-        Object.keys(obj).forEach(function(key){
-            if (key != "remove") delete obj[key];
-        });
     }
 
     // Reapply style to axes
@@ -2434,9 +2424,11 @@ var d3lines = (function () {
 
                         var data_x = XSCALE.invert(x0);
 
-                        var datapoint, closest_line, closest_index;
-                        [datapoint, closest_line, closest_index] = closest_in_lines(data_x, LINES,
+                        var closest = closest_in_lines(data_x, LINES,
                             INTERACTIVE_OPTIONS.snap_axis);
+                        var datapoint = closest[0];
+                        var closest_line = closest[1];
+                        var closest_index = closest[2];
 
                         if (objectExists(MOUSETIP_VLINE)) {
                             MOUSETIP_VLINE.attr("x1", XSCALE(LINES[closest_line].x[closest_index]))
@@ -2447,8 +2439,11 @@ var d3lines = (function () {
 
                         var data_y = YSCALE.invert(y0);
 
-                        var datapoint, closest_line, closest_index;
-                        [datapoint, closest_line, closest_index] = closest_in_lines(data_y, LINES, "offset_y");
+                        var closest = closest_in_lines(data_y, LINES, "offset_y");
+                        var datapoint = closest[0];
+                        var closest_line = closest[1];
+                        var closest_index = closest[2];
+
                         if (objectExists(MOUSETIP_HLINE)) {
                             MOUSETIP_HLINE.attr("y1", YSCALE(LINES[closest_line].offset_y[closest_index]))
                                          .attr("y2", YSCALE(LINES[closest_line].offset_y[closest_index]))
@@ -2458,9 +2453,12 @@ var d3lines = (function () {
 //                         var data_x = XSCALE.invert(x0);
 //                         var data_y = YSCALE.invert(y0);
 
-                        var datapoint, closest_line, closest_index, snap_scale;
+                        var closest = closest_point(x0, y0, LINES, XSCALE, YSCALE, Y2SCALE);
+                        var datapoint = closest[0];
+                        var closest_line = closest[1];
+                        var closest_index = closest[2];
+                        var snap_scale = closest[3];
 
-                        var [datapoint, closest_line, closest_index, snap_scale] = closest_point(x0, y0, LINES, XSCALE, YSCALE, Y2SCALE);
                         if (objectExists(MOUSETIP_VLINE)) {
                             MOUSETIP_VLINE.attr("x1", XSCALE(LINES[closest_line].x[closest_index]))
                                 .attr("x2", XSCALE(LINES[closest_line].x[closest_index]))

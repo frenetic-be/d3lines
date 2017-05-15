@@ -33,6 +33,18 @@ or the minified version:
 <script src="d3lines.min.js"></script>
 ```
 
+To link directly to the latest release, you can use this script:
+
+```html
+<script src="https://frenetic.be/d3lines/d3lines.js"></script>
+```
+
+or for the minimized version:
+
+```html
+<script src="https://frenetic.be/d3lines/d3lines.min.js"></script>
+```
+
 ## Getting started with your first chart
 
 First, make sure you have an `svg` tag on your webpage. For example:
