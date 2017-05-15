@@ -3,7 +3,7 @@
 Creates a plot and appends it to the `svg` tag. `svg` should be a D3 selection object. 
 This method returns a [`d3lines.Chart`](d3lines_Chart.md#Chart) object.
 
-#### Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/pnp17do6/)):
+#### Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/bgjr391y/)):
 
 ```javascript
 // Create data
@@ -35,7 +35,7 @@ For example, if you have an `svg` tag with the ID "main-svg":
 var svg = d3.select("#main-svg");
 ```
 
-Without specifying any option, you will get an empty plot with default axes (see [this jsfiddle](https://jsfiddle.net/frenetic_be/5951nd84/)):
+Without specifying any option, you will get an empty plot with default axes (see [this jsfiddle](https://jsfiddle.net/frenetic_be/pnp17do6/)):
 :
 
 ```javascript
@@ -152,7 +152,7 @@ We split the options into the following categories:
 `previousChart` is a [`d3lines.Chart`](d3lines_Chart.md) object representing an existing chart. 
 This allows to add lines from the same or another data source to an existing chart.
 
-For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/076kkhsh/)),
+For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/cs82mptk/)),
 
 ```javascript
 var svg = d3.select("#main-svg");
