@@ -28,6 +28,7 @@ var d3lines = (function () {
         DEFAULT_LINE_STYLE = "-",
         DEFAULT_LINE_FILL = "none",
         DEFAULT_LINE_FILL_OPACITY = 1.0,
+        DEFAULT_LINE_INTERPOLATION = "linear",
         DEFAULT_MARKER = "",
         DEFAULT_MARKER_SCATTER = ["o", "s", "v", "d", "^", "+"],
         DEFAULT_MARKER_FILL = "white",
@@ -129,8 +130,8 @@ var d3lines = (function () {
         };
 
     var LINE_COLOR, LINE_WIDTH, LINE_STYLE, LINE_FILL, LINE_FILL_OPACITY,
-        MARKER, MARKER_FILL, MARKER_FILL_OPACITY, MARKER_STROKE_WIDTH,
-        MARKER_SIZE, LINE_YAXIS, PLOT_TYPE;
+        LINE_INTERPOLATION, MARKER, MARKER_FILL, MARKER_FILL_OPACITY,
+        MARKER_STROKE_WIDTH, MARKER_SIZE, LINE_YAXIS, PLOT_TYPE;
 
     /// Checks if an object is undefined or not
     function objectExists(object) {
@@ -845,7 +846,8 @@ var d3lines = (function () {
                 .x(linegen.x())
                 .y(linegen.y())
                 .y0(self.scale.y.range()[0])
-                .defined(definition);
+                .defined(definition)
+                .interpolate(options.interpolation);
             area.attr("d", newArea);
         }
         if (objectExists(markers)) {
@@ -921,7 +923,8 @@ var d3lines = (function () {
                 if (line.hasOwnProperty("y")) return yscale(line.offset_y[i]);
                 if (line.hasOwnProperty("y2")) return y2scale(line.offset_y2[i]);
                 return yscale(i);
-        });
+            })
+            .interpolate(line.interpolation);
     }
 
     // Creates a vertical line
@@ -1277,6 +1280,9 @@ var d3lines = (function () {
         }
         if (!line.hasOwnProperty("fill_opacity")) {
             line.fill_opacity = getDefaultLineProperty(LINE_FILL_OPACITY, line_index);
+        }
+        if (!line.hasOwnProperty("interpolation")) {
+            line.interpolation = getDefaultLineProperty(LINE_INTERPOLATION, line_index);
         }
         if (!line.hasOwnProperty("marker")) {
             line.marker = getDefaultLineProperty(MARKER, line_index);
@@ -1634,6 +1640,7 @@ var d3lines = (function () {
             LINE_STYLE = getValue(options, "line_style", DEFAULT_LINE_STYLE);
             LINE_FILL = getValue(options, "line_fill", DEFAULT_LINE_FILL);
             LINE_FILL_OPACITY = getValue(options, "line_fill_opacity", DEFAULT_LINE_FILL_OPACITY);
+            LINE_INTERPOLATION = getValue(options, "line_interpolation", DEFAULT_LINE_INTERPOLATION);
             MARKER_STROKE_WIDTH = getValue(options, "marker_stroke_width", DEFAULT_MARKER_STROKE_WIDTH);
             MARKER_SIZE = getValue(options, "marker_size", DEFAULT_MARKER_SIZE);
 
@@ -2158,7 +2165,8 @@ var d3lines = (function () {
                         .x(linegen1.x())
                         .y(linegen1.y())
                         .y0(YSCALE.range()[0])
-                        .defined(definition);
+                        .defined(definition)
+                        .interpolate(line.interpolation);
 
                     plt.svg.lines.areas.push(plt.svg.lines.group.append("path")
                         .datum(DATA)

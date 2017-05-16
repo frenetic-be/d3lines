@@ -3,7 +3,7 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="../d3lines.js"></script>
+    <script src="../d3lines.min.js"></script>
     <style>
         svg {
             padding: 5px;
@@ -139,44 +139,30 @@ Day,Sample A,Sample B,Sample C
 var svg = d3.select("#main-svg");
 var plt, plt2
 
-//
-// // Create data
-// var npts = 100;
-// var x = Array.apply(null, Array(npts)).map(function (_, i) {return i/(npts-1)*6*Math.PI;});
-// var y = Array.apply(null, Array(npts)).map(function (_, i) {return Math.sin(x[i]);});
-// data = {x: x, y: y};
-// // Select svg tag
-// var svg = d3.select("#main-svg");
-// // plot data
-// d3lines.plot(svg, {
-//     data: data,
-//     xkey: "x",
-//     interactive_options: {
-//         line_color: "red",
-//         line_width: 3,
-//         line_style: "dotted",
-//     }
-// });
-//
-// var svg2 = d3.select("#main-svg2");
+var svg = d3.select("#main-svg");
 
-d3.tsv("stacked.tsv", function(error, data) {
-    data.forEach(function(d,i){
-        d.date = d3.time.format("%Y %b %d").parse(d.date);
-    });
-    var D = new d3lines.Data(data)
-//         .ignoreColumns(["Mozilla", "Other/Unknown","Microsoft Edge"])
-    var options = {
-        data: D,
-        xkey: "date",
-        xscale_type: "time",
-        plot_type: "stack",
-        line_fill: "color",
-        ylim: [0, 100],
-        width: 1200,
-    };
-    d3lines.plot(svg, options);
-});
+var data = {
+    linear: [1, 3, 1, 2, 4, 3, 1],
+    step: [7, 4, 5, 4, 7, 5, 6],
+    monotone: [8, 9, 8, 11, 9, 10, 8],
+    basis: [11, 10, 10, 13, 12, 11, 11]
+}
+
+var options = {
+    data: data,
+    xticks: 7,
+    ylim: [0, 15],
+    line_color: ["black", "crimson", "navy", "forestgreen"],
+    line_fill: "color",
+    line_fill_opacity: 0.1,
+    line_interpolation: ["linear", "step", "monotone", "basis"],
+    marker: "o",
+    marker_fill: "color",
+    legend_fill: "none"
+};
+
+var plt = d3lines.plot(svg, options);
+
 
 
 </script>

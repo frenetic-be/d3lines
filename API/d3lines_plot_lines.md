@@ -121,6 +121,8 @@ d3.csv("example2.csv", function(error, data) {
 If `line_color` is an array (of strings), the first line will have the first color, the second line the second color, ...
 If the array length is less than the number of lines, the colors will be repeated.
 
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/hxe5zLwn/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -142,6 +144,8 @@ By default, `line_width = 1.5`.
 
 If `line_width` is a float, all lines will have the same width. Use an array (of floats) to specify different widths for different lines.
 If the array length is less than the number of lines, the widths will be repeated.
+
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/Ld7z7mpk/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -171,7 +175,8 @@ Possible styles are:
 - "--" or "dashed"
 - "-." or "dash-dot"
 
-For example,
+For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/2o3e887q/)),
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -186,6 +191,8 @@ d3.csv("example2.csv", function(error, data) {
 <p align="center"><img src="images/plot/option_line_style_1.png" width="600" height="375"></p>
 
 It is also possible to use custom styles by providing a dash array string, that is a string representing the dashes and the spaces between the dashes. For example, the `dotted` style has a dash array of "1 1" (1-px dash and 1-px space), the `dashed` style has a dash array of "3 3" and the `dash-dot` style has a dash array of "5 2 1 2".
+
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/6md2wz1v/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -213,7 +220,8 @@ Note that the fill color might hide some of the data. In that case, you can play
 
 See [**`line_color`**](#plot_option_line_color) for color options.
 
-For example,
+For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/jjstaw13/)),
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -250,6 +258,8 @@ Note that `line_fill_opacity` only affects the lines that have a `line_fill` dif
 If `line_fill_opacity` is a float, all lines will have the same fill opacity. Use an array (of floats) to specify different fill opacities for different lines.
 If the array length is less than the number of lines, the fill opacities will be repeated.
 
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/zo2to1fw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -263,6 +273,61 @@ d3.csv("example2.csv", function(error, data) {
 ```
 
 <p align="center"><img src="images/plot/option_line_fill_opacity.png" width="600" height="375"></p>
+
+----
+
+<!-- LINE_INTERPOLATION -->
+<a name="plot_option_line_interpolation"></a>**`line_interpolation`** - interpolation method for the lines.
+
+
+If `line_interpolation` is a string, all lines will use the same interpolation method. Use an array (of floats) to specify different interpolation methods for different lines.
+If the array length is less than the number of lines, the interpolation methods will be repeated.
+
+Possible values are:
+
+- "linear" (default value)
+- "step-before"
+- "step-after"
+- "basis"
+- "basis-open"
+- "basis-closed"
+- "bundle"
+- "cardinal"
+- "cardinal-open"
+- "cardinal-closed"
+- "monotone"
+
+See [d3.svg.line.interpolate](https://github.com/d3/d3-3.x-api-reference/blob/master/SVG-Shapes.md#line_interpolate) for details.
+
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/dp5czjjs/)):
+
+```javascript
+var svg = d3.select("#main-svg");
+
+var data = {
+    linear: [1, 3, 1, 2, 4, 3, 1],
+    step: [7, 4, 5, 4, 7, 5, 6],
+    monotone: [8, 9, 8, 11, 9, 10, 8],
+    basis: [11, 10, 10, 13, 12, 11, 11]
+}
+
+var options = {
+    data: data,
+    xticks: 7,
+    ylim: [0, 15],
+    line_color: ["black", "crimson", "navy", "forestgreen"],
+    line_fill: "color",
+    line_fill_opacity: 0.1,
+    line_interpolation: ["linear", "step", "monotone", "basis"],
+    marker: "o",
+    marker_fill: "color",
+    legend_fill: "none"
+};
+
+var plt = d3lines.plot(svg, options);
+```
+
+<p align="center"><img src="images/plot/option_line_interpolation.png" width="600" height="375"></p>
 
 ----
 
@@ -282,7 +347,8 @@ Possible values are:
 - "^" or "triangle-up"
 - "v" or "triangle-down"
 
-For example,
+For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/ezg9mauh/)),
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -308,7 +374,8 @@ If the array length is less than the number of lines, the marker fill colors wil
 
 See [**`line_color`**](#plot_option_line_color) for color options.
 
-For example,
+For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/jvdf4Law/)),
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -323,7 +390,7 @@ d3.csv("example2.csv", function(error, data) {
 
 <p align="center"><img src="images/plot/option_marker_fill.png" width="600" height="375"></p>
 
-You can set `marker_fill` to "color" to have all marker fill colors equal to the line colors.
+You can set `marker_fill` to "color" to have all marker fill colors equal to the line colors (see [this jsfiddle](https://jsfiddle.net/frenetic_be/621az4gw/)):.
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -337,7 +404,7 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-Finally, `marker_fill` can also be a function (see [this jsfiddle](https://jsfiddle.net/frenetic_be/z86hL3kv/)):
+Finally, `marker_fill` can also be a function (see [this jsfiddle](https://jsfiddle.net/frenetic_be/bxu61swm/)):
 
 ```javascript
 var npts = 100;
@@ -368,6 +435,8 @@ Note that this option only affects the lines that have markers and a `marker_fil
 If `marker_fill_opacity` is a float, all lines will have the same marker fill opacity. Use an array (of floats) to specify different marker fill opacities for different lines.
 If the array length is less than the number of lines, the marker fill opacities will be repeated.
 
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/3s8fb3q6/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -392,6 +461,8 @@ Note that this option only affects lines that have markers.
 
 If `marker_stroke_width` is a float, all markers will have the same stroke width. Use an array (of floats) to specify different marker stroke widths for different lines.
 If the array length is less than the number of lines, the marker stroke widths will be repeated.
+
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/qy4q2pu2/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -419,6 +490,8 @@ Note that this option only affects lines that have markers.
 If `marker_size` is a float, all markers will have the same size. Use an array (of floats) to specify different marker sizes for different lines.
 If the array length is less than the number of lines, the marker sizes will be repeated.
 
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/jmshprh4/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -434,6 +507,8 @@ d3.csv("example2.csv", function(error, data) {
 <p align="center"><img src="images/plot/option_marker_size.png" width="600" height="375"></p>
 
 `marker_size` can also be a function:
+
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/tnhwxp4u/)):
 
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -456,6 +531,8 @@ By default, `line_yaxis = "left"`. This option allows to have two sets of y-axes
 If `line_yaxis` is a string ("left" or "right", all line will have the same y-axis. Use an array (of strings) to specify different y-axes for different lines.
 If the array length is less than the number of lines, the y-axes will be repeated.
 
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/m9738ghn/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -473,6 +550,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- plot_type -->
 <a name="plot_option_plot_type"></a>**`plot_type`** - Specifies the type of plot (line or scatter plot). By default, `plot_type = "line"`.
+
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/g5k4rnxy/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {

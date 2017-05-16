@@ -262,6 +262,11 @@
                     <input type="checkbox" class="checkbox" checked>
                     <div class="option-text has-tooltip" alt="A fill opacity or an array of fill opacities for the lines"><span>    line_fill_opacity: </span><span><input class="input-field line" type="text" data-default="0.2"></span><span>,</span></div>
                 </div>
+    <!-- line_interpolation -->
+                <div class="option active" id="line_interpolation">
+                    <input type="checkbox" class="checkbox" checked>
+                    <div class="option-text has-tooltip" alt="Interpolation method for the lines"><span>    line_interpolation: </span><span><input class="input-field line" type="text" data-default="linear"></span><span>,</span></div>
+                </div>
     <!-- marker -->
                 <div class="option active" id="marker">
                     <input type="checkbox" class="checkbox" name="marker">
@@ -926,7 +931,6 @@ function loadData(dataid){
                 data = {x: x, y: y};
                 break;
             case 6:
-                console.log(data)
                 data.forEach(function(d, i) {
                     d.Date = d3.time.format("%Y%m%d").parse(d.date);
                     d["Sample A"] = d["New York"]/d.Austin;
