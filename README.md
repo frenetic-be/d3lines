@@ -17,8 +17,8 @@ It is designed for simplicity.
 Because **d3lines** uses **D3.v3**, you need to include the following two scripts:
 
 ```html
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="https://d3js.org/d3-time.v1.min.js"></script>
+<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script src="https://d3js.org/d3-time.v1.min.js"></script>
 ```
 
 Then, once you download **d3lines**, just include the script on your page:

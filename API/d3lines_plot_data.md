@@ -105,7 +105,7 @@ These options will allow you to define the data that you want to plot.
 
 1. An array of dictionaries
 
-Example:
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/s138xcnv/)):
 
 ```javascript
 var data = [{In: 67.3, Out: 56.5},
@@ -256,7 +256,7 @@ Day,Sample A,Sample B,Sample C
 99,12.9190593149,15.0618799918,7.41576150465
 ```
 
-In this case, there are four columns and four possible `xkey` values (`"Day"`, `"Sample A"`, `"Sample B"` or `"Sample C"`). For example:
+In this case, there are four columns and four possible `xkey` values (`"Day"`, `"Sample A"`, `"Sample B"` or `"Sample C"`). For example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/ok3vyzhb/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
