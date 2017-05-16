@@ -102,7 +102,7 @@ These are the general options related to the geometry of the chart (width, heigh
 <!-- width -->
 <a name="plot_option_width"></a>**`width`** - the width of the svg element (in pixels). The width must be larger than the sum of the left and right margins. By default, `width = 800`.
 
-Example:
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/fwkf9c7h/)):
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -119,7 +119,7 @@ d3.csv("example2.csv", function(error, data) {
 <!-- height -->
 <a name="plot_option_height"></a>**`height`** - the height of the svg element (in pixels). The height must be larger than the sum of the top and bottom margins. By default, `height = 500`.
 
-Example:
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/fwkf9c7h/)):
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -142,7 +142,7 @@ margins = {top: 15,
            left: 70};
 ```
 
-Example:
+Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/fwkf9c7h/)):
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
