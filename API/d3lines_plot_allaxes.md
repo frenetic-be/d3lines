@@ -102,6 +102,8 @@ These options allow you to alter the look/style of all axes (colors, background 
 <!-- box -->
 <a name="plot_option_box"></a>**`box`** - set to true (default) if you want a box drawn around the plotting area.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/rtgc9br1/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -124,6 +126,8 @@ Note that this option will set the color of the axes only. To change the color o
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/rtgc9br1/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -141,6 +145,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- axes_width -->
 <a name="plot_option_axes_width"></a>**`axes_width`** - line width for the axes. By default, `axes_width = 1`.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/rtgc9br1/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -161,6 +167,8 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_axes_linestyle"></a>**`axes_linestyle`** - line style for the axes. By default, `axes_linestyle = "-"` (solid).
 
 See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/rtgc9br1/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -183,6 +191,8 @@ Note that it only works when `box` is true.
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/fy1tmrmv/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -202,6 +212,8 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_axes_fill_opacity"></a>**`axes_fill_opacity`** - background opacity of the plotting area. By default, `axes_fill_opacity = 1.0` (opaque).
 Note that it only works when `box` is true and when `axes_fill` is not set to "none".
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/fy1tmrmv/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -220,6 +232,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- axes_font_size -->
 <a name="plot_option_axes_font_size"></a>**`axes_font_size`** - font size for the axes.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/fy1tmrmv/2/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -241,6 +255,8 @@ d3.csv("example2.csv", function(error, data) {
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/fy1tmrmv/2/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -258,6 +274,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- axes_font_family -->
 <a name="plot_option_axes_font_family"></a>**`axes_font_family`** - font family for the axes.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/fy1tmrmv/2/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
