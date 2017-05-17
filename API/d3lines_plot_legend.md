@@ -102,6 +102,8 @@ Here you can find all options related to the legend.
 <!-- legend -->
 <a name="plot_option_legend"></a>**`legend`** - set to true (default) if you want a legend.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -133,6 +135,8 @@ Possible values:
 
 You can also use custom position by providing a string representation of a 2-element array. For example, "[90, 150]".
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -156,6 +160,8 @@ You can override this behavior with this option.
 If the array length is less than the number of lines, the labels will be repeated. However, identical names will be differentiated by a number appended to the end of the label.
 For example, if `legend_labels = ["A", "B"]` but the chart has 4 data lines, the labels will become `["A", "B", "A-2", "B-2"]`.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -177,6 +183,8 @@ By default, `legend_border_color = "#777"`.
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -195,6 +203,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- legend_border_width -->
 <a name="plot_option_legend_border_width"></a>**`legend_border_width`** - border width for the legend.
 By default, `legend_border_width = 1`.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -217,6 +227,8 @@ By default, `legend_border_style = "-"` (solid).
 
 See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -238,6 +250,8 @@ By default, `legend_fill = "white"`.
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -257,6 +271,8 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_legend_fill_opacity"></a>**`legend_fill_opacity`** - background opacity of the legend.
 By default, `legend_fill_opacity = 1.0` (opaque).
 Note that it only works when `legend` is true and when `legend_fill` is not set to "none".
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -283,6 +299,7 @@ d3.csv("example2.csv", function(error, data) {
 <!-- legend_font_family -->
 <a name="plot_option_legend_font_family"></a>**`legend_font_family`** - font family for the legend.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/26edejmw/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {

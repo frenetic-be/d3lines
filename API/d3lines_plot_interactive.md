@@ -210,12 +210,16 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
+
 <p align="center"><img src="images/plot/option_interactive_snap_axis.png" width="600" height="375"></p>
 
 ----
 
 <!-- line -->
 <a name="plot_option_interactive_line"></a>**`line`** - set to true (default) if you want an interactive line when hovering over the plot and to false otherwise.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -247,6 +251,8 @@ See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color o
 
 See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -269,6 +275,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- dots -->
 <a name="plot_option_interactive_dots"></a>**`dots`** - set to true (default) if you want dots corresponding to your data when hovering over the plot and to false otherwise.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -290,6 +298,8 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_interactive_dot_radius"></a>**`dot_radius`** - radius of the dots.
 By default, `dot_radius = 5`.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -309,6 +319,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- textbox -->
 <a name="plot_option_interactive_textbox"></a>**`textbox`** - set to true (default) if you want a textbox with data information when hovering over the plot.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -333,6 +345,8 @@ By default, `box_fill = "#ffb4b4"`.
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -353,6 +367,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- box_fill_opacity -->
 <a name="plot_option_interactive_box_fill_opacity"></a>**`box_fill_opacity`** - background opacity of the textbox.
 By default, `box_fill_opacity = 0.95`.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -375,6 +391,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- box_padding -->
 <a name="plot_option_interactive_box_padding"></a>**`box_padding`** - padding between the border of the box and the text.
 By default, `box_padding = 10`.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -402,6 +420,8 @@ d3.csv("example2.csv", function(error, data) {
 <a name="plot_option_interactive_font_family"></a>**`font_family`** - font family for the textbox.
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -440,7 +460,8 @@ output_string: function(pt){
 
 In this example, a string representation of all key-value pairs in the data object.
 
-Here is another example,
+Here is another example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/3cw28wsd/)),
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
