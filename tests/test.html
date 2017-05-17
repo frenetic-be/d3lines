@@ -140,19 +140,20 @@ var svg = d3.select("#main-svg");
 var plt, plt2
 var csv = d3.select("pre#csv").text();
 var data = d3.csv.parse(csv);
-var options = {
-    data: data,
-    xkey: "Day",
-    box: false,
-    axes_color: "red",
-    axes_width: 0.5,
-    axes_linestyle: "dotted",
-        axes_fill: "red",
-        axes_fill_opacity: 0.1,
-};
 
-var plt = d3lines.plot(svg, options);
+d3.csv("example_time.csv", function(error, data) {
+    data.forEach(function(d){
+        d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time)
+    });
 
+    var options = {
+        data: data,
+        xkey: "Time",
+        xscale_type: "time",
+        xticks: 5,
+    };
+    d3lines.plot(svg, options);
+});
 
 
 </script>

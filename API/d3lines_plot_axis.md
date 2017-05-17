@@ -106,6 +106,8 @@ Possible values:
 - "linear" (default): standard linear scale;
 - "log": logarithmic scale;
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/m4zc1q8z/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -138,6 +140,8 @@ Time,Humidity
 
 The csv parser will read this data as strings. So, before plotting the data, we need to transform it into `Date` objects. We'll use the `d3.time` module to do that. Then, we can plot it.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/m4zc1q8z/)):
+
 ```javascript
 d3.csv("example_time.csv", function(error, data) {
     data.forEach(function(d){
@@ -163,6 +167,8 @@ d3.csv("example_time.csv", function(error, data) {
 If `xkey` is provided, `xlabel` will be by default equal to `xkey`.
 If there is only one line on the chart, `ylabel` will be set by default to the matching key/column name.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/6xn5g2kc/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -182,6 +188,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- xlabel_offset, ylabel_offset, y2label_offset -->
 <a name="plot_option_xlabel_offset"></a>**`xlabel_offset`**, **`ylabel_offset`**, **`y2label_offset`** - label position offset for the x-, y- or y2-axis.
 Use these options if you want the labels to be closer (negative value) to or further away (positive value) from the axes.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/6xn5g2kc/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -208,6 +216,8 @@ A good value is 1.05, where all your data is visible and spread but not cramped 
 By default, `xlim = 1.0`, `ylim = 1.05` and y2lim = `1.05`.
 - a 2-element array: the two values define the limits for the axis
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/6xn5g2kc/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -227,6 +237,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- xticks, yticks, y2ticks -->
 <a name="plot_option_xticks"></a>**`xticks`**, **`yticks`**, **`y2ticks`** - number of ticks for the x-, y- or y2-axis. Depending on the data, the number of ticks might not be exactly the number you specify. To suppress ticks, set the number of ticks to 0.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/qcbqw2yb/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -245,6 +257,8 @@ d3.csv("example2.csv", function(error, data) {
 
 <!-- xtick_format, ytick_format, y2tick_format -->
 <a name="plot_option_xtick_format"></a>**`xtick_format`**, **`ytick_format`**, **`y2tick_format`** - tick-formatting for the x-, y- or y2-axis. These options allow you to format the strings associated with the ticks. To specify the format, you need to provide a function that will transform the tick string. The function takes optional arguments: the original tick string and the tick index.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/qcbqw2yb/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -276,6 +290,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- xgrid, ygrid, y2grid -->
 <a name="plot_option_xgrid"></a>**`xgrid`**, **`ygrid`**, **`y2grid`** - set to true if you want a grid for the x-, y- or y2-axis. These options are set to false by default.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/01nwdw7q/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -297,6 +313,8 @@ The corresponding grid must be set to true for these options to have any effect.
 
 See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
 
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/01nwdw7q/)):
+
 ```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
@@ -316,6 +334,8 @@ d3.csv("example2.csv", function(error, data) {
 <!-- xgrid_width, ygrid_width, y2grid_width -->
 <a name="plot_option_xgrid_width"></a>**`xgrid_width`**, **`ygrid_width`**, **`y2grid_width`** - line width for the grid.
 The corresponding grid must be set to true for these options to have any effect. The default width is 0.5.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/01nwdw7q/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -338,6 +358,8 @@ d3.csv("example2.csv", function(error, data) {
 The corresponding grid must be set to true for these options to have any effect.
 
 See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options. The default style is "dotted".
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/01nwdw7q/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {

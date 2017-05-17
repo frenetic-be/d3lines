@@ -14,11 +14,10 @@ It is designed for simplicity.
 
 ## Installing
 
-Because **d3lines** uses **D3.v3**, you need to include the following two scripts:
+Because **d3lines** uses **D3.v3**, you need to include the following script:
 
 ```html
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="https://d3js.org/d3-time.v1.min.js"></script>
 ```
 
 Then, once you download **d3lines**, just include the script on your page:
@@ -55,7 +54,6 @@ First, make sure you have an `svg` tag on your webpage. For example:
 <head>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="https://d3js.org/d3-time.v1.min.js"></script>
     <script src="d3lines.js"></script>
     <style>
         svg {
