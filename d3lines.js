@@ -2395,16 +2395,32 @@ var d3lines = (function () {
                     plt.svg.interactive.text = MOUSETIP_TEXT;
                 }
 
-                var EVENT;
+                var MOUSEPOS;
 
                 // Mouse over
-                function mouseHasMoved(event){
-                    if (!objectExists(event)) return;
-                    EVENT = event;
+                function mouseHasMoved(mousePos){
+//                     if (!objectExists(event)) return;
+//                     EVENT = event;
 
                     // Calculate datapoint
-                    var x0 = event.pageX-SVG_ELEMENT.offsetLeft;
-                    var y0 = event.pageY-SVG_ELEMENT.offsetTop;
+//                     var style = getComputedStyle(SVG_ELEMENT);
+//                     var offsetLeft = SVG_ELEMENT.parentNode.offsetLeft +
+//                         parseFloat(style.marginLeft) +
+//                         parseFloat(style.paddingLeft) +
+//                         parseFloat(style.borderLeftWidth);
+//                     var offsetTop = SVG_ELEMENT.parentNode.offsetTop +
+//                         parseFloat(style.marginTop) +
+//                         parseFloat(style.paddingTop) +
+//                         parseFloat(style.borderTopWidth);
+//                     var x0 = event.pageX - offsetLeft;
+//                     var y0 = event.pageY - offsetTop;
+                    if (!objectExists(mousePos)) {
+                        mousePos = d3.mouse(this);
+                    }
+
+                    MOUSEPOS = mousePos;
+                    var x0 = mousePos[0];
+                    var y0 = mousePos[1];
 
                     var norm_x = (x0 - MARGINS.left) / (WIDTH - MARGINS.left - MARGINS.right);
                     var norm_y = 1 - (y0-MARGINS.top) / (HEIGHT - MARGINS.top - MARGINS.bottom);
@@ -2428,6 +2444,7 @@ var d3lines = (function () {
                     if (norm_x < 0 || norm_x > 1 || norm_y < 0 || norm_y > 1) {
                         return;
                     }
+                    var hlinePos, vlinePos;
                     if (INTERACTIVE_OPTIONS.snap_axis == "x") {
 
                         var data_x = XSCALE.invert(x0);
@@ -2437,10 +2454,10 @@ var d3lines = (function () {
                         var datapoint = closest[0];
                         var closest_line = closest[1];
                         var closest_index = closest[2];
-
+                        vlinePos = XSCALE(LINES[closest_line].x[closest_index]);
                         if (objectExists(MOUSETIP_VLINE)) {
-                            MOUSETIP_VLINE.attr("x1", XSCALE(LINES[closest_line].x[closest_index]))
-                                         .attr("x2", XSCALE(LINES[closest_line].x[closest_index]))
+                            MOUSETIP_VLINE.attr("x1", vlinePos)
+                                         .attr("x2", vlinePos)
                                          .style("display", "block");
                         }
                     } else if (INTERACTIVE_OPTIONS.snap_axis == "y") {
@@ -2451,10 +2468,10 @@ var d3lines = (function () {
                         var datapoint = closest[0];
                         var closest_line = closest[1];
                         var closest_index = closest[2];
-
+                        hlinePos = YSCALE(LINES[closest_line].offset_y[closest_index])
                         if (objectExists(MOUSETIP_HLINE)) {
-                            MOUSETIP_HLINE.attr("y1", YSCALE(LINES[closest_line].offset_y[closest_index]))
-                                         .attr("y2", YSCALE(LINES[closest_line].offset_y[closest_index]))
+                            MOUSETIP_HLINE.attr("y1", hlinePos)
+                                         .attr("y2", hlinePos)
                                          .style("display", "block");
                         }
                     } else if (INTERACTIVE_OPTIONS.snap_axis == "both"){
@@ -2466,23 +2483,26 @@ var d3lines = (function () {
                         var closest_line = closest[1];
                         var closest_index = closest[2];
                         var snap_scale = closest[3];
-
+                        vlinePos = XSCALE(LINES[closest_line].x[closest_index]);
                         if (objectExists(MOUSETIP_VLINE)) {
-                            MOUSETIP_VLINE.attr("x1", XSCALE(LINES[closest_line].x[closest_index]))
-                                .attr("x2", XSCALE(LINES[closest_line].x[closest_index]))
+                            MOUSETIP_VLINE.attr("x1", vlinePos)
+                                .attr("x2", vlinePos)
                                 .style("display", "block");
                         }
-
+                        if (snap_scale === "y"){
+                            hlinePos = YSCALE(LINES[closest_line].offset_y[closest_index])
+                        } else if (snap_scale === "y2" && objectExists(Y2SCALE)){
+                            hlinePos = Y2SCALE(LINES[closest_line].offset_y2[closest_index])
+                        }
                         if (objectExists(MOUSETIP_HLINE)) {
                             if (snap_scale === "y"){
-                                MOUSETIP_HLINE.attr("y1", YSCALE(LINES[closest_line].offset_y[closest_index]))
-                                    .attr("y2", YSCALE(LINES[closest_line].offset_y[closest_index]))
+                                MOUSETIP_HLINE.attr("y1", hlinePos)
+                                    .attr("y2", hlinePos)
                                     .style("display", "block");
                             } else if (snap_scale === "y2" && objectExists(Y2SCALE)){
-                                MOUSETIP_HLINE.attr("y1", Y2SCALE(LINES[closest_line].offset_y2[closest_index]))
-                                    .attr("y2", Y2SCALE(LINES[closest_line].offset_y2[closest_index]))
+                                MOUSETIP_HLINE.attr("y1", hlinePos)
+                                    .attr("y2", hlinePos)
                                     .style("display", "block");
-
                             }
                         }
                     }
@@ -2545,11 +2565,13 @@ var d3lines = (function () {
                     if (objectExists(MOUSETIP_BOX) && objectExists(MOUSETIP_TEXT)) {
                         MOUSETIP_TEXT.text("");
                         var lineHeight = parseFloat(getComputedStyle(MOUSETIP_TEXT[0][0]).fontSize);
+                        var textPosX = objectExists(vlinePos) ? vlinePos : x0;
+                        var textPosY = objectExists(hlinePos) ? hlinePos : y0;
                         str.split(new RegExp("<br ?/?>")).forEach(function(line, index){
                             MOUSETIP_TEXT.append("tspan")
                                 .text(line)
-                                .attr("x", x0 + 10 + INTERACTIVE_OPTIONS.box_padding)
-                                .attr("y", y0 + 10 + INTERACTIVE_OPTIONS.box_padding + lineHeight)
+                                .attr("x", textPosX + 10 + INTERACTIVE_OPTIONS.box_padding)
+                                .attr("y", textPosY + 10 + INTERACTIVE_OPTIONS.box_padding + lineHeight)
                                 .attr("dy", (index * 1.2) + "em");
                         });
                         MOUSETIP_TEXT.style("display", "block");
@@ -2565,7 +2587,7 @@ var d3lines = (function () {
                                 d3.select(tspans[0][i]).attr("y", HEIGHT-newHeight+INTERACTIVE_OPTIONS.box_padding+lineHeight);
                             });
                         } else {
-                            MOUSETIP_BOX.attr("y", y0+10);
+                            MOUSETIP_BOX.attr("y", textPosY + 10);
                         }
                         if (WIDTH-newWidth < x0+10){
                             MOUSETIP_BOX.attr("x", WIDTH-newWidth);
@@ -2574,7 +2596,7 @@ var d3lines = (function () {
                                 d3.select(tspans[0][i]).attr("x", WIDTH-newWidth+INTERACTIVE_OPTIONS.box_padding);
                             });
                         } else {
-                            MOUSETIP_BOX.attr("x", x0+10);
+                            MOUSETIP_BOX.attr("x", textPosX + 10);
                         }
                         MOUSETIP_BOX.attr("width", newWidth)
                                     .attr("height", newHeight)
@@ -2582,7 +2604,7 @@ var d3lines = (function () {
                     }
                 }
 
-                SVG_ELEMENT.addEventListener("mousemove", mouseHasMoved);
+                svg.on("mousemove", mouseHasMoved);
 
                 if (INTERACTIVE_OPTIONS.zoom) {
                     svg.call(d3.behavior.zoom()
@@ -2599,7 +2621,7 @@ var d3lines = (function () {
                             Y2SCALE.domain(y2d);
                         }
                         plt.redraw();
-                        mouseHasMoved(EVENT);
+                        mouseHasMoved(MOUSEPOS);
                     }));
                 }
 
