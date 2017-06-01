@@ -111,6 +111,9 @@ var d3lines = (function () {
             dot_radius: 5,
 
             textbox: true,
+            box_border_color: "none",
+            box_border_width: 1,
+            box_border_style: "-",
             box_fill: "#ffb4b4",
             box_padding: 10,
             box_fill_opacity: 0.95,
@@ -2379,6 +2382,9 @@ var d3lines = (function () {
                                         .attr("y", 0)
                                         .attr("width", 50)
                                         .attr("height", 50)
+                                        .style("stroke", INTERACTIVE_OPTIONS.box_border_color)
+                                        .style("stroke-width", INTERACTIVE_OPTIONS.box_border_width)
+                                        .style("stroke-dasharray", dashArray(INTERACTIVE_OPTIONS.box_border_style))
                                         .style("fill", INTERACTIVE_OPTIONS.box_fill)
                                         .style("fill-opacity", INTERACTIVE_OPTIONS.box_fill_opacity)
                                         .style("display", "none");

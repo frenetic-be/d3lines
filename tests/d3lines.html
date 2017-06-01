@@ -3,17 +3,27 @@
 <head>
 	<meta charset="utf-8" />
 	<title>d3lines</title>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
-    <link href='d3lines.css' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="prettify.css">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
+    <link href='d3lines_files/d3lines.css?=y3rgebheef' rel='stylesheet' type='text/css'>
+    <link href="d3lines_files/prettify.css" rel="stylesheet" type='text/css'>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <!--     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script> -->
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script src="https://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <!--     <script src="https://frenetic.be/d3lines/d3lines.min.js"></script> -->
-    <script src="../d3lines.js"></script>
-    <script src="prettify.js"></script>
+    <script src="d3lines.js"></script>
+    <script src="d3lines_files/prettify.js"></script>
+    <script type="text/javascript" async defer src="//assets.pinterest.com/js/pinit.js"></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
 </head>
 <body>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 
 <div class="container">
   <section class="background">
@@ -31,6 +41,32 @@
             <li class="navigation-menu"><a href="https://github.com/frenetic-be/d3lines">Source</a></li>
             <li class="navigation-menu"><a href="https://github.com/frenetic-be/d3lines/blob/master/API/d3lines.md">API</a></li>
             <li class="navigation-menu"><a href="https://frenetic.be/d3lines/d3lines.js" download>Download</a></li>
+
+        </ul>
+    </div>
+    <div class="social-media">
+        <ul class="social-media-list">
+            <li id="twitter">
+                <a class="twitter-share-button" href="https://twitter.com/intent/tweet?text=Check+this+out%3A+d3lines+is+a+JavaScript+library+for+adding+simple+line+charts+on+your+website&via=frenetic_be&hashtags=d3lines&url=https%3A%2F%2Ffrenetic.be%2Fd3lines%2F">Tweet</a>
+            </li>
+            <li id="facebook">
+                <div class="fb-share-button" data-href="https://frenetic.be/d3lines/" data-layout="button" data-size="small" data-mobile-iframe="true"><a class="fb-xfbml-parse-ignore" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Ffrenetic.be%2Fd3lines%2F&amp;src=sdkpreparse">Share</a></div>
+            </li>
+            <li id="pinterest">
+                <a href="https://www.pinterest.com/pin/create/button/"><img src="//assets.pinterest.com/images/pidgets/pinit_fg_en_rect_gray_20.png" /></a>
+            </li>
+            <li id="plusone">
+                <div class="g-plus" data-action="share" data-annotation="none" data-href="https://frenetic.be/d3lines/"></div>
+            </li>
+            <script>
+//                     if (deviceMobile){
+//                         $('li#pinterest a').removeAttr('data-pin-count');
+//                         $('li#facebook div').attr('data-layout', 'button');
+//                         $('li#facebook div').attr('data-share', 'false');
+//                         $('li#plusone div').attr('data-annotation', 'none');
+//                         $('li#plusone').css('margin-right', '0');
+//                     }
+            </script>
 
         </ul>
     </div>
@@ -57,22 +93,28 @@
                 <div class="example-menu">
                     <ul>
                         <li class="selected-menu"><a data-id="0">Basic plot</a></li>
-                        <li><a data-id="1">Multiple lines</a></li>
-                        <li><a data-id="2">Double Y-axes</a></li>
+                        <li><a data-id="5">Log scale</a></li>
+                        <li><a data-id="1">Time series</a></li>
                         <li><a data-id="3">Incomplete dataset</a></li>
                         <li><a data-id="4">Axes formatting</a></li>
-                        <li><a data-id="5">Log scale</a></li>
+                        <li><a data-id="2">Double Y-axes</a></li>
                         <li><a data-id="6">Group-by plot</a></li>
                         <li><a data-id="7">Interpolation</a></li>
                     </ul>
                 </div>
-                <div class="right-container">
-                    <div class="chart-container">
-                        <div class="svg-container">
-                            <svg id="svg-main"></svg>
-                        </div>
-                        <div class="code-container">
-                            <pre class="prettyprint" id="code"></pre>
+                <div class="right-main-container">
+                    <div class="right-subtitle">Here is how you draw two simple lines: you first define your data and you add a few lines of code.
+                    <br>It's as simple as that. And by default, the chart is interactive:
+                    You can hover over the lines to display information about your data.
+                    <br>Or you can zoom in and out. All of it is customizable.</div>
+                    <div class="right-container">
+                        <div class="chart-container">
+                            <div class="svg-container">
+                                <svg id="svg-main"></svg>
+                            </div>
+                            <div class="code-container">
+                                <pre class="prettyprint" id="code"></pre>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,11 +135,15 @@
             <pre class="prettyprint">&lt;script src="https://frenetic.be/d3lines/d3lines.js"&gt;&lt;/script&gt;</pre>
             or:
             <pre class="prettyprint">&lt;script src="https://frenetic.be/d3lines/d3lines.min.js"&gt;&lt;/script&gt;</pre>
-
         </div>
     </div>
     <div class="arrow arrow-up"><i class="up"></i></div>
-    <div class="arrow arrow-down"></div>
+    <div class="arrow arrow-down">
+        <footer>
+            Library released under <a href="https://opensource.org/licenses/BSD-3-Clause">BSD license</a>. Copyright 2017 Julien Spronck
+        </footer>
+    </div>
+
   </section>
 
 </div>
@@ -107,6 +153,9 @@
 <script>
 var plt;
 $(document).ready(function(){
+    window.twttr = (function(d, s, id) {var js, fjs = d.getElementsByTagName(s)[0],t = window.twttr || {}; if (d.getElementById(id)) {return t;}; js = d.createElement(s); js.id = id; js.src = "https://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); t._e = []; t.ready = function(f) {t._e.push(f);}; return t;}(document, "script", "twitter-wjs"));
+
+
     // ------------- VARIABLES ------------- //
     var ticking = false;
     var isFirefox = (/Firefox/i.test(navigator.userAgent));
@@ -232,7 +281,7 @@ d3lines.plot(svg, options);`;
 /////////////////
 
             case 1:
-                d3.csv('multilines2.csv', function(error, data) {
+                d3.csv('d3lines_files/data_samples/multilines2.csv', function(error, data) {
                     var options = {
                         data: data,
                         xkey: "Date",
@@ -240,6 +289,10 @@ d3lines.plot(svg, options);`;
                         axes_font_size: "0.9em",
                         xscale_type: "time",
                         ylabel: "Some normalized data",
+                        interactive_options: {
+                            box_fill: "steelblue",
+                            font_color: "white",
+                        }
                     };
                     code = `var options = {
     data: data,
@@ -251,7 +304,11 @@ d3lines.plot(svg, options);`;
     ],
     axes_font_size: "0.9em",
     xscale_type: "time",
-    ylabel: "Some normalized data"
+    ylabel: "Some normalized data",
+    interactive_options: {
+        box_fill: "steelblue",
+        font_color: "white",
+    }
 }
 d3lines.plot(svg, options);`;
 
@@ -270,14 +327,13 @@ d3lines.plot(svg, options);`;
 ///////////////////
 
             case 2:
-                d3.csv('TempHum_20170413.txt', function(error, data) {
+                d3.csv('d3lines_files/data_samples/TempHum_20170413.txt', function(error, data) {
                     data.forEach(function(d, i) {
                         d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time.split(".")[0]);
                     });
                     var options = {
                         data: data,
                         xkey: "Time",
-                        plot_type: "stack",
                         line_yaxis: ["right", "left"],
                         line_width: 0,
                         marker: ["o", "^"],
@@ -293,7 +349,6 @@ d3lines.plot(svg, options);`;
                     code = `var options = {
     data: data,
     xkey: "Time",
-    plot_type: "stack",
     line_yaxis: ["right", "left"],
     line_width: 0,
     marker: ["o", "^"],
@@ -327,7 +382,7 @@ d3lines.plot(svg, options);`;
 ////////////////////////
 
             case 3:
-                d3.csv('WDIFoodImports.csv', function(error, data) {
+                d3.csv('d3lines_files/data_samples/WDIFoodImports.csv', function(error, data) {
                     var options = {
                         data: data,
                         xkey: "Year",
@@ -365,7 +420,7 @@ d3lines.plot(svg, options);`;
 /////////////////////
 
             case 4:
-                d3.csv('WDIMortality.csv', function(error, data) {
+                d3.csv('d3lines_files/data_samples/WDIMortality.csv', function(error, data) {
                     var options = {
                         data: data,
                         xkey: "Year",
@@ -380,6 +435,11 @@ d3lines.plot(svg, options);`;
                         ytick_format: function(d){return d/1e6;},
                         ylabel: "Some big number (x 10^6)",
                         legend_position: "top right",
+                        interactive_options: {
+                            box_fill: "white",
+                            box_border_color: "steelblue",
+                            font_color: "steelblue",
+                        }
                     };
 
                     code = `var options = {
@@ -399,7 +459,12 @@ d3lines.plot(svg, options);`;
         return d/1e6;
     },
     ylabel: "Some big number (x 10^6)",
-    legend_position: "top right"
+    legend_position: "top right",
+    interactive_options: {
+        box_fill: "white",
+        box_border_color: "steelblue",
+        font_color: "steelblue"
+    }
 };
 
 d3lines.plot(svg, options);`;
@@ -419,7 +484,7 @@ d3lines.plot(svg, options);`;
 ///////////////
 
             case 5:
-                d3.csv('CoalConsumption.csv', function(error, data) {
+                d3.csv('d3lines_files/data_samples/CoalConsumption.csv', function(error, data) {
                     data = new d3lines.Data(data)
                                 .transpose("", "Year")
                                 .sample(7)
@@ -457,7 +522,7 @@ d3lines.plot(svg, options);`;
 /////////////////
 
             case 6:
-                d3.csv('iris.csv', function(error, data) {
+                d3.csv('d3lines_files/data_samples/iris.csv', function(error, data) {
                     data = new d3lines.Data(data)
                         .ignoreColumns(["Petal Width", "Petal Length"])
                     var options = {
@@ -596,7 +661,6 @@ plt = d3lines.groupByPlot(svg,
       } else if (arrowDir.hasClass("up") && ticking != true) {
           //Up scroll
           ticking = true;
-          console.log(fromTop, currentSlideNumber)
           if (currentSlideNumber !== 0) {
             if (fromTop){
                 currentSlideNumber = 0;
@@ -604,8 +668,6 @@ plt = d3lines.groupByPlot(svg,
                 currentSlideNumber--;
             }
           }
-          console.log(fromTop, currentSlideNumber)
-
           previousItem();
           slideDurationTimeout(slideDurationSetting);
         }

@@ -80,6 +80,9 @@
         * [**`dots`**](d3lines_plot_interactive.md#plot_option_interactive_dots) - set to true (default) if you want dots corresponding to your data when hovering over the plot.
         * [**`dot_radius`**](d3lines_plot_interactive.md#plot_option_interactive_dot_radius) - radius of the dots.
         * [**`textbox`**](d3lines_plot_interactive.md#plot_option_interactive_textbox) - set to true (default) if you want a textbox with data information when hovering over the plot.
+        * [**`box_border_color`**](d3lines_plot_interactive.md#plot_option_box_border_color) - border color for the textbox.
+        * [**`box_border_width`**](d3lines_plot_interactive.md#plot_option_box_border_width) - border width for the textbox.
+        * [**`box_border_style`**](d3lines_plot_interactive.md#plot_option_box_border_style) - border style for the textbox.
         * [**`box_fill`**](d3lines_plot_interactive.md#plot_option_interactive_box_fill) - background color of the textbox.
         * [**`box_fill_opacity`**](d3lines_plot_interactive.md#plot_option_interactive_box_fill_opacity) - background opacity of the textbox.
         * [**`box_padding`**](d3lines_plot_interactive.md#plot_option_interactive_box_padding) - padding between the border of the box and the text.
@@ -339,6 +342,65 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
+<!-- box_border_color -->
+<a name="plot_option_box_border_color"></a>**`box_border_color`** - border color for the textbox.
+By default, `box_border_color = "none"`.
+
+See [**`line_color`**](d3lines_plot_lines.md#plot_option_line_color) for color options.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_border_color: "red"
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+----
+
+<!-- box_border_width -->
+<a name="plot_option_box_border_width"></a>**`box_border_width`** - border width for the textbox.
+By default, `box_border_width = 1`.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_border_width: 2.5
+        }
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+----
+
+<!-- box_border_style -->
+<a name="plot_option_box_border_style"></a>**`box_border_style`** - border style for the textbox.
+By default, `box_border_style = "-"` (solid).
+
+See [**`line_style`**](d3lines_plot_lines.md#plot_option_line_style) for style options.
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        interactive_options: {
+            box_border_style: "dotted"
+        }    };
+    d3lines.plot(svg, options);
+});
+```
+
+----
 <!-- box_fill -->
 <a name="plot_option_interactive_box_fill"></a>**`box_fill`** - background color of the textbox.
 By default, `box_fill = "#ffb4b4"`.
