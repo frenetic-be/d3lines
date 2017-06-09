@@ -591,6 +591,7 @@ d3.csv("example2.csv", function(error, data) {
 
 Example of stacked plot (see [this jsfiddle](https://jsfiddle.net/frenetic_be/8b3btahd/)):
 
+```javascript
 d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
@@ -600,6 +601,7 @@ d3.csv("example2.csv", function(error, data) {
     };
     d3lines.plot(svg, options);
 });
+```
 
-<p align="center"><img src="images/plot/option_plot_type_scatter.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_plot_type_stack.png" width="600" height="375"></p>
 
