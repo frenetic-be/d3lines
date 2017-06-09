@@ -14,7 +14,7 @@ var d3lines = (function () {
         DEFAULT_WIDTH = 800,
         DEFAULT_HEIGHT = 500,
         DEFAULT_MARGINS = {
-            top: 15,
+            top: 30,
             right: 70,
             bottom: 50,
             left: 70
@@ -78,6 +78,7 @@ var d3lines = (function () {
         DEFAULT_LEGEND_POSITION = "top left",
 
         // AXES
+        DEFAULT_TITLE = "",
         DEFAULT_XLIM = 1.0,
         DEFAULT_YLIM = 1.05,
         DEFAULT_Y2LIM = 1.05,
@@ -699,16 +700,17 @@ var d3lines = (function () {
         this.y2 = undefined;
     }
 
-    function SVGAxesGroup(group, x, y, y2, labels){
+    function SVGAxesGroup(group, x, y, y2, title, labels){
         // if user accidentally omits the new keyword, this will
         // silently correct the problem...
         if ( !(this instanceof SVGAxesGroup) )
-            return new SVGAxesGroup(group, x, y, y2, labels);
+            return new SVGAxesGroup(group, x, y, y2, title, labels);
 
         SVGGroup.call(this, group);
         this.x = x;
         this.y = y;
         this.y2 = y2;
+        this.title = title
         if (labels === undefined){
             this.labels = new SVGAxesLabelGroup()
         } else {
@@ -2009,6 +2011,7 @@ var d3lines = (function () {
             var LEGEND_LABELS = getValue(options, "legend_labels");
 
             // AXES
+            var TITLE = getValue(options, "title", DEFAULT_TITLE);
             var XLIM = getValue(options, "xlim", DEFAULT_XLIM);
             var YLIM = getValue(options, "ylim", DEFAULT_YLIM);
             var Y2LIM = getValue(options, "y2lim", DEFAULT_Y2LIM);
@@ -2325,6 +2328,23 @@ var d3lines = (function () {
 
                 // GRID
                 createGrid(svg, original_options, objectExists(Y2SCALE));
+
+                // TITLE
+                if (objectExists(TITLE)) {
+                    plt.svg.axes.title = plt.svg.axes.group.append("text")
+                        .attr("text-anchor", "middle")
+                        .attr("x", WIDTH / 2)
+                        .attr("y", MARGINS.top-10)
+                        .text(TITLE)
+                        .style("font-size", AXES_FONT_SIZE);
+
+                    if (AXES_FONT_COLOR !== undefined) {
+                        plt.svg.axes.title.style("fill", AXES_FONT_COLOR);
+                    }
+                    if (AXES_FONT_FAMILY !== undefined) {
+                        plt.svg.axes.title.style("font-family", AXES_FONT_FAMILY);
+                    }
+                }
 
                 // XLABEL
                 plt.svg.axes.labels.group = plt.svg.axes.group.append("g")
