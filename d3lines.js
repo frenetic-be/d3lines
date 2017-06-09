@@ -465,7 +465,7 @@ var d3lines = (function () {
 
         if (data.length === 0) return;
 
-        var data2 = [], rowName, keys = [];
+        var data2 = [], keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
                 keys = Object.keys(data[0]).filter(function(key){
@@ -495,7 +495,7 @@ var d3lines = (function () {
             !objectExists(columns) ||
             !isArray(columns)) return;
 
-        var data2 = [], rowName, keys = [];
+        var data2 = [], keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
                 keys = Object.keys(data[0]).filter(function(key){
@@ -525,7 +525,7 @@ var d3lines = (function () {
             !objectExists(columns) ||
             !isArray(columns)) return;
 
-        var data2 = [], rowName, keys = [];
+        var data2 = [], keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
                 keys = Object.keys(data[0]).filter(function(key){
@@ -553,7 +553,7 @@ var d3lines = (function () {
 
         if (data.length === 0) return;
 
-        var data2 = [], rowName, keys = [];
+        var data2 = [], keys = [];
         data.forEach(function(row, jrow){
             if (jrow == 0) {
                 keys = Object.keys(data[0]).filter(filterFunc);
@@ -561,6 +561,70 @@ var d3lines = (function () {
             var row2 = {};
             keys.forEach(function(key, jkey){
                 row2[key] = row[key];
+            });
+            data2.push(row2);
+        });
+        return new Data(data2);
+    }
+
+    Data.prototype.renameColumns = function(nameDict){
+
+        var data = this.data;
+
+        if (!objectExists(data)) return;
+
+        if (!isArray(data)) {
+            throw TypeError("The data should be an array of dictionaries.")
+        }
+
+        if (typeof(nameDict) !== "object") {
+            throw TypeError("Argument should be a dictionary")
+        }
+
+        if (data.length === 0) return;
+
+        var data2 = [], keys = [];
+        data.forEach(function(row, jrow){
+            keys = Object.keys(row);
+            var row2 = {};
+            keys.forEach(function(key, jkey){
+                if (nameDict.hasOwnProperty(key)) {
+                    row2[nameDict[key]] = row[key];
+                } else {
+                    row2[key] = row[key];
+                }
+            });
+            data2.push(row2);
+        });
+        return new Data(data2);
+    }
+
+    Data.prototype.map = function(mapDict){
+
+        var data = this.data;
+
+        if (!objectExists(data)) return;
+
+        if (!isArray(data)) {
+            throw TypeError("The data should be an array of dictionaries.")
+        }
+
+        if (typeof(mapDict) !== "object") {
+            throw TypeError("Argument should be a dictionary")
+        }
+
+        if (data.length === 0) return;
+
+        var data2 = [], keys = [];
+        data.forEach(function(row, jrow){
+            keys = Object.keys(row);
+            var row2 = {};
+            keys.forEach(function(key, jkey){
+                if (mapDict.hasOwnProperty(key)) {
+                    row2[key] = mapDict[key](row[key]);
+                } else {
+                    row2[key] = row[key];
+                }
             });
             data2.push(row2);
         });

@@ -3,7 +3,7 @@
 <head>
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,300,400' rel='stylesheet' type='text/css'>
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script src="../d3lines.min.js"></script>
+    <script src="../d3lines.js"></script>
     <style>
         svg {
             padding: 5px;
@@ -141,18 +141,21 @@ var plt, plt2
 var csv = d3.select("pre#csv").text();
 var data = d3.csv.parse(csv);
 
-d3.csv("example_time.csv", function(error, data) {
-    data.forEach(function(d){
-        d.Time = d3.time.format("%Y-%m-%d %H:%M:%S").parse(d.Time)
-    });
+function times2(x) {return 2*x;}
+function times3(x) {return 3*x;}
+
+d3.csv("example2.csv", function(error, data) {
+
+    var D = new d3lines.Data(data)
+        .map({"Sample A": times3,
+              "Sample C": times2});
 
     var options = {
-        data: data,
-        xkey: "Time",
-        xscale_type: "time",
-        xticks: 5,
+        data: D,
+        xkey: "Day",
+        plot_type: "scatter"
     };
-    d3lines.plot(svg, options);
+    plt = d3lines.plot(svg, options);
 });
 
 

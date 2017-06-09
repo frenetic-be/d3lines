@@ -180,7 +180,6 @@ d3.csv("example2.csv", function(error, data) {
 
 <p align="center"><img src="images/Data/Data_filterColumns.png" width="600" height="375"></p>
 
-
 - **`ignoreColumns(columns)`**: ignores columns based on the provided array of column names.
 
 Example:
@@ -202,15 +201,19 @@ d3.csv("example2.csv", function(error, data) {
 
 <p align="center"><img src="images/Data/Data_ignoreColumns.png" width="600" height="375"></p>
 
-- **`selectColumns(columns)`**: keeps columns based on the provided array of column names.
+- **`map(mapDict)`**: maps columns based on the provided dictionary of functions.
 
 Example:
 
 ```javascript
+function times2(x) {return 2*x;}
+function times3(x) {return 3*x;}
+
 d3.csv("example2.csv", function(error, data) {
 
     var D = new d3lines.Data(data)
-        .selectColumns(["Day", "Sample C"]);
+        .map({"Sample A": times3,
+              "Sample C": times2});
 
     var options = {
         data: D,
@@ -220,8 +223,6 @@ d3.csv("example2.csv", function(error, data) {
     plt = d3lines.plot(svg, options);
 });
 ```
-
-<p align="center"><img src="images/Data/Data_selectColumns.png" width="600" height="375"></p>
 
 - **`removeNaNColumns()`**: removes columns that only have NaN values.
 
@@ -240,6 +241,28 @@ D = D.removeNaNColumns();
 //           {date: Sat Jan 07 2017 00:00:00 GMT-0800 (PST), x: 7.1},
 //           {date: Fri Jan 13 2017 00:00:00 GMT-0800 (PST), x: NaN]
 
+```
+
+- **`renameColumns(nameDict)`**: rename columns based on the provided dictionary.
+
+Example:
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+
+    var D = new d3lines.Data(data)
+        .renameColumns({"Sample A": "Data 1",
+                        "Sample B": "Data 2",
+                        "Sample C": "Data 3",
+                        "Day": "Index"});
+
+    var options = {
+        data: D,
+        xkey: "Index",
+        plot_type: "scatter"
+    };
+    plt = d3lines.plot(svg, options);
+});
 ```
 
 - **`sample([start, end])`**: keeps columns based on column numbers.
@@ -290,6 +313,27 @@ d3.csv("example2.csv", function(error, data) {
         //           {date: Sat Jan 07 2017 00:00:00 GMT-0800 (PST), x: 7.1, category: NaN},
         //           {date: Fri Jan 13 2017 00:00:00 GMT-0800 (PST), x: NaN, category: NaN}]
         ```
+
+- **`selectColumns(columns)`**: keeps columns based on the provided array of column names.
+
+Example:
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+
+    var D = new d3lines.Data(data)
+        .selectColumns(["Day", "Sample C"]);
+
+    var options = {
+        data: D,
+        xkey: "Day",
+        plot_type: "scatter"
+    };
+    plt = d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/Data/Data_selectColumns.png" width="600" height="375"></p>
     
 - **`transpose([lineNameKey, xkey])`**: transposes a data matrix. 
 
