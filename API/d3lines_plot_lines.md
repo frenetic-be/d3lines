@@ -553,9 +553,9 @@ d3.csv("example2.csv", function(error, data) {
 ----
 
 <!-- plot_type -->
-<a name="plot_option_plot_type"></a>**`plot_type`** - Specifies the type of plot (line or scatter plot). By default, `plot_type = "line"`.
+<a name="plot_option_plot_type"></a>**`plot_type`** - Specifies the type of plot (`line`, `scatter` or `stack`). By default, `plot_type = "line"`.
 
-Example (see [this jsfiddle](https://jsfiddle.net/frenetic_be/g5k4rnxy/)):
+Example of scatter plot (see [this jsfiddle](https://jsfiddle.net/frenetic_be/g5k4rnxy/)):
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -568,9 +568,9 @@ d3.csv("example2.csv", function(error, data) {
 });
 ```
 
-<p align="center"><img src="images/plot/option_plot_type.png" width="600" height="375"></p>
+<p align="center"><img src="images/plot/option_plot_type_scatter.png" width="600" height="375"></p>
 
-`plot_type` is simply a wrapper for a few different options, in such a way that the above code is equivalent to:
+`plot_type: "scatter"` is simply a wrapper for a few different options, in such a way that the above code is equivalent to:
 
 ```javascript
 d3.csv("example2.csv", function(error, data) {
@@ -588,3 +588,18 @@ d3.csv("example2.csv", function(error, data) {
     d3lines.plot(svg, options);
 });
 ```
+
+Example of stacked plot (see [this jsfiddle](https://jsfiddle.net/frenetic_be/8b3btahd/)):
+
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        plot_type: "stack",
+        line_fill: ["#e5e5ff", "#ffe5e5", "#eafeea"]
+    };
+    d3lines.plot(svg, options);
+});
+
+<p align="center"><img src="images/plot/option_plot_type_scatter.png" width="600" height="375"></p>
+

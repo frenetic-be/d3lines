@@ -141,21 +141,14 @@ var plt, plt2
 var csv = d3.select("pre#csv").text();
 var data = d3.csv.parse(csv);
 
-function times2(x) {return 2*x;}
-function times3(x) {return 3*x;}
-
 d3.csv("example2.csv", function(error, data) {
-
-    var D = new d3lines.Data(data)
-        .map({"Sample A": times3,
-              "Sample C": times2});
-
     var options = {
-        data: D,
+        data: data,
         xkey: "Day",
-        plot_type: "scatter"
+        plot_type: "stack",
+        line_fill: ["#e5e5ff", "#ffe5e5", "#eafeea"]
     };
-    plt = d3lines.plot(svg, options);
+    d3lines.plot(svg, options);
 });
 
 
