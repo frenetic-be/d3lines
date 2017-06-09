@@ -48,6 +48,10 @@ var d3lines = (function () {
         DEFAULT_YTICK_FORMAT,
         DEFAULT_Y2TICK_FORMAT,
 
+        DEFAULT_XTICK_ROTATION = 0,
+        DEFAULT_YTICK_ROTATION = 0,
+        DEFAULT_Y2TICK_ROTATION = 0,
+
         // BOX AND GRID
         DEFAULT_BOX = true,
         DEFAULT_XGRID = false,
@@ -1980,6 +1984,10 @@ var d3lines = (function () {
             var YTICK_FORMAT = getValue(options, "ytick_format", DEFAULT_YTICK_FORMAT);
             var Y2TICK_FORMAT = getValue(options, "y2tick_format", DEFAULT_Y2TICK_FORMAT);
 
+            var XTICK_ROTATION = getValue(options, "xtick_rotation", DEFAULT_XTICK_ROTATION);
+            var YTICK_ROTATION = getValue(options, "ytick_rotation", DEFAULT_YTICK_ROTATION);
+            var Y2TICK_ROTATION = getValue(options, "y2tick_rotation", DEFAULT_Y2TICK_ROTATION);
+
             // BOX AND GRID
             var BOX = getValue(options, "box", DEFAULT_BOX);
             var XGRID = getValue(options, "xgrid", DEFAULT_XGRID);
@@ -2309,11 +2317,27 @@ var d3lines = (function () {
                     .attr("transform", "translate(0," + (HEIGHT - MARGINS.bottom) + ")")
                     .call(XAXIS);
 
+                if (XTICK_ROTATION !== 0) {
+                    plt.svg.axes.x.selectAll("text")
+                        .style("text-anchor", "end")
+                        .attr("dx", "-.8em")
+                        .attr("dy", ".15em")
+                        .attr("transform", "rotate("+(-(XTICK_ROTATION))+")");
+                }
+
                 plt.yaxis = YAXIS
                 plt.svg.axes.y = plt.svg.axes.group.append("svg:g")
                     .attr("class", "d3lines-axis d3lines-yaxis")
                     .attr("transform", "translate(" + (MARGINS.left) + ",0)")
                     .call(YAXIS);
+
+                if (YTICK_ROTATION !== 0) {
+                    plt.svg.axes.y.selectAll("text")
+                        .style("text-anchor", "end")
+                        .attr("dx", "0em")
+                        .attr("dy", "-0.4em")
+                        .attr("transform", "rotate("+(-(YTICK_ROTATION))+")");
+                }
 
                 if (objectExists(Y2SCALE)) {
                     plt.y2axis = Y2AXIS
@@ -2321,6 +2345,14 @@ var d3lines = (function () {
                         .attr("class", "d3lines-axis d3lines-y2axis")
                         .attr("transform", "translate(" + (WIDTH-MARGINS.right) + ",0)")
                         .call(Y2AXIS);
+
+                    if (Y2TICK_ROTATION !== 0) {
+                        plt.svg.axes.y2.selectAll("text")
+                            .style("text-anchor", "start")
+                            .attr("dx", "0em")
+                            .attr("dy", "-0.1em")
+                            .attr("transform", "rotate("+((Y2TICK_ROTATION))+")");
+                    }
                 }
 
                 // Set axes style

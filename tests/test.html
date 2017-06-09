@@ -145,9 +145,12 @@ d3.csv("example2.csv", function(error, data) {
     var options = {
         data: data,
         xkey: "Day",
-        title: "This is the chart title",
+        xtick_rotation: 30,
+        ytick_rotation: 30,
+        y2tick_rotation: 45,
+        y2scale_type: "linear",
     };
-    d3lines.plot(svg, options);
+    plt = d3lines.plot(svg, options);
 });
 
 

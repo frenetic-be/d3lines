@@ -50,6 +50,7 @@
     * [**`xlim`**, **`ylim`**, **`y2lim`**](d3lines_plot_axis.md#plot_option_xlim) - limits for the x-, y- or y2-axis.
     * [**`xticks`**, **`yticks`**, **`y2ticks`**](d3lines_plot_axis.md#plot_option_xticks) - number of ticks for the x-, y- or y2-axis.
     * [**`xtick_format`**, **`ytick_format`**, **`y2tick_format`**](d3lines_plot_axis.md#plot_option_xtick_format) - tick-formatting for the x-, y- or y2-axis.
+    * [**`xtick_rotation`**, **`ytick_rotation`**, **`y2tick_rotation`**](d3lines_plot_axis.md#plot_option_xtick_rotation) - rotation angle for the tick labels of the x-, y- or y2-axis.
     * [**`xgrid`**, **`ygrid`**, **`y2grid`**](d3lines_plot_axis.md#plot_option_xgrid) - set to true if you want a grid for the x-, y- or y2-axis. Default value: false.
     * [**`xgrid_color`**, **`ygrid_color`**, **`y2grid_color`**](d3lines_plot_axis.md#plot_option_xgrid_color) - line color for the grid.
     * [**`xgrid_width`**, **`ygrid_width`**, **`y2grid_width`**](d3lines_plot_axis.md#plot_option_xgrid_width) - line width for the grid.
@@ -291,6 +292,28 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
+<!-- xtick_rotation, ytick_rotation, y2tick_rotation -->
+<a name="plot_option_xtick_rotation"></a>**`xtick_rotation`**, **`ytick_rotation`**, **`y2tick_rotation`** - rotation angle for the tick labels of the x-, y- or y2-axis.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/9kv7sbx1/)):
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        xtick_rotation: 30,
+        ytick_rotation: 30,
+        y2tick_rotation: 45,
+        y2scale_type: "linear",
+    };
+    plt = d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_xtick_rotation.png" width="600" height="375"></p>
+
+----
 <!-- xgrid, ygrid, y2grid -->
 <a name="plot_option_xgrid"></a>**`xgrid`**, **`ygrid`**, **`y2grid`** - set to true if you want a grid for the x-, y- or y2-axis. These options are set to false by default.
 
