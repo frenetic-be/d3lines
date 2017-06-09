@@ -123,6 +123,26 @@ d3.csv("example2.csv", function(error, data) {
 
 ----
 
+<!-- title -->
+<a name="plot_option_title"></a>**`title`** - title for the chart.
+
+Example (see [this jsfiddle](http://jsfiddle.net/frenetic_be/g63gcn4f/)):
+
+```javascript
+d3.csv("example2.csv", function(error, data) {
+    var options = {
+        data: data,
+        xkey: "Day",
+        title: "This is the chart title",
+    };
+    d3lines.plot(svg, options);
+});
+```
+
+<p align="center"><img src="images/plot/option_title.png" width="600" height="375"></p>
+
+----
+
 <!-- axes_color -->
 <a name="plot_option_axes_color"></a>**`axes_color`** - line color for the axes.
 By default, `axes_color = "#777"`.
